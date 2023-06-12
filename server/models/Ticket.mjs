@@ -15,9 +15,22 @@ const TicketSchema = new mongoose.Schema(
       enum: ['New', 'Open', 'Blocked', 'Closed'],
       default: 'New',
     },
+    comments: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Comment',
+      },
+    ],
   },
   { timestamps: true },
 );
+
+TicketSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'comments',
+  });
+  next();
+});
 
 const Ticket = mongoose.model('Ticket', TicketSchema);
 
