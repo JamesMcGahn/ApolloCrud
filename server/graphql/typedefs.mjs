@@ -1,11 +1,7 @@
 const typeDefs = `#graphQL
   scalar Date
 
-  type Query {
-    Tickets: [Ticket!]
-  }
-
-  type Ticket {
+   type Ticket {
     id: ID!
     title: String!
     description: String!
@@ -26,8 +22,20 @@ const typeDefs = `#graphQL
     description: String!
   }
 
+  input updateTicket {
+    title: String
+    description: String
+    status: StatusType
+  }
+
+  type Query {
+    Tickets: [Ticket!]
+    Ticket(id: ID!): Ticket!
+  }
+
   type Mutation {
     createTicket(newTicket: newTicket): Ticket!
+    updateTicket(id: ID!, updateTicket: updateTicket): Ticket!
   }
 `;
 
