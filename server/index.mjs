@@ -26,6 +26,7 @@ await server.start();
 
 app.use(cors(), bodyParser.json(), expressMiddleware(server));
 
+// trunk-ignore(eslint/no-promise-executor-return)
 await new Promise((resolve) => httpServer.listen({ port: PORT }, resolve)).then(
   () => consola.success({ badge: true, message: `Listening on port: ${PORT}` }),
 );
