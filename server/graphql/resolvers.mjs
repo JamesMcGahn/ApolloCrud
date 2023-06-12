@@ -36,6 +36,19 @@ const resolvers = {
       });
       return ticket;
     },
+    deleteTicket: async (_, args) => {
+      const { id } = args;
+
+      const ticket = Ticket.findByIdAndRemove(id);
+      if (!ticket) {
+        throw new GraphQLError('We cannot find that Ticket Id', {
+          extensions: {
+            code: 'BAD_USER_INPUT',
+          },
+        });
+      }
+      return ticket;
+    },
   },
   Date: dateScalar,
 };
