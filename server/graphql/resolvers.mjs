@@ -1,6 +1,7 @@
 import { GraphQLError } from 'graphql';
 import dateScalar from './scalars/dateScalar.mjs';
 import Ticket from '../models/Ticket.mjs';
+import Comment from '../models/Comment.mjs';
 import User from '../models/User.mjs';
 import signToken from '../utils/signToken.mjs';
 
@@ -32,16 +33,29 @@ const resolvers = {
     updateTicket: async (_, args) => {
       const { id, updateTicket } = args;
 
-      const ticket = await Ticket.findByIdAndUpdate(id, updateTicket, {
-        new: true,
-        runValidators: true,
-      });
+      let ticket;
+      if (updateTicket.comment) {
+        const comment = await Comment.create(updateTicket.comment);
+        ticket = await Ticket.findByIdAndUpdate(
+          id,
+          { ...updateTicket, $push: { comments: comment._id } },
+          {
+            new: true,
+            runValidators: true,
+          },
+        );
+      } else {
+        ticket = await Ticket.findByIdAndUpdate(id, updateTicket, {
+          new: true,
+          runValidators: true,
+        });
+      }
+
       return ticket;
     },
     deleteTicket: async (_, args, context) => {
       const { id } = args;
       const { role } = context.user;
-      console.log(role);
       if (role === 'user') {
         throw new GraphQLError('You dont have permission to delete', {
           extensions: {

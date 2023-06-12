@@ -8,6 +8,7 @@ const typeDefs = `#graphQL
     updatedAt: Date
     createdAt: Date
     status: StatusType
+    comments: [Comment!]
   }
 
   enum StatusType {
@@ -15,6 +16,26 @@ const typeDefs = `#graphQL
     Open
     Blocked
     Closed
+  }
+
+  type userInfo {
+    id: ID!
+    name: String!
+    email: String!
+    role: String!
+  }
+
+  type Comment {
+    id: ID!
+    author: userInfo!
+    content: String!
+    updatedAt: Date
+    createdAt: Date
+  }
+
+  input newComment {
+    author: ID!
+    content: String!
   }
 
   input newTicket {
@@ -26,6 +47,7 @@ const typeDefs = `#graphQL
     title: String
     description: String
     status: StatusType
+    comment: newComment
   }
 
   input createUser {
