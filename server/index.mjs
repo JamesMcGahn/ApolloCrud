@@ -9,11 +9,15 @@ import bodyParser from 'body-parser';
 import typeDefs from './graphql/typedefs.mjs';
 import resolvers from './graphql/resolvers.mjs';
 import 'dotenv/config';
+import connectDB from './config/db.mjs';
 
 const PORT = process.env.PORT || 5000;
 
 const app = express();
 const httpServer = http.createServer(app);
+
+// connect DB
+connectDB();
 
 // Set up Apollo Server
 const server = new ApolloServer({
