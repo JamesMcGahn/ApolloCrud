@@ -1,6 +1,8 @@
 import { GraphQLError } from 'graphql';
 import dateScalar from './scalars/dateScalar.mjs';
 import Ticket from '../models/Ticket.mjs';
+import User from '../models/User.mjs';
+import signToken from '../utils/signToken.mjs';
 
 const resolvers = {
   Query: {
@@ -48,6 +50,24 @@ const resolvers = {
         });
       }
       return ticket;
+    },
+    createUser: async (_, args) => {
+      const { createUser } = args;
+      const newUser = await User.create(createUser);
+
+      const createdUser = {
+        id: newUser._id,
+        name: newUser.name,
+        role: newUser.role,
+        email: newUser.email,
+      };
+
+      const token = signToken(createdUser);
+
+      return {
+        ...createdUser,
+        token,
+      };
     },
   },
   Date: dateScalar,

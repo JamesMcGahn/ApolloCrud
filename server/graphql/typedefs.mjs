@@ -28,6 +28,20 @@ const typeDefs = `#graphQL
     status: StatusType
   }
 
+  input createUser {
+    name: String!
+    email: String!
+    password: String!
+    passwordConfirm: String!
+  }
+
+  type user {
+    name: String!
+    email: String!
+    role: String!
+    token: String
+  }
+
   type Query {
     Tickets: [Ticket!]
     Ticket(id: ID!): Ticket!
@@ -37,6 +51,7 @@ const typeDefs = `#graphQL
     createTicket(newTicket: newTicket): Ticket!
     updateTicket(id: ID!, updateTicket: updateTicket): Ticket!
     deleteTicket(id: ID!): Ticket!
+    createUser(createUser: createUser!): user!
   }
 `;
 
