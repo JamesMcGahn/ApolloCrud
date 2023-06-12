@@ -22,6 +22,25 @@ const resolvers = {
       }
       return ticket;
     },
+    MyTickets: async (_, args) => {
+      const { userId } = args;
+      const tickets = await Ticket.find({
+        $or: [{ assignee: userId }, { requester: userId }],
+      });
+      return tickets;
+    },
+    Users: async (_, args, context) => {
+      const { user } = context;
+      if (!user || user.role === 'user') {
+        throw new GraphQLError('You dont have permission to view', {
+          extensions: {
+            code: 'UNAUTHENTICATED',
+            http: { status: 401 },
+          },
+        });
+      }
+      return await User.find();
+    },
   },
   Mutation: {
     createTicket: async (_, args) => {
@@ -55,8 +74,8 @@ const resolvers = {
     },
     deleteTicket: async (_, args, context) => {
       const { id } = args;
-      const { role } = context.user;
-      if (role === 'user') {
+      const { user } = context;
+      if (!user || user.role === 'user') {
         throw new GraphQLError('You dont have permission to delete', {
           extensions: {
             code: 'UNAUTHENTICATED',

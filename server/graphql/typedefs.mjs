@@ -3,6 +3,8 @@ const typeDefs = `#graphQL
 
    type Ticket {
     id: ID!
+    assignee: ID
+    requester: ID
     title: String!
     description: String!
     updatedAt: Date
@@ -39,11 +41,14 @@ const typeDefs = `#graphQL
   }
 
   input newTicket {
+    requester: ID!
     title: String!
     description: String!
   }
 
   input updateTicket {
+    assignee: ID
+    requester: ID
     title: String
     description: String
     status: StatusType
@@ -72,6 +77,8 @@ const typeDefs = `#graphQL
   type Query {
     Tickets: [Ticket!]
     Ticket(id: ID!): Ticket!
+    MyTickets(userId: ID!): [Ticket!]
+    Users: [userInfo!]
   }
 
   type Mutation {

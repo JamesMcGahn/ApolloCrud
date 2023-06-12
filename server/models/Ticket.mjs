@@ -2,6 +2,14 @@ import mongoose from 'mongoose';
 
 const TicketSchema = new mongoose.Schema(
   {
+    assignee: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
+    },
+    requester: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
+    },
     title: {
       type: String,
       required: true,
