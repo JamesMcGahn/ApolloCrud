@@ -38,8 +38,18 @@ const resolvers = {
       });
       return ticket;
     },
-    deleteTicket: async (_, args) => {
+    deleteTicket: async (_, args, context) => {
       const { id } = args;
+      const { role } = context.user;
+      console.log(role);
+      if (role === 'user') {
+        throw new GraphQLError('You dont have permission to delete', {
+          extensions: {
+            code: 'UNAUTHENTICATED',
+            http: { status: 401 },
+          },
+        });
+      }
 
       const ticket = Ticket.findByIdAndRemove(id);
       if (!ticket) {
