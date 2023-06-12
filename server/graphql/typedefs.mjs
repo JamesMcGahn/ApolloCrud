@@ -35,6 +35,11 @@ const typeDefs = `#graphQL
     passwordConfirm: String!
   }
 
+  input loginUser {
+    email: String!
+    password: String!
+  }
+
   type user {
     name: String!
     email: String!
@@ -52,6 +57,7 @@ const typeDefs = `#graphQL
     updateTicket(id: ID!, updateTicket: updateTicket): Ticket!
     deleteTicket(id: ID!): Ticket!
     createUser(createUser: createUser!): user!
+    loginUser(loginUser: loginUser!): user!
   }
 `;
 

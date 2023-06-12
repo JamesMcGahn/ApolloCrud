@@ -69,6 +69,35 @@ const resolvers = {
         token,
       };
     },
+    loginUser: async (_, args) => {
+      const { password, email } = args.loginUser;
+      const user = await User.findOne({ email }).select('+password');
+
+      if (!user || !(await user.correctPassword(password, user.password))) {
+        throw new GraphQLError(
+          'You are not authorized to perform this action.',
+          {
+            extensions: {
+              code: 'FORBIDDEN',
+            },
+          },
+        );
+      }
+
+      const createdUser = {
+        id: user._id,
+        name: user.name,
+        role: user.role,
+        email: user.email,
+      };
+
+      const token = signToken(createdUser);
+
+      return {
+        ...createdUser,
+        token,
+      };
+    },
   },
   Date: dateScalar,
 };

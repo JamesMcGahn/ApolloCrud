@@ -14,10 +14,12 @@ const UserSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
+      select: false,
     },
     passwordConfirm: {
       type: String,
       required: true,
+      select: false,
       validate: {
         validator: function (pw) {
           return pw === this.password;
@@ -41,6 +43,10 @@ UserSchema.pre('save', async function (next) {
   this.passwordConfirm = '';
   next();
 });
+
+UserSchema.methods.correctPassword = async function (pwAttempt, userPassword) {
+  return await bcrypt.compare(pwAttempt, userPassword);
+};
 
 const User = mongoose.model('User', UserSchema);
 
