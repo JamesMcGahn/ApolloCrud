@@ -7,10 +7,10 @@ import signToken from '../utils/signToken.mjs';
 
 const resolvers = {
   Query: {
-    Tickets: async () => {
+    tickets: async () => {
       return await Ticket.find();
     },
-    Ticket: async (_, args) => {
+    ticket: async (_, args) => {
       const { id } = args;
       const ticket = await Ticket.findById(id);
       if (!ticket) {
@@ -22,14 +22,14 @@ const resolvers = {
       }
       return ticket;
     },
-    MyTickets: async (_, args) => {
+    myTickets: async (_, args) => {
       const { userId } = args;
       const tickets = await Ticket.find({
         $or: [{ assignee: userId }, { requester: userId }],
       });
       return tickets;
     },
-    Users: async (_, args, context) => {
+    users: async (_, args, context) => {
       const { user } = context;
       if (!user || user.role === 'user') {
         throw new GraphQLError('You dont have permission to view', {

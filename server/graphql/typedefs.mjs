@@ -75,10 +75,10 @@ const typeDefs = `#graphQL
   }
 
   type Query {
-    Tickets: [Ticket!]
-    Ticket(id: ID!): Ticket!
-    MyTickets(userId: ID!): [Ticket!]
-    Users: [userInfo!]
+    tickets: [Ticket!]
+    ticket(id: ID!): Ticket!
+    myTickets(userId: ID!): [Ticket!]
+    users: [userInfo!]
   }
 
   type Mutation {
