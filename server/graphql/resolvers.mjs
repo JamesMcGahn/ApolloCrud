@@ -112,7 +112,7 @@ const resolvers = {
         token,
       };
     },
-    loginUser: async (_, args) => {
+    loginUser: async (_, args, context) => {
       const { password, email } = args.loginUser;
       const user = await User.findOne({ email }).select('+password');
 
@@ -135,6 +135,16 @@ const resolvers = {
       };
 
       const token = signToken(createdUser);
+
+      const cookieOptions = {
+        expires: new Date(
+          Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000,
+        ),
+        secure: process.env.NODE_ENV === 'production',
+        httpOnly: true,
+      };
+
+      context.res.cookie('jwt', token, cookieOptions);
 
       return {
         ...createdUser,
