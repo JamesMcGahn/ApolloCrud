@@ -1,4 +1,5 @@
 import express from 'express';
+import cookieParser from 'cookie-parser';
 import { consola } from 'consola';
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
@@ -28,11 +29,16 @@ const server = new ApolloServer({
 });
 await server.start();
 
+const corsOptions = {
+  origin: process.env.FE_DOMAIN,
+  credentials: true,
+};
+app.use(cookieParser());
 app.use(
-  cors(),
+  cors(corsOptions),
   bodyParser.json(),
   expressMiddleware(server, {
-    context: async ({ req, res }) => ({ user: await protect(req) }),
+    context: async ({ req, res }) => ({ user: await protect(req), req, res }),
   }),
 );
 
