@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import Container from 'react-bootstrap/Container';
 import Home from './pages/Home';
+import Ticket from './pages/Ticket';
 import './App.css';
 
 function App() {
@@ -8,12 +10,12 @@ function App() {
     typePolicies: {
       Query: {
         fields: {
-          User: {
+          user: {
             merge(existing, incoming) {
               return incoming;
             },
           },
-          Tickets: {
+          tickets: {
             merge(existing, incoming) {
               return incoming;
             },
@@ -24,21 +26,22 @@ function App() {
   });
 
   const client = new ApolloClient({
-    uri: 'http://localhost:4000/graphql',
+    uri: process.env.REACT_APP_BE_DOMAIN,
     cache,
+    credentials: 'include',
   });
 
   return (
     <>
       <ApolloProvider client={client}>
         <Router>
-          <div className="container">
+          <Container fluid>
             <Routes>
               <Route path="/" element={<Home />} />
-
+              <Route path="/ticket/:id" element={<Ticket />} />
               <Route path="*" element={<>notfound</>} />
             </Routes>
-          </div>
+          </Container>
         </Router>
       </ApolloProvider>
     </>
