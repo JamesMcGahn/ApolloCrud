@@ -5,19 +5,9 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
 import Chip from '@mui/material/Chip';
-import { DateTime } from 'luxon';
+import convert2FullDateTime from '../utils/convert2FullDateTime';
 
 function Comment({ comment }) {
-  const timeStampConvert = (time) => {
-    const timestamp = time;
-    const date = new Date(timestamp);
-    const lux = date.toISOString();
-    const dt = DateTime.fromISO(lux);
-    dt.toLocaleString(DateTime.DATETIME_FULL);
-
-    return dt.toLocaleString(DateTime.DATETIME_FULL);
-  };
-
   return (
     <Card>
       <CardHeader
@@ -33,7 +23,7 @@ function Comment({ comment }) {
           />
         }
         title={comment.author.email}
-        subheader={timeStampConvert(comment.createdAt)}
+        subheader={convert2FullDateTime(comment.createdAt)}
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
