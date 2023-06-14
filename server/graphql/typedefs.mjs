@@ -3,8 +3,8 @@ const typeDefs = `#graphQL
 
    type Ticket {
     id: ID!
-    assignee: ID
-    requester: ID
+    assignee: userInfo
+    requester: userInfo
     title: String!
     description: String!
     updatedAt: Date

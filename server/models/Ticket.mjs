@@ -36,7 +36,13 @@ const TicketSchema = new mongoose.Schema(
 TicketSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'comments',
-  });
+  })
+    .populate({
+      path: 'assignee',
+    })
+    .populate({
+      path: 'requester',
+    });
   next();
 });
 
