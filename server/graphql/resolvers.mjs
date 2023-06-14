@@ -8,9 +8,11 @@ import signToken from '../utils/signToken.mjs';
 const resolvers = {
   Query: {
     tickets: async () => {
-      return await Ticket.find();
+      const tickets = await Ticket.find();
+
+      return tickets;
     },
-    ticket: async (_, args) => {
+    ticket: async (parent, args) => {
       const { id } = args;
       const ticket = await Ticket.findById(id);
       if (!ticket) {
@@ -40,6 +42,18 @@ const resolvers = {
         });
       }
       return await User.find();
+    },
+    currentUser: async (_, args, context) => {
+      const { user } = context;
+      if (!user) {
+        throw new GraphQLError('You dont have permission to view', {
+          extensions: {
+            code: 'Not Logged In',
+            http: { status: 200 },
+          },
+        });
+      }
+      return user;
     },
   },
   Mutation: {

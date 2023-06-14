@@ -68,6 +68,7 @@ const typeDefs = `#graphQL
   }
 
   type user {
+    id: ID!
     name: String!
     email: String!
     role: String!
@@ -79,6 +80,7 @@ const typeDefs = `#graphQL
     ticket(id: ID!): Ticket!
     myTickets(userId: ID!): [Ticket!]
     users: [userInfo!]
+    currentUser: userInfo!
   }
 
   type Mutation {
