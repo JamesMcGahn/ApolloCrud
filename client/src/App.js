@@ -1,8 +1,11 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+
 import Container from 'react-bootstrap/Container';
-import Home from './pages/Home';
+import Dashboard from './pages/Dashboard';
+import TicketTable from './components/TicketTable';
 import Ticket from './pages/Ticket';
+
 import './App.css';
 
 function App() {
@@ -10,7 +13,7 @@ function App() {
     typePolicies: {
       Query: {
         fields: {
-          user: {
+          users: {
             merge(existing, incoming) {
               return incoming;
             },
@@ -37,8 +40,23 @@ function App() {
         <Router>
           <Container fluid>
             <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/ticket/:id" element={<Ticket />} />
+              <Route
+                path="/agent/dashboard"
+                element={
+                  <Dashboard>
+                    <TicketTable />
+                  </Dashboard>
+                }
+              />
+
+              <Route
+                path="/agent/dashboard/ticket/:id"
+                element={
+                  <Dashboard>
+                    <Ticket />
+                  </Dashboard>
+                }
+              />
               <Route path="*" element={<>notfound</>} />
             </Routes>
           </Container>
