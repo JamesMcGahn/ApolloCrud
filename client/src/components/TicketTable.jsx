@@ -131,8 +131,10 @@ export default function TicketTable({ query = getTickets }) {
     page * rowsPerPage,
     page * rowsPerPage + rowsPerPage,
   );
-
-  return (
+  // #TODO Loading comp
+  return loading ? (
+    'loading'
+  ) : (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
         <TicketTableToolbar numSelected={selected.length} />
