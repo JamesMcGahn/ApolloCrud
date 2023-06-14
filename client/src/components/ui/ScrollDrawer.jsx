@@ -42,13 +42,17 @@ export default function ScrollDrawer(props) {
     <Fragment>
       <CssBaseline />
       <Container>
-        <Toolbar id="back-to-top-anchor" sx={{ my: 0 }} />
-        <Toolbar>
-          <Typography variant="h6" component="div">
-            {title}
-          </Typography>
-        </Toolbar>
-
+        <Toolbar
+          id="back-to-top-anchor"
+          sx={{ my: 0, minHeight: '5px !important' }}
+        />
+        {title && (
+          <Toolbar sx={{ padding: '0 !important' }}>
+            <Typography variant="h6" component="div">
+              {title}
+            </Typography>
+          </Toolbar>
+        )}
         <Box sx={{ my: 2 }}>{children}</Box>
       </Container>
       <ScrollTop {...props}>
