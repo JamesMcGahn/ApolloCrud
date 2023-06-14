@@ -73,9 +73,9 @@ export default function TicketTable({ query = getTickets }) {
 
   if (loading) return 'loading';
 
-  const rows = tickets.map((ticket) =>
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-  );
+  // const rows = tickets.map((ticket) =>
+  //   createData('Cupcake', 305, 3.7, 67, 4.3),
+  // );
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -85,7 +85,7 @@ export default function TicketTable({ query = getTickets }) {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelected = rows.map((n) => n.name);
+      const newSelected = tickets.map((n) => n.id);
       setSelected(newSelected);
       return;
     }
@@ -148,7 +148,7 @@ export default function TicketTable({ query = getTickets }) {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+              rowCount={tickets.length}
             />
             <TableBody>
               {visibleRows.map((row, index) => {
@@ -158,7 +158,6 @@ export default function TicketTable({ query = getTickets }) {
                 return (
                   <TableRow
                     hover
-                    onClick={(event) => handleClick(event, row.id)}
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
@@ -173,6 +172,7 @@ export default function TicketTable({ query = getTickets }) {
                         inputProps={{
                           'aria-labelledby': labelId,
                         }}
+                        onClick={(event) => handleClick(event, row.id)}
                       />
                     </TableCell>
                     <TableCell
@@ -207,7 +207,7 @@ export default function TicketTable({ query = getTickets }) {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows.length}
+          count={tickets.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
