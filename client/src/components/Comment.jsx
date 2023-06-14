@@ -3,7 +3,7 @@ import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
+import { green, blue } from '@mui/material/colors';
 import Chip from '@mui/material/Chip';
 import convert2FullDateTime from '../utils/convert2FullDateTime';
 
@@ -12,7 +12,12 @@ function Comment({ comment }) {
     <Card>
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+          <Avatar
+            sx={{
+              bgcolor: comment.author.role === 'user' ? green[500] : blue[500],
+            }}
+            aria-label="recipe"
+          >
             {`${comment.author.name}`[0].toUpperCase()}
           </Avatar>
         }
