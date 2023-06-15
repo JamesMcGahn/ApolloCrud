@@ -38,12 +38,16 @@ export default function SelectionList({
 
   if (loading) return 'loading';
 
+  const users = data?.users;
+
   const handleChange = (event) => {
     const {
       target: { value },
     } = event;
+
     if (cb) {
-      cb(value);
+      const usr = users.filter((usr) => usr.email === value);
+      cb(usr[0]);
     }
     setPersonName(typeof value === 'string' ? value.split(',') : value);
   };
@@ -63,7 +67,7 @@ export default function SelectionList({
           defaultValue={defaultValue}
           inputProps={{ 'aria-label': 'Without label' }}
         >
-          {data.users.map((name) => (
+          {users.map((name) => (
             <MenuItem
               key={name.id}
               name={name.id}
