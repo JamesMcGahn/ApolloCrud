@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import getTicket from '../graphql/queries/getTicket';
 import Card from '@mui/material/Card';
 import TextField from '@mui/material/TextField';
@@ -15,26 +15,77 @@ import Typography from '@mui/material/Typography';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import convert2FullDateTime from '../utils/convert2FullDateTime';
-import BottomNavigation from '@mui/material/BottomNavigation';
 import Paper from '@mui/material/Paper';
 import PopMenuButton from '../components/ui/PopMenuButton';
+import { toast } from 'react-toastify';
+import loggedInUserQ from '../graphql/queries/loggedInUser';
+import updateATicket from '../graphql/mutations/updateTicket';
 
 function Ticket() {
   const [ticket, setTicket] = useState();
+  const [assignee, setAssignee] = useState();
+  const [requester, setRequester] = useState();
   const { id } = useParams();
+  const [user, setUser] = useState();
+  const [newComment, setNewComment] = useState();
+  useQuery(loggedInUserQ, {
+    onCompleted: (data) => {
+      setUser(data.currentUser);
+    },
+  });
   const { loading, error, data } = useQuery(getTicket, {
     variables: { ticketId: id },
     onCompleted: (data) => {
       setTicket(data.ticket);
+      setAssignee(data.ticket?.assignee);
+      setRequester(data.ticket?.requester);
     },
   });
 
+  const [updateTicket, { data: otherData }] = useMutation(updateATicket, {
+    onCompleted: (data) => {
+      setTicket(data.updateTicket);
+      console.log('completed', data);
+      toast.success('Ticket Updated', {
+        theme: 'colored',
+      });
+    },
+    onError(err) {
+      toast.error(err.message, {
+        theme: 'colored',
+      });
+    },
+  });
+
+  console.log(otherData);
+
   // #TODO Loading component
   const usersQuery = useQuery(getAllUsers);
-  console.log(ticket);
+
+  const handleCommentChange = (e) => setNewComment(e.target.value);
+  const handleTitleChange = (e) =>
+    setTicket((prev) => ({ ...prev, title: e.target.value }));
 
   const handleSubmit = (status) => {
-    console.log(status, 'ticket');
+    const addComment = {
+      author: user.id,
+      content: newComment,
+    };
+
+    const updatedTicket = {
+      assignee: assignee?.id,
+      requester: requester?.id,
+      comment: addComment.content ? addComment : null,
+      description: ticket.description,
+      status,
+      title: ticket.title,
+    };
+
+    updateTicket({
+      variables: { updateTicket: updatedTicket, updateTicketId: id },
+    });
+
+    setNewComment('');
   };
 
   if (loading) return 'loading';
@@ -49,12 +100,14 @@ function Ticket() {
               selectionList={usersQuery}
               defaultValue={ticket?.requester?.email}
               label="Requester"
+              cb={setRequester}
             />
           </FormControl>
           <SelectionList
             selectionList={usersQuery}
             defaultValue={ticket?.assignee?.email}
             label="Assignee"
+            cb={setAssignee}
           />
           <FormControl sx={{ m: 1, width: 300, mt: 3 }}>
             <TextField
@@ -87,9 +140,10 @@ function Ticket() {
                   <TextField
                     fullWidth
                     id="standard-helperText"
-                    defaultValue={ticket?.title}
+                    value={ticket?.title}
                     variant="standard"
                     size={'2rem'}
+                    onChange={handleTitleChange}
                   />
                 </FormControl>
               </CardContent>
@@ -103,6 +157,22 @@ function Ticket() {
                 <Typography variant="body2" color="text.secondary">
                   {ticket?.description}
                 </Typography>
+              </CardContent>
+            </Card>
+          </Container>
+          <Container>
+            <Card>
+              <CardHeader title="New Comment:" />
+              <CardContent>
+                <TextField
+                  id="outlined-multiline-static"
+                  label="Multiline"
+                  multiline
+                  rows={4}
+                  defaultValue="Default Value"
+                  onChange={handleCommentChange}
+                  value={newComment}
+                />
               </CardContent>
             </Card>
           </Container>
@@ -146,7 +216,7 @@ function Ticket() {
           >
             <PopMenuButton
               handleSubmit={handleSubmit}
-              defaultSelection={ticket.status}
+              defaultSelection={ticket?.status}
             />
           </Container>
         </Paper>
