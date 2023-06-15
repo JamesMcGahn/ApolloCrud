@@ -15,6 +15,9 @@ import Typography from '@mui/material/Typography';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import convert2FullDateTime from '../utils/convert2FullDateTime';
+import BottomNavigation from '@mui/material/BottomNavigation';
+import Paper from '@mui/material/Paper';
+import PopMenuButton from '../components/ui/PopMenuButton';
 
 function Ticket() {
   const [ticket, setTicket] = useState();
@@ -29,92 +32,126 @@ function Ticket() {
   // #TODO Loading component
   const usersQuery = useQuery(getAllUsers);
   console.log(ticket);
+
+  const handleSubmit = (status) => {
+    console.log(status, 'ticket');
+  };
+
   if (loading) return 'loading';
   return loading && !ticket ? (
     'loading'
   ) : (
-    <Grid container spacing={1}>
-      <Grid item xs={12} md={5} lg={4}>
-        <FormControl fullWidth>
+    <>
+      <Grid container sx={{ paddingBottom: '5rem' }}>
+        <Grid item xs={12} md={5} lg={4}>
+          <FormControl fullWidth>
+            <SelectionList
+              selectionList={usersQuery}
+              defaultValue={ticket?.requester?.email}
+              label="Requester"
+            />
+          </FormControl>
           <SelectionList
             selectionList={usersQuery}
-            defaultValue={ticket?.requester?.email}
-            label="Requester"
+            defaultValue={ticket?.assignee?.email}
+            label="Assignee"
           />
-        </FormControl>
-        <SelectionList
-          selectionList={usersQuery}
-          defaultValue={ticket?.assignee?.email}
-          label="Assignee"
-        />
-        <FormControl sx={{ m: 1, width: 300, mt: 3 }}>
-          <TextField
-            id="created-date"
-            label="Created At:"
-            defaultValue={
-              ticket?.updatedAt && convert2FullDateTime(ticket?.createdAt)
-            }
-          />
-        </FormControl>
-        <FormControl sx={{ m: 1, width: 300, mt: 3 }}>
-          <TextField
-            id="updated-date"
-            label="Updated At:"
-            defaultValue={
-              ticket?.updatedAt && convert2FullDateTime(ticket?.updatedAt)
-            }
-          />
-        </FormControl>
-      </Grid>
-      <Grid item xs={12} md={7} lg={8}>
-        <Container sx={{ marginBottom: '.5rem' }}>
-          <Card sx={{ display: 'flex', paddingBottom: '1rem' }}>
-            <CardHeader
-              title="Ticket Title:"
-              sx={{ mb: 0, pb: 0, width: '25%' }}
+          <FormControl sx={{ m: 1, width: 300, mt: 3 }}>
+            <TextField
+              id="created-date"
+              label="Created At:"
+              defaultValue={
+                ticket?.updatedAt && convert2FullDateTime(ticket?.createdAt)
+              }
             />
-            <CardContent sx={{ paddingBottom: '0 !important', width: '75%' }}>
-              <FormControl fullWidth>
-                <TextField
-                  fullWidth
-                  id="standard-helperText"
-                  defaultValue={ticket?.title}
-                  variant="standard"
-                  size={'2rem'}
-                />
-              </FormControl>
-            </CardContent>
-          </Card>
-        </Container>
+          </FormControl>
+          <FormControl sx={{ m: 1, width: 300, mt: 3 }}>
+            <TextField
+              id="updated-date"
+              label="Updated At:"
+              defaultValue={
+                ticket?.updatedAt && convert2FullDateTime(ticket?.updatedAt)
+              }
+            />
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} md={7} lg={8}>
+          <Container sx={{ marginBottom: '.5rem' }}>
+            <Card sx={{ display: 'flex', paddingBottom: '1rem' }}>
+              <CardHeader
+                title="Ticket Title:"
+                sx={{ mb: 0, pb: 0, width: '25%' }}
+              />
+              <CardContent sx={{ paddingBottom: '0 !important', width: '75%' }}>
+                <FormControl fullWidth>
+                  <TextField
+                    fullWidth
+                    id="standard-helperText"
+                    defaultValue={ticket?.title}
+                    variant="standard"
+                    size={'2rem'}
+                  />
+                </FormControl>
+              </CardContent>
+            </Card>
+          </Container>
 
-        <Container>
-          <Card>
-            <CardHeader title="Description:" />
-            <CardContent>
-              <Typography variant="body2" color="text.secondary">
-                {ticket?.description}
-              </Typography>
-            </CardContent>
-          </Card>
-        </Container>
+          <Container>
+            <Card>
+              <CardHeader title="Description:" />
+              <CardContent>
+                <Typography variant="body2" color="text.secondary">
+                  {ticket?.description}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Container>
 
-        <ScrollDrawer>
-          <Card>
-            <CardHeader title="Comments:" />
-            <CardContent>
-              {ticket?.comments.map((comment) => (
-                <Container
-                  sx={{ mb: '.8rem', p: '0rem !important' }}
-                  key={comment.id}
-                >
-                  <Comment comment={comment} />
-                </Container>
-              ))}
-            </CardContent>
-          </Card>
-        </ScrollDrawer>
+          <ScrollDrawer>
+            <Card>
+              <CardHeader title="Comments:" />
+              <CardContent sx={{ maxHeight: '30vh', overflow: 'scroll' }}>
+                {ticket?.comments.map((comment) => (
+                  <Container
+                    sx={{ mb: '.8rem', p: '0rem !important' }}
+                    key={comment.id}
+                  >
+                    <Comment comment={comment} />
+                  </Container>
+                ))}
+              </CardContent>
+            </Card>
+          </ScrollDrawer>
+        </Grid>
+        <Paper
+          sx={{
+            position: 'fixed',
+            bottom: 0,
+            left: 240,
+            right: 0,
+            minHeight: '8vh',
+            display: 'flex',
+            justifyContent: 'right',
+            alignItems: 'center',
+          }}
+          elevation={10}
+        >
+          <Container
+            sx={{
+              display: 'flex',
+              justifyContent: 'right',
+              paddingLeft: 240,
+              maxHeight: '50px',
+            }}
+          >
+            <PopMenuButton
+              handleSubmit={handleSubmit}
+              defaultSelection={ticket.status}
+            />
+          </Container>
+        </Paper>
       </Grid>
-    </Grid>
+    </>
   );
 }
 export default Ticket;

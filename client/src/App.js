@@ -15,35 +15,33 @@ function App() {
   return (
     <>
       <Router>
-        <Container fluid>
-          <Routes>
-            <Route path="/" element={<ProtectedRoute />} />
-            <Route
-              path="/agent/dashboard"
-              element={
-                <ProtectedRoute>
-                  <AgentLayout>
-                    <TicketTable />
-                  </AgentLayout>
-                </ProtectedRoute>
-              }
-            />
+        <Routes>
+          <Route path="/" element={<ProtectedRoute />} />
+          <Route
+            path="/agent/dashboard"
+            element={
+              <ProtectedRoute>
+                <AgentLayout>
+                  <TicketTable />
+                </AgentLayout>
+              </ProtectedRoute>
+            }
+          />
 
-            <Route
-              path="/agent/dashboard/ticket/:id"
-              element={
-                <ProtectedRoute>
-                  <AgentLayout>
-                    <Ticket />
-                  </AgentLayout>
-                </ProtectedRoute>
-              }
-            />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="*" element={<>notfound</>} />
-          </Routes>
-        </Container>
+          <Route
+            path="/agent/dashboard/ticket/:id"
+            element={
+              <ProtectedRoute>
+                <AgentLayout>
+                  <Ticket />
+                </AgentLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="*" element={<>notfound</>} />
+        </Routes>
       </Router>
       <ToastContainer />
     </>
