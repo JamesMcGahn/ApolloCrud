@@ -86,6 +86,7 @@ const typeDefs = `#graphQL
   type Mutation {
     createTicket(newTicket: newTicket): Ticket!
     updateTicket(id: ID!, updateTicket: updateTicket): Ticket!
+    updateTickets(ids: [ID!], updateTickets: updateTicket): [Ticket!]
     deleteTicket(id: ID!): Ticket!
     createUser(createUser: createUser!): user!
     loginUser(loginUser: loginUser!): user!

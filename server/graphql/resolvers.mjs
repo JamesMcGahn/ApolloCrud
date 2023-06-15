@@ -86,6 +86,40 @@ const resolvers = {
 
       return ticket;
     },
+    updateTickets: async (_, args) => {
+      const { ids, updateTickets } = args;
+      let ticket;
+
+      Ticket.updateMany({ _id: { $in: ids } }, updateTickets);
+
+      if (updateTickets.comment) {
+        const comment = await Comment.create(updateTickets.comment);
+        ticket = await Ticket.updateMany(
+          { _id: { $in: ids } },
+          { ...updateTickets, $push: { comments: comment._id } },
+          {
+            new: true,
+            runValidators: true,
+          },
+        );
+      } else {
+        ticket = await Ticket.updateMany({ _id: { $in: ids } }, updateTickets, {
+          new: true,
+          runValidators: true,
+        });
+      }
+      if (ticket.acknowledged) {
+        return await Ticket.find({ _id: { $in: ids } });
+      }
+      throw new GraphQLError(
+        "Something went wrong we couldn't update the Tickets.",
+        {
+          extensions: {
+            code: 'BAD_USER_INPUT',
+          },
+        },
+      );
+    },
     deleteTicket: async (_, args, context) => {
       const { id } = args;
       const { user } = context;
