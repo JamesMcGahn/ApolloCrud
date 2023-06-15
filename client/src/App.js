@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-
+import { ToastContainer, toast } from 'react-toastify';
 import Container from 'react-bootstrap/Container';
 import Dashboard from './pages/Dashboard';
 import TicketTable from './components/TicketTable';
@@ -7,6 +7,7 @@ import Ticket from './pages/Ticket';
 import Login from './pages/Login';
 import ProtectedRoute from './components/utils/ProtectedRoute';
 import './App.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
           </Routes>
         </Container>
       </Router>
+      <ToastContainer />
     </>
   );
 }

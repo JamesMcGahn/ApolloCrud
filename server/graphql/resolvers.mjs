@@ -132,10 +132,10 @@ const resolvers = {
 
       if (!user || !(await user.correctPassword(password, user.password))) {
         throw new GraphQLError(
-          'You are not authorized to perform this action.',
+          'Password or Email is wrong. Please try again.',
           {
             extensions: {
-              code: 'FORBIDDEN',
+              code: 'UNAUTHENTICATED',
             },
           },
         );
