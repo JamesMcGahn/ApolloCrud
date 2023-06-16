@@ -32,6 +32,7 @@ const typeDefs = `#graphQL
     id: ID!
     author: userInfo!
     content: String!
+    private: Boolean
     updatedAt: Date
     createdAt: Date
   }
@@ -39,6 +40,7 @@ const typeDefs = `#graphQL
   input newComment {
     author: ID!
     content: String!
+    private: Boolean
   }
 
   input newTicket {

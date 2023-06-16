@@ -12,7 +12,6 @@ function BulkTicketEdit({ ids, closeModal }) {
       closeModal(false);
     },
     onError(err) {
-      console.log(err);
       toast.error(err.message, {
         theme: 'colored',
       });

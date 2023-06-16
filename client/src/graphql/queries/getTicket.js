@@ -20,6 +20,7 @@ const getTicket = gql`
         createdAt
         updatedAt
         id
+        private
       }
       createdAt
       description

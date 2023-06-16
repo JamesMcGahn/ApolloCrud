@@ -8,6 +8,8 @@ import PopMenuButton from '../ui/PopMenuButton';
 import SelectionList from '../ui/SelectionList';
 import getAllUsers from '../../graphql/queries/getAllUser';
 import loggedInUserQ from '../../graphql/queries/loggedInUser';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
 
 function TicketForm({ formTitle, handleSubmitCb, createForm }) {
   const { data: usersData, loading: usersLoading } = useQuery(getAllUsers);
@@ -17,9 +19,14 @@ function TicketForm({ formTitle, handleSubmitCb, createForm }) {
     title: undefined,
     description: undefined,
     comment: undefined,
+    privateComment: false,
   });
 
   const handleOnChange = (e) => {
+    if (e.target.name === 'privateComment') {
+      setTicket((prev) => ({ ...prev, [e.target.name]: e.target.checked }));
+      return;
+    }
     setTicket((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
@@ -31,6 +38,7 @@ function TicketForm({ formTitle, handleSubmitCb, createForm }) {
     const addComment = {
       author: currentUser.id,
       content: ticket.comment,
+      private: ticket.privateComment,
     };
 
     const ticketSubmit = {
@@ -49,6 +57,7 @@ function TicketForm({ formTitle, handleSubmitCb, createForm }) {
       title: '',
       description: '',
       comment: '',
+      privateComment: false,
     });
   };
 
@@ -124,6 +133,16 @@ function TicketForm({ formTitle, handleSubmitCb, createForm }) {
           />
         </Container>
         <Container sx={{ width: '100%', padding: '0' }}>
+          <FormControlLabel
+            control={
+              <Switch
+                name="privateComment"
+                checked={ticket.privateComment}
+                onChange={handleOnChange}
+              />
+            }
+            label="Private"
+          />
           <TextField
             fullWidth
             id="outlined-multiline-static"

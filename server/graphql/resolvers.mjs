@@ -5,7 +5,6 @@ import Comment from '../models/Comment.mjs';
 import User from '../models/User.mjs';
 import signToken from '../utils/signToken.mjs';
 import Counter from '../models/Counter.mjs';
-import { createConsola } from 'consola';
 
 const resolvers = {
   Query: {
@@ -109,7 +108,6 @@ const resolvers = {
     updateTickets: async (_, args) => {
       const { ids, updateTickets } = args;
       let ticket;
-      console.log(updateTickets);
       Ticket.updateMany({ _id: { $in: ids } }, updateTickets);
 
       if (updateTickets.comment) {

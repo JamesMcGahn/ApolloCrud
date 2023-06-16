@@ -9,7 +9,7 @@ import convert2FullDateTime from '../utils/convert2FullDateTime';
 
 function Comment({ comment }) {
   return (
-    <Card>
+    <Card sx={{ backgroundColor: comment.private ? 'yellow' : '' }}>
       <CardHeader
         avatar={
           <Avatar

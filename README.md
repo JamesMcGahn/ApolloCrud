@@ -1,13 +1,16 @@
 # ApolloCrud - (Under Development)
-#### MERN Apollo Server / Apollo Client - Ticketing System 
+
+#### MERN Apollo Server / Apollo Client - Ticketing System
 
 ## Todos
+
 - App Styling
-- User 
+- User
 - User Dashboard
 
 ## Feature Ideas
-- Agent Private Comments
+
+- ~~Agent Private Comments~~
 - Agent Groups
 - Knowledge base for users
 - Knowledge base for agents
@@ -15,4 +18,3 @@
   - Delete Tickets
   - CRUD Users
 - ingest email tickets?
-

@@ -1,6 +1,7 @@
 import { useMutation } from '@apollo/client';
 import { toast } from 'react-toastify';
 import createATicket from '../../graphql/mutations/createATicket';
+import getTickets from '../../graphql/queries/getTickets';
 import TicketForm from './TicketForm';
 
 function CreateTicketForm({ closeModal }) {
@@ -15,6 +16,15 @@ function CreateTicketForm({ closeModal }) {
       console.log(err);
       toast.error(err.message, {
         theme: 'colored',
+      });
+    },
+    update(cache, data) {
+      const cacheTickets = cache.readQuery({ query: getTickets });
+      const { tickets } = cacheTickets;
+
+      cache.writeQuery({
+        query: getTickets,
+        data: { tickets: [...tickets, data.data.createTicket] },
       });
     },
   });

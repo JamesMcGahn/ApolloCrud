@@ -18,6 +18,8 @@ import convert2FullDateTime from '../utils/convert2FullDateTime';
 import Paper from '@mui/material/Paper';
 import PopMenuButton from '../components/ui/PopMenuButton';
 import { toast } from 'react-toastify';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
 import loggedInUserQ from '../graphql/queries/loggedInUser';
 import updateATicket from '../graphql/mutations/updateTicket';
 
@@ -28,7 +30,7 @@ function Ticket({ data }) {
   // const { id } = useParams();
   const [user, setUser] = useState();
   const [newComment, setNewComment] = useState();
-
+  const [privateChecked, setPrivateChecked] = useState(false);
   const {
     data: { currentUser },
   } = useQuery(loggedInUserQ);
@@ -51,6 +53,8 @@ function Ticket({ data }) {
   const { data: userData, loading: usersLoading } = useQuery(getAllUsers);
 
   const handleCommentChange = (e) => setNewComment(e.target.value);
+  const handlePrivateChecked = (e) => setPrivateChecked(e.target.checked);
+
   const handleTitleChange = (e) =>
     setTicket((prev) => ({ ...prev, title: e.target.value }));
 
@@ -58,6 +62,7 @@ function Ticket({ data }) {
     const addComment = {
       author: currentUser.id,
       content: newComment,
+      private: privateChecked,
     };
 
     const updatedTicket = {
@@ -102,7 +107,7 @@ function Ticket({ data }) {
             <TextField
               id="created-date"
               label="Created At:"
-              defaultValue={
+              value={
                 ticket?.updatedAt && convert2FullDateTime(ticket?.createdAt)
               }
             />
@@ -111,7 +116,7 @@ function Ticket({ data }) {
             <TextField
               id="updated-date"
               label="Updated At:"
-              defaultValue={
+              value={
                 ticket?.updatedAt && convert2FullDateTime(ticket?.updatedAt)
               }
             />
@@ -153,12 +158,20 @@ function Ticket({ data }) {
             <Card>
               <CardHeader title="New Comment:" />
               <CardContent>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={privateChecked}
+                      onChange={handlePrivateChecked}
+                    />
+                  }
+                  label="Private"
+                />
                 <TextField
                   id="outlined-multiline-static"
                   label="Multiline"
                   multiline
                   rows={4}
-                  defaultValue="Default Value"
                   onChange={handleCommentChange}
                   value={newComment}
                 />
