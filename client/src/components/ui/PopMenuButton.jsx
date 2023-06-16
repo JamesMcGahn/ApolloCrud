@@ -60,7 +60,13 @@ export default function PopMenuButton({
 }) {
   const [anchorEl, setAnchorEl] = useState();
   const open = Boolean(anchorEl);
-  const menuList = menuOptions || ['New', 'Open', 'Blocked', 'Closed'];
+  const menuList = menuOptions || [
+    'New',
+    'Open',
+    'Pending',
+    'Blocked',
+    'Closed',
+  ];
   const [selected, setSelected] = useState(defaultSelection || menuList[0]);
 
   const handleClick = (event) => {

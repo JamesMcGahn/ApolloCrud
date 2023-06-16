@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import Container from '@mui/material/Container';
 
 const style = {
   position: 'absolute',
@@ -16,13 +17,26 @@ const style = {
   p: 4,
 };
 
-export default function PopModal({ children, open, setOpen, buttonText }) {
+export default function PopModal({
+  children,
+  open,
+  setOpen,
+  buttonText,
+  buttonSx,
+  buttonVariant,
+}) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   return (
     <div>
-      <Button onClick={handleOpen}>{buttonText}</Button>
+      <Button
+        variant={buttonVariant || 'contained'}
+        sx={buttonSx}
+        onClick={handleOpen}
+      >
+        {buttonText}
+      </Button>
       <Modal
         open={open}
         onClose={handleClose}
