@@ -7,7 +7,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 
 function TicketTableToolbar(props) {
-  const { numSelected } = props;
+  const { numSelected, children, title } = props;
 
   return (
     <Toolbar
@@ -39,22 +39,18 @@ function TicketTableToolbar(props) {
           id="tableTitle"
           component="div"
         >
-          Nutrition
+          {title}
         </Typography>
       )}
 
-      {numSelected > 0 ? (
+      {numSelected > 0 && !children ? (
         <Tooltip title="Delete">
           <IconButton>
             <DeleteIcon />
           </IconButton>
         </Tooltip>
       ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
+        children
       )}
     </Toolbar>
   );

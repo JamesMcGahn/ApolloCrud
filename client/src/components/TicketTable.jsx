@@ -13,16 +13,8 @@ import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 import TicketTableHead from './tables/TableHead';
 import TicketTableToolbar from './tables/TicketTableToolbar';
-
-function createData(id, requester, title, assignee, status) {
-  return {
-    id,
-    requester,
-    title,
-    assignee,
-    status,
-  };
-}
+import PopModal from '../components/ui/PopModal';
+import BulkTicketEdit from './forms/BulkTicketEdit';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -70,6 +62,7 @@ export default function TicketTable({ query = getTickets }) {
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [open, setOpen] = React.useState(false);
 
   if (loading) return 'loading';
 
@@ -137,7 +130,13 @@ export default function TicketTable({ query = getTickets }) {
   ) : (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <TicketTableToolbar numSelected={selected.length} />
+        <TicketTableToolbar numSelected={selected.length} title={'All Tickets'}>
+          {selected.length > 0 && (
+            <PopModal buttonText="Edit" open={open} setOpen={setOpen}>
+              <BulkTicketEdit ids={selected} closeModal={setOpen} />
+            </PopModal>
+          )}
+        </TicketTableToolbar>
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
