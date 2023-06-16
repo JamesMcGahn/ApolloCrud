@@ -84,7 +84,7 @@ const typeDefs = `#graphQL
   type Query {
     tickets(status: [StatusType]): [Ticket!]
     ticket(id: ID!): Ticket!
-    myTickets(userId: ID!): [Ticket!]
+    myTickets(userId: ID!, status: [StatusType]): [Ticket!]
     users: [userInfo!]
     currentUser: userInfo!
   }

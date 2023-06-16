@@ -30,11 +30,15 @@ const resolvers = {
       return ticket;
     },
     myTickets: async (_, args) => {
-      const { userId } = args;
-      const tickets = await Ticket.find({
+      const { userId, status } = args;
+      const tickets = Ticket.find({
         $or: [{ assignee: userId }, { requester: userId }],
       });
-      return tickets;
+
+      if (status && !status.includes(null)) {
+        return await tickets.find({ status: { $in: status } });
+      }
+      return await tickets;
     },
     users: async (_, args, context) => {
       const { user } = context;

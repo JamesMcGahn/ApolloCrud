@@ -31,6 +31,14 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/agent/dashboard/mytickets/:status"
+            element={
+              <ProtectedRoute>
+                <MyTickets />
+              </ProtectedRoute>
+            }
+          />
 
           <Route
             path="/agent/dashboard/ticket/:id"

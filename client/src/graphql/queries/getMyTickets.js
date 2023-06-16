@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 const getMyTickets = gql`
-  query MyTickets($userId: ID!) {
-    myTickets(userId: $userId) {
+  query MyTickets($userId: ID!, $status: [StatusType]) {
+    myTickets(userId: $userId, status: $status) {
       id
       requester {
         email
