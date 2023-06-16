@@ -15,6 +15,7 @@ import TicketTableHead from './tables/TableHead';
 import TicketTableToolbar from './tables/TicketTableToolbar';
 import PopModal from '../components/ui/PopModal';
 import BulkTicketEdit from './forms/BulkTicketEdit';
+import convert2FullDateTime from '../utils/convert2FullDateTime';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -56,7 +57,7 @@ export default function TicketTable({ query = getTickets }) {
   const [orderBy, setOrderBy] = React.useState('calories');
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [open, setOpen] = React.useState(false);
 
   if (loading) return 'loading';
@@ -177,8 +178,15 @@ export default function TicketTable({ query = getTickets }) {
                         {row.id}
                       </Link>
                     </TableCell>
-                    <TableCell align="left">{row.requester?.name}</TableCell>
                     <TableCell align="left">{row.title}</TableCell>
+                    <TableCell align="left">
+                      {convert2FullDateTime(row.createdAt)}
+                    </TableCell>
+                    <TableCell align="left">
+                      {convert2FullDateTime(row.updatedAt)}
+                    </TableCell>
+
+                    <TableCell align="left">{row.requester?.name}</TableCell>
                     <TableCell align="left">{row.assignee?.name}</TableCell>
                     <TableCell align="left">{row.status}</TableCell>
                   </TableRow>

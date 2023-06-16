@@ -27,17 +27,31 @@ function TicketTableHead(props) {
       label: 'Ticket ID',
     },
     {
-      id: 'requester',
-      numeric: false,
-      disablePadding: false,
-      label: 'Requester',
-    },
-    {
       id: 'title',
       numeric: false,
       disablePadding: false,
       label: 'Title',
     },
+    {
+      id: 'createdAt',
+      numeric: false,
+      disablePadding: false,
+      label: 'Created At',
+    },
+    {
+      id: 'updatedAt',
+      numeric: false,
+      disablePadding: false,
+      label: 'Updated At',
+    },
+
+    {
+      id: 'requester',
+      numeric: false,
+      disablePadding: false,
+      label: 'Requester',
+    },
+
     {
       id: 'assignee',
       numeric: false,
