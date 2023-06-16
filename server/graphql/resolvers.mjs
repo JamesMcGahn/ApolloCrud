@@ -5,6 +5,7 @@ import Comment from '../models/Comment.mjs';
 import User from '../models/User.mjs';
 import signToken from '../utils/signToken.mjs';
 import Counter from '../models/Counter.mjs';
+import { createConsola } from 'consola';
 
 const resolvers = {
   Query: {
@@ -65,13 +66,22 @@ const resolvers = {
         { $inc: { count: 1 } },
         { new: true },
       );
+      let ticket;
+      if (newTicket.comment) {
+        const comment = await Comment.create(newTicket.comment);
+        ticket = await Ticket.create({
+          _id: `${counter.count}`,
+          ...newTicket,
+          comments: [comment._id],
+        });
+      } else {
+        ticket = await Ticket.create({
+          _id: `${counter.count}`,
+          ...newTicket,
+        });
+      }
 
-      const ticket = new Ticket({
-        _id: `${counter.count}`,
-        ...newTicket,
-      });
-
-      return await ticket.save();
+      return await Ticket.findById(ticket.id);
     },
     updateTicket: async (_, args) => {
       const { id, updateTicket } = args;
