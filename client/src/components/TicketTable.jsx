@@ -49,14 +49,9 @@ function stableSort(array, comparator) {
 }
 
 export default function TicketTable({ query = getTickets }) {
-  const [tickets, setTickets] = React.useState([]);
-  const { loading, error, data } = useQuery(query, {
-    onCompleted: (data) => {
-      setTickets(data.tickets);
-    },
-  });
+  const { loading, error, data } = useQuery(query);
 
-  console.log(data);
+  const tickets = data?.tickets;
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
   const [selected, setSelected] = React.useState([]);
@@ -65,10 +60,6 @@ export default function TicketTable({ query = getTickets }) {
   const [open, setOpen] = React.useState(false);
 
   if (loading) return 'loading';
-
-  // const rows = tickets.map((ticket) =>
-  //   createData('Cupcake', 305, 3.7, 67, 4.3),
-  // );
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
