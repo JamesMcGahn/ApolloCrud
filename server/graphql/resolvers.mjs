@@ -8,10 +8,14 @@ import Counter from '../models/Counter.mjs';
 
 const resolvers = {
   Query: {
-    tickets: async () => {
-      const tickets = await Ticket.find();
+    tickets: async (parent, args) => {
+      const { status } = args;
 
-      return tickets;
+      if (status) {
+        return await Ticket.find({ status: { $in: status } });
+      }
+
+      return await Ticket.find();
     },
     ticket: async (parent, args) => {
       const { id } = args;
