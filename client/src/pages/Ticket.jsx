@@ -1,18 +1,23 @@
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-
+import AgentLayout from '../components/layout/AgentLayout';
 import { useQuery, useMutation } from '@apollo/client';
 import getTicket from '../graphql/queries/getTicket';
-import TicketForm from './TicketForm';
+import TicketForm from '../components/forms/TicketPageForm';
 
 function Ticket() {
   const { id } = useParams();
-  const { loading, error, data } = useQuery(getTicket, {
+  const { loading, data } = useQuery(getTicket, {
     variables: { ticketId: id },
   });
 
-  console.log(data);
   if (loading) return 'loading';
-  return loading ? 'loading' : <TicketForm data={data} />;
+  return loading ? (
+    'loading'
+  ) : (
+    <AgentLayout>
+      <TicketForm data={data} />
+    </AgentLayout>
+  );
 }
 export default Ticket;

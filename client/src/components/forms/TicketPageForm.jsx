@@ -1,29 +1,27 @@
 import { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
-import getTicket from '../graphql/queries/getTicket';
 import Card from '@mui/material/Card';
 import TextField from '@mui/material/TextField';
-import SelectionList from '../components/ui/SelectionList';
-import getAllUsers from '../graphql/queries/getAllUser';
+import SelectionList from '../ui/SelectionList';
+import getAllUsers from '../../graphql/queries/getAllUser';
 import Grid from '@mui/material/Grid';
 import FormControl from '@mui/material/FormControl';
-import Comment from '../components/Comment';
+import Comment from '../Comment';
 import Container from '@mui/material/Container';
-import ScrollDrawer from '../components/ui/ScrollDrawer';
+import ScrollDrawer from '../ui/ScrollDrawer';
 import Typography from '@mui/material/Typography';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
-import convert2FullDateTime from '../utils/convert2FullDateTime';
+import convert2FullDateTime from '../../utils/convert2FullDateTime';
 import Paper from '@mui/material/Paper';
-import PopMenuButton from '../components/ui/PopMenuButton';
+import PopMenuButton from '../ui/PopMenuButton';
 import { toast } from 'react-toastify';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import loggedInUserQ from '../graphql/queries/loggedInUser';
-import updateATicket from '../graphql/mutations/updateTicket';
+import loggedInUserQ from '../../graphql/queries/loggedInUser';
+import updateATicket from '../../graphql/mutations/updateTicket';
 
-function Ticket({ data }) {
+function TicketPageForm({ data }) {
   const [ticket, setTicket] = useState(data.ticket);
   const [assignee, setAssignee] = useState();
   const [requester, setRequester] = useState();
@@ -34,7 +32,7 @@ function Ticket({ data }) {
   const {
     data: { currentUser },
   } = useQuery(loggedInUserQ);
-  console.log(currentUser);
+
   const [updateTicket, { data: otherData }] = useMutation(updateATicket, {
     onCompleted: (data) => {
       setTicket(data.updateTicket);
@@ -226,4 +224,4 @@ function Ticket({ data }) {
     </>
   );
 }
-export default Ticket;
+export default TicketPageForm;

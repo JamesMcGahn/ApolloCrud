@@ -1,12 +1,10 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import Container from 'react-bootstrap/Container';
-import AgentLayout from './components/layout/AgentLayout';
-import TicketTable from './components/TicketTable';
 import Ticket from './pages/Ticket';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import Layout from './components/layout/AgentLayout';
+import AgentHome from './pages/AgentHome';
+import MyTickets from './pages/MyTickets';
 import ProtectedRoute from './components/utils/ProtectedRoute';
 import './App.css';
 import 'react-toastify/dist/ReactToastify.css';
@@ -21,9 +19,15 @@ function App() {
             path="/agent/dashboard"
             element={
               <ProtectedRoute>
-                <AgentLayout>
-                  <TicketTable />
-                </AgentLayout>
+                <AgentHome />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/agent/dashboard/mytickets"
+            element={
+              <ProtectedRoute>
+                <MyTickets />
               </ProtectedRoute>
             }
           />
@@ -32,9 +36,7 @@ function App() {
             path="/agent/dashboard/ticket/:id"
             element={
               <ProtectedRoute>
-                <AgentLayout>
-                  <Ticket />
-                </AgentLayout>
+                <Ticket />
               </ProtectedRoute>
             }
           />

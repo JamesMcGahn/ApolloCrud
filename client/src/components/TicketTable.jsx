@@ -38,6 +38,7 @@ function getComparator(order, orderBy) {
 // only support modern browsers you can replace stableSort(exampleArray, exampleComparator)
 // with exampleArray.slice().sort(exampleComparator)
 function stableSort(array, comparator) {
+  if (!array) return;
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
@@ -49,19 +50,19 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function TicketTable({ query = getTickets }) {
-  const { loading, error, data } = useQuery(query);
-
-  const tickets = data?.tickets;
+export default function TicketTable({ data }) {
+  const [tickets, setTickets] = React.useState(data);
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [open, setOpen] = React.useState(false);
-
-  if (loading) return 'loading';
-
+  console.log(tickets);
+  if (!tickets || tickets?.length === 0) {
+    return <>no tickets</>;
+  }
+  // #TODO no tickets to display comp
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -112,14 +113,12 @@ export default function TicketTable({ query = getTickets }) {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - tickets.length) : 0;
 
-  const visibleRows = stableSort(tickets, getComparator(order, orderBy)).slice(
-    page * rowsPerPage,
-    page * rowsPerPage + rowsPerPage,
-  );
-  // #TODO Loading comp
-  return loading ? (
-    'loading'
-  ) : (
+  const visibleRows = stableSort(
+    tickets ? tickets : [],
+    getComparator(order, orderBy),
+  ).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+
+  return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
         <TicketTableToolbar numSelected={selected.length} title={'All Tickets'}>
