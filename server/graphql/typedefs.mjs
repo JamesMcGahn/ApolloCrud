@@ -16,6 +16,7 @@ const typeDefs = `#graphQL
   enum StatusType {
     New
     Open
+    Pending
     Blocked
     Closed
   }
@@ -41,9 +42,12 @@ const typeDefs = `#graphQL
   }
 
   input newTicket {
+    assignee: ID
     requester: ID!
     title: String!
     description: String!
+    status: StatusType
+    comment: newComment
   }
 
   input updateTicket {

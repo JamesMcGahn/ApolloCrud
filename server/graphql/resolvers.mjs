@@ -4,6 +4,7 @@ import Ticket from '../models/Ticket.mjs';
 import Comment from '../models/Comment.mjs';
 import User from '../models/User.mjs';
 import signToken from '../utils/signToken.mjs';
+import Counter from '../models/Counter.mjs';
 
 const resolvers = {
   Query: {
@@ -59,9 +60,18 @@ const resolvers = {
   Mutation: {
     createTicket: async (_, args) => {
       const { newTicket } = args;
-      const ticket = await Ticket.create(newTicket);
+      const counter = await Counter.findOneAndUpdate(
+        { id: 'ticketCounter' },
+        { $inc: { count: 1 } },
+        { new: true },
+      );
 
-      return ticket;
+      const ticket = new Ticket({
+        _id: `${counter.count}`,
+        ...newTicket,
+      });
+
+      return await ticket.save();
     },
     updateTicket: async (_, args) => {
       const { id, updateTicket } = args;

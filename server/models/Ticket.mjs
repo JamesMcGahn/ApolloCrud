@@ -2,6 +2,9 @@ import mongoose from 'mongoose';
 
 const TicketSchema = new mongoose.Schema(
   {
+    _id: {
+      type: String,
+    },
     assignee: {
       type: mongoose.Schema.ObjectId,
       ref: 'User',
@@ -20,7 +23,7 @@ const TicketSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['New', 'Open', 'Blocked', 'Closed'],
+      enum: ['New', 'Open', 'Pending', 'Blocked', 'Closed'],
       default: 'New',
     },
     comments: [
