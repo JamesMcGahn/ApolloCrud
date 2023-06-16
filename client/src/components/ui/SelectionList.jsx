@@ -34,11 +34,7 @@ export default function SelectionList({
     defaultValue ? defaultValue : '',
   );
 
-  const { loading, data, error } = selectionList;
-
-  if (loading) return 'loading';
-
-  const users = data?.users;
+  const { users } = selectionList;
 
   const handleChange = (event) => {
     const {
