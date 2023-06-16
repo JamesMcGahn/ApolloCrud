@@ -89,7 +89,7 @@ const resolvers = {
     updateTickets: async (_, args) => {
       const { ids, updateTickets } = args;
       let ticket;
-
+      console.log(updateTickets);
       Ticket.updateMany({ _id: { $in: ids } }, updateTickets);
 
       if (updateTickets.comment) {

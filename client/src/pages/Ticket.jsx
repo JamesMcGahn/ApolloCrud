@@ -45,7 +45,6 @@ function Ticket() {
   const [updateTicket, { data: otherData }] = useMutation(updateATicket, {
     onCompleted: (data) => {
       setTicket(data.updateTicket);
-      console.log('completed', data);
       toast.success('Ticket Updated', {
         theme: 'colored',
       });
@@ -56,8 +55,6 @@ function Ticket() {
       });
     },
   });
-
-  console.log(otherData);
 
   // #TODO Loading component
   const usersQuery = useQuery(getAllUsers);
