@@ -14,7 +14,7 @@
     "plugin:jsx-a11y/recommended",
     "plugin:react-hooks/recommended",
     "airbnb"],
-  "plugins": ["prettier","import"],
+  "plugins": ["prettier","import","react"],
   "rules": {
     "prettier/prettier": "off",
     "spaced-comment": "off",
