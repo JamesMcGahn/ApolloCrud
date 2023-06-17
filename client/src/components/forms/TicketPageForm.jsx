@@ -20,6 +20,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import loggedInUserQ from '../../graphql/queries/loggedInUser';
 import updateATicket from '../../graphql/mutations/updateTicket';
+import Spinner from '../ui/LoadingSpinner';
 
 function TicketPageForm({ data }) {
   const [ticket, setTicket] = useState(data.ticket);
@@ -47,7 +48,6 @@ function TicketPageForm({ data }) {
     },
   });
 
-  // #TODO Loading component
   const { data: userData, loading: usersLoading } = useQuery(getAllUsers);
 
   const handleCommentChange = (e) => setNewComment(e.target.value);
@@ -83,7 +83,9 @@ function TicketPageForm({ data }) {
     <>
       <Grid container sx={{ paddingBottom: '5rem' }}>
         <Grid item xs={12} md={5} lg={4}>
-          {!usersLoading && (
+          {usersLoading ? (
+            <Spinner />
+          ) : (
             <FormControl fullWidth>
               <SelectionList
                 selectionList={userData}
@@ -121,63 +123,65 @@ function TicketPageForm({ data }) {
           </FormControl>
         </Grid>
         <Grid item xs={12} md={7} lg={8}>
-          <Container sx={{ marginBottom: '.5rem' }}>
-            <Card sx={{ display: 'flex', paddingBottom: '1rem' }}>
-              <CardHeader
-                title="Ticket Title:"
-                sx={{ mb: 0, pb: 0, width: '25%' }}
-              />
-              <CardContent sx={{ paddingBottom: '0 !important', width: '75%' }}>
-                <FormControl fullWidth>
-                  <TextField
-                    fullWidth
-                    id="standard-helperText"
-                    value={ticket?.title}
-                    variant="standard"
-                    size={'2rem'}
-                    onChange={handleTitleChange}
-                  />
-                </FormControl>
-              </CardContent>
-            </Card>
-          </Container>
-
-          <Container>
-            <Card>
-              <CardHeader title="Description:" />
-              <CardContent>
-                <Typography variant="body2" color="text.secondary">
-                  {ticket?.description}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Container>
-          <Container>
-            <Card>
-              <CardHeader title="New Comment:" />
-              <CardContent>
-                <FormControlLabel
-                  control={
-                    <Switch
-                      checked={privateChecked}
-                      onChange={handlePrivateChecked}
-                    />
-                  }
-                  label="Private"
-                />
-                <TextField
-                  id="outlined-multiline-static"
-                  label="Multiline"
-                  multiline
-                  rows={4}
-                  onChange={handleCommentChange}
-                  value={newComment}
-                />
-              </CardContent>
-            </Card>
-          </Container>
-
           <ScrollDrawer>
+            <Container sx={{ marginBottom: '.5rem' }}>
+              <Card sx={{ display: 'flex', paddingBottom: '1rem' }}>
+                <CardHeader
+                  title="Ticket Title:"
+                  sx={{ mb: 0, pb: 0, width: '25%' }}
+                />
+                <CardContent
+                  sx={{ paddingBottom: '0 !important', width: '75%' }}
+                >
+                  <FormControl fullWidth>
+                    <TextField
+                      fullWidth
+                      id="standard-helperText"
+                      value={ticket?.title}
+                      variant="standard"
+                      size={'2rem'}
+                      onChange={handleTitleChange}
+                    />
+                  </FormControl>
+                </CardContent>
+              </Card>
+            </Container>
+
+            <Container>
+              <Card>
+                <CardHeader title="Description:" />
+                <CardContent>
+                  <Typography variant="body2" color="text.secondary">
+                    {ticket?.description}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Container>
+            <Container>
+              <Card>
+                <CardHeader title="New Comment:" />
+                <CardContent>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={privateChecked}
+                        onChange={handlePrivateChecked}
+                      />
+                    }
+                    label="Private"
+                  />
+                  <TextField
+                    id="outlined-multiline-static"
+                    label="Multiline"
+                    multiline
+                    rows={4}
+                    onChange={handleCommentChange}
+                    value={newComment}
+                  />
+                </CardContent>
+              </Card>
+            </Container>
+
             <Card>
               <CardHeader title="Comments:" />
               <CardContent sx={{ maxHeight: '30vh', overflow: 'scroll' }}>
@@ -197,7 +201,7 @@ function TicketPageForm({ data }) {
           sx={{
             position: 'fixed',
             bottom: 0,
-            left: 240,
+            left: 0,
             right: 0,
             minHeight: '8vh',
             display: 'flex',
@@ -210,7 +214,6 @@ function TicketPageForm({ data }) {
             sx={{
               display: 'flex',
               justifyContent: 'right',
-              paddingLeft: 240,
               maxHeight: '50px',
             }}
           >

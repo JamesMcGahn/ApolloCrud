@@ -10,6 +10,7 @@ import getAllUsers from '../../graphql/queries/getAllUser';
 import loggedInUserQ from '../../graphql/queries/loggedInUser';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
+import Spinner from '../ui/LoadingSpinner';
 
 function TicketForm({ formTitle, handleSubmitCb, createForm }) {
   const { data: usersData, loading: usersLoading } = useQuery(getAllUsers);
@@ -85,7 +86,9 @@ function TicketForm({ formTitle, handleSubmitCb, createForm }) {
           </Typography>
         </Container>
         <Container sx={{ width: '100%' }}>
-          {!usersLoading && (
+          {usersLoading ? (
+            <Spinner />
+          ) : (
             <>
               <SelectionList
                 selectionList={usersData}

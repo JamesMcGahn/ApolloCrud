@@ -4,6 +4,7 @@ import AgentLayout from '../components/layout/AgentLayout';
 import { useQuery, useMutation } from '@apollo/client';
 import getTicket from '../graphql/queries/getTicket';
 import TicketForm from '../components/forms/TicketPageForm';
+import Spinner from '../components/ui/LoadingSpinner';
 
 function Ticket() {
   const { id } = useParams();
@@ -11,12 +12,10 @@ function Ticket() {
     variables: { ticketId: id },
   });
 
-  if (loading) return 'loading';
-  return loading ? (
-    'loading'
-  ) : (
+  return (
     <AgentLayout>
-      <TicketForm data={data} />
+      {loading && <Spinner />}
+      {!loading && <TicketForm data={data} />}
     </AgentLayout>
   );
 }
