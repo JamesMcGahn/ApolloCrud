@@ -5,11 +5,18 @@
 ## Todos
 
 - App Styling
-- User
-- User Dashboard
+- User Create
+- ~~User Dashboard~~
+- Search Tickets
+
 
 ## Feature Ideas
-
+- Add User Company Model
+  - CRUD
+- Public Homepage
+  - Products, Sales, Services etc Page
+  - Public-facing blog
+- Developer Portal?
 - ~~Agent Private Comments~~
 - Agent Groups
 - Knowledge base for users
