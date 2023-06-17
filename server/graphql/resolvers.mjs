@@ -64,14 +64,6 @@ const resolvers = {
       }
       return user;
     },
-    signOut: (_, args, context) => {
-      context.res.cookie('jwt', 'expired', {
-        expires: new Date(Date.now() + 10 * 1000),
-        http: true,
-      });
-
-      return true;
-    },
   },
   Mutation: {
     createTicket: async (_, args) => {
@@ -232,6 +224,14 @@ const resolvers = {
         ...createdUser,
         token,
       };
+    },
+    signOut: (_, args, context) => {
+      context.res.cookie('jwt', 'expired', {
+        expires: new Date(Date.now() + 10 * 1000),
+        http: true,
+      });
+
+      return true;
     },
   },
   Date: dateScalar,

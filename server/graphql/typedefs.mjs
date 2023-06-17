@@ -87,7 +87,6 @@ const typeDefs = `#graphQL
     myTickets(userId: ID!, status: [StatusType]): [Ticket!]
     users: [userInfo!]
     currentUser: userInfo!
-    signOut: Boolean!
   }
 
   type Mutation {
@@ -97,6 +96,7 @@ const typeDefs = `#graphQL
     deleteTicket(id: ID!): Ticket!
     createUser(createUser: createUser!): user!
     loginUser(loginUser: loginUser!): user!
+    signOut: Boolean!
   }
 `;
 

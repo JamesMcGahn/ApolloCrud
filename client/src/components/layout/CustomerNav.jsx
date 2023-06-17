@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -15,16 +15,26 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { green, blue } from '@mui/material/colors';
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import loggedInUserQ from '../../graphql/queries/loggedInUser';
+import signOutQ from '../../graphql/mutations/signOut';
+import client from '../../graphql/apollo';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function CustomerNav() {
+  const navigate = useNavigate();
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const { data, loading: cULoading } = useQuery(loggedInUserQ);
+  const [signOut] = useMutation(signOutQ, {
+    onCompleted: async () => {
+      await client.cache.reset();
+      navigate('/login');
+    },
+  });
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -39,6 +49,11 @@ function CustomerNav() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleSignOut = () => {
+    handleCloseUserMenu();
+    signOut();
   };
 
   return (
@@ -212,11 +227,15 @@ function CustomerNav() {
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
-                  {settings.map((setting) => (
-                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                      <Typography textAlign="center">{setting}</Typography>
-                    </MenuItem>
-                  ))}
+                  <MenuItem onClick={handleCloseUserMenu}>
+                    <Typography textAlign="center">Profile</Typography>
+                  </MenuItem>
+                  <MenuItem onClick={handleCloseUserMenu}>
+                    <Typography textAlign="center">Dashboard</Typography>
+                  </MenuItem>
+                  <MenuItem onClick={handleSignOut}>
+                    <Typography textAlign="center">Logout</Typography>
+                  </MenuItem>
                 </Menu>
               </Box>
             </>
