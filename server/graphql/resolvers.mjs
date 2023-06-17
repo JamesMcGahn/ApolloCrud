@@ -227,7 +227,7 @@ const resolvers = {
     },
     signOut: (_, args, context) => {
       context.res.cookie('jwt', 'expired', {
-        expires: new Date(Date.now() + 10 * 1000),
+        expires: new Date(Date.now() + 3 * 1000),
         http: true,
       });
 
