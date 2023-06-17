@@ -1,27 +1,26 @@
 import { Navigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
 import loggedInUserQ from '../../graphql/queries/loggedInUser';
 import { useQuery } from '@apollo/client';
+import Spinner from '../ui/LoadingSpinner';
 
 const ProtectedRoute = ({ children }) => {
-  const [user, setUser] = useState();
-  const { loading, error, data } = useQuery(loggedInUserQ, {
-    onCompleted: (data) => {
-      setUser(data.currentUser);
-    },
-  });
+  const { loading, error, data } = useQuery(loggedInUserQ);
 
-  if (user?.role === 'user' && !loading) {
+  if (loading) {
+    return <Spinner />;
+  }
+
+  if (data?.currentUser.role === 'user') {
     return <Navigate to="/customer" />;
   }
 
-  if (error || (!user && !user?.role && !loading)) {
+  if (!data?.currentUser) {
     console.log(error);
+    console.log(user);
     return <Navigate to="/login" />;
   }
-  if (!loading) {
-    return children;
-  }
+  console.log(data);
+  return children;
 };
 
 export default ProtectedRoute;
