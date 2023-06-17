@@ -30,14 +30,31 @@ function Layout({ children }) {
             </List>
             <Divider />
             <List>
-              <ListItem disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    <MailIcon />
-                  </ListItemIcon>
-                  <ListItemText primary={'Ticket'} />
-                </ListItemButton>
-              </ListItem>
+              <Link to="/agent/dashboard/mytickets">
+                <ListItem disablePadding>
+                  <ListItemButton>
+                    <ListItemIcon>
+                      <InboxIcon />
+                    </ListItemIcon>
+                    <ListItemText primary={'My Tickets'} />
+                  </ListItemButton>
+                </ListItem>
+              </Link>
+              {['New', 'Open', 'Pending', 'Blocked', 'Closed'].map((status) => (
+                <Link
+                  to={`/agent/dashboard/mytickets/${status}`}
+                  key={`${status}-nav-item`}
+                >
+                  <ListItem disablePadding>
+                    <ListItemButton>
+                      <ListItemIcon>
+                        <InboxIcon />
+                      </ListItemIcon>
+                      <ListItemText primary={status} />
+                    </ListItemButton>
+                  </ListItem>
+                </Link>
+              ))}
             </List>
           </>
         }
