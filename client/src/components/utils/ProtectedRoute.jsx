@@ -15,8 +15,6 @@ const ProtectedRoute = ({ children }) => {
   }
 
   if (!data?.currentUser) {
-    console.log(error);
-    console.log(user);
     return <Navigate to="/login" />;
   }
   console.log(data);
