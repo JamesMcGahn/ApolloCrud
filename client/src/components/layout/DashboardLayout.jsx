@@ -16,6 +16,16 @@ import SearchIcon from '@mui/icons-material/Search';
 import Container from '@mui/material/Container';
 import CreateTicketForm from '../forms/CreateTicketForm';
 import PopModal from '../ui/PopModal';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
+import Avatar from '@mui/material/Avatar';
+import Tooltip from '@mui/material/Tooltip';
+import { useNavigate, Link } from 'react-router-dom';
+import { green, blue } from '@mui/material/colors';
+import { useQuery, useMutation } from '@apollo/client';
+import loggedInUserQ from '../../graphql/queries/loggedInUser';
+import signOutQ from '../../graphql/mutations/signOut';
+import client from '../../graphql/apollo';
 
 const drawerWidth = 240;
 
@@ -107,9 +117,35 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 export default function DashboardLayout({ children, list, dwrDefOpen }) {
+  const navigate = useNavigate();
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
   const theme = useTheme();
   const [open, setOpen] = React.useState(dwrDefOpen);
   const [modalOpen, setModalOpen] = React.useState(false);
+  const { data, loading: cULoading } = useQuery(loggedInUserQ);
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const [signOut] = useMutation(signOutQ, {
+    onCompleted: async () => {
+      await client.cache.reset();
+      navigate('/login');
+    },
+  });
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -117,6 +153,11 @@ export default function DashboardLayout({ children, list, dwrDefOpen }) {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const handleSignOut = () => {
+    handleCloseUserMenu();
+    signOut();
   };
 
   return (
@@ -133,42 +174,93 @@ export default function DashboardLayout({ children, list, dwrDefOpen }) {
           >
             <MenuIcon />
           </IconButton>
-          <Container
-            sx={{ display: 'flex', justifyContent: 'left', width: '50%' }}
-          >
-            <Typography variant="h6" noWrap component="div">
-              Ticketing
-            </Typography>
-          </Container>
-          <Container
+          <Box
             sx={{
+              flexGrow: 1,
               display: 'flex',
-              justifyContent: 'right',
-              width: '50%',
-              padding: '0 !important',
             }}
           >
-            <Container sx={{ display: 'flex', justifyContent: 'right' }}>
-              <PopModal
-                buttonText="New Ticket"
-                open={modalOpen}
-                setOpen={setModalOpen}
-                buttonSx={{ color: 'white', borderColor: 'white' }}
-              >
-                <CreateTicketForm closeModal={setModalOpen} />
-              </PopModal>
-            </Container>
+            <Box sx={{ width: '45%' }}>
+              <Typography variant="h6" noWrap component="div">
+                Ticketing
+              </Typography>
+            </Box>
+            <Box sx={{ minWidth: '20vw' }}>
+              <Search>
+                <SearchIconWrapper>
+                  <SearchIcon />
+                </SearchIconWrapper>
+                <StyledInputBase
+                  placeholder="Search…"
+                  inputProps={{ 'aria-label': 'search' }}
+                />
+              </Search>
+            </Box>
+          </Box>
+          <Box sx={{ flexGrow: 0, padding: '0 1.5rem' }}>
+            <PopModal
+              buttonText="New Ticket"
+              open={modalOpen}
+              setOpen={setModalOpen}
+              buttonSx={{ color: 'white', borderColor: 'white' }}
+            >
+              <CreateTicketForm closeModal={setModalOpen} />
+            </PopModal>
+          </Box>
 
-            <Search>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Search…"
-                inputProps={{ 'aria-label': 'search' }}
-              />
-            </Search>
-          </Container>
+          {!cULoading && data?.currentUser && (
+            <>
+              <Box sx={{ flexGrow: 0 }}>
+                <Tooltip title="Open settings">
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <Avatar
+                      sx={{
+                        bgcolor:
+                          data?.currentUser?.role === 'user'
+                            ? green[500]
+                            : blue[500],
+                      }}
+                      aria-label="recipe"
+                    >
+                      {`${data?.currentUser?.name || 'A'}`[0].toUpperCase()}
+                    </Avatar>
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                  sx={{ mt: '45px' }}
+                  id="menu-appbar"
+                  anchorEl={anchorElUser}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
+                >
+                  <MenuItem onClick={handleCloseUserMenu}>
+                    <Typography textAlign="center">Profile</Typography>
+                  </MenuItem>
+                  <MenuItem onClick={handleCloseUserMenu}>
+                    <Link
+                      to={`/${
+                        data?.currentUser === 'user' ? 'customer' : 'agent'
+                      }/dashboard`}
+                    >
+                      <Typography textAlign="center">Dashboard</Typography>
+                    </Link>
+                  </MenuItem>
+                  <MenuItem onClick={handleSignOut}>
+                    <Typography textAlign="center">Logout</Typography>
+                  </MenuItem>
+                </Menu>
+              </Box>
+            </>
+          )}
         </Toolbar>
       </AppBar>
       <Drawer
