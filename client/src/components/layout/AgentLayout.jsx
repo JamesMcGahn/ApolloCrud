@@ -1,3 +1,4 @@
+import { useContext } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -8,8 +9,14 @@ import Divider from '@mui/material/Divider';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import { Link, useParams } from 'react-router-dom';
 import DashboardLayout from './DashboardLayout';
+import { TixDashTabContext } from '../../context/TixDashTabsContext';
 
 function Layout({ children }) {
+  const { tabStatuses, setCurrentTab } = useContext(TixDashTabContext);
+  const handleOnClick = (i) => {
+    setCurrentTab(i);
+  };
+
   return (
     <>
       <DashboardLayout
@@ -30,20 +37,14 @@ function Layout({ children }) {
             </List>
             <Divider />
             <List>
-              <Link to="/agent/dashboard/mytickets">
-                <ListItem disablePadding>
-                  <ListItemButton>
-                    <ListItemIcon>
-                      <InboxIcon />
-                    </ListItemIcon>
-                    <ListItemText primary={'My Tickets'} />
-                  </ListItemButton>
-                </ListItem>
-              </Link>
-              {['New', 'Open', 'Pending', 'Blocked', 'Closed'].map((status) => (
+              <ListItem>
+                <ListItemText primary={'My Tickets'} />
+              </ListItem>
+              {tabStatuses.map((status, i) => (
                 <Link
-                  to={`/agent/dashboard/mytickets/${status}`}
+                  to={`/agent/dashboard/mytickets/`}
                   key={`${status}-nav-item`}
+                  onClick={() => handleOnClick(i)}
                 >
                   <ListItem disablePadding>
                     <ListItemButton>

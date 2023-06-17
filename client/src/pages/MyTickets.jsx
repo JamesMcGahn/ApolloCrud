@@ -5,6 +5,7 @@ import TicketTable from '../components/TicketTable';
 import getMyTickets from '../graphql/queries/getMyTickets';
 import loggedInUserQ from '../graphql/queries/loggedInUser';
 import Spinner from '../components/ui/LoadingSpinner';
+import TicketTabPanel from '../components/navs/TicketTabPanel';
 
 function MyTickets() {
   const { status } = useParams();
@@ -26,7 +27,7 @@ function MyTickets() {
   return (
     <AgentLayout>
       {loading && <Spinner />}
-      {!loading && <TicketTable data={data?.myTickets} />}
+      <TicketTabPanel />
     </AgentLayout>
   );
 }
