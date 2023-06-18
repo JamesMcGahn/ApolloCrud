@@ -9,6 +9,7 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import { Link } from 'react-router-dom';
 import DashboardLayout from './DashboardLayout';
 import { TixDashTabContext } from '../../context/TixDashTabsContext';
+import TicketHistoryNav from '../navs/TicketHistoryNav';
 
 function Layout({ children }) {
   const { tabStatuses, setCurrentTab } = useContext(TixDashTabContext);
@@ -58,6 +59,7 @@ function Layout({ children }) {
         </>
       }
     >
+      <TicketHistoryNav />
       {children}
     </DashboardLayout>
   );

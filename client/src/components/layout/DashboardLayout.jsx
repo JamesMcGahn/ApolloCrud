@@ -288,8 +288,8 @@ export default function DashboardLayout({ children, list, dwrDefOpen }) {
         <Divider />
         {list}
       </Drawer>
-      <Main open={open}>
-        <DrawerHeader />
+      <Main open={open} sx={{ padding: '24px 0' }}>
+        <DrawerHeader sx={{ minHeight: '40px !important' }} />
         {children}
       </Main>
     </Box>

@@ -18,7 +18,7 @@ function Ticket() {
   });
 
   return (
-    <AgentLayout>
+    <AgentLayout key={`${id}-ticket`}>
       {loading && <Spinner />}
       {!loading && <TicketForm data={data} />}
     </AgentLayout>
