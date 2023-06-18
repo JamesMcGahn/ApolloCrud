@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import Card from '@mui/material/Card';
 import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
@@ -16,7 +16,7 @@ import loggedInUserQ from '../../graphql/queries/loggedInUser';
 import updateATicket from '../../graphql/mutations/updateTicket';
 import Spinner from '../ui/LoadingSpinner';
 import PopMenuButton from '../ui/PopMenuButton';
-import SelectionList from '../ui/SelectionList';
+import UserSelectionList from '../ui/UserSelectionList';
 import getAllUsers from '../../graphql/queries/getAllUser';
 import Comment from '../Comment';
 import ScrollDrawer from '../ui/ScrollDrawer';
@@ -77,54 +77,78 @@ function TicketPageForm({ data }) {
   };
 
   return (
-    <Grid container sx={{ paddingBottom: '5rem' }}>
-      <Grid item xs={12} md={5} lg={4}>
+    <Container sx={{ paddingBottom: '5rem', display: 'flex' }}>
+      <Container
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          maxWidth: '325px !important',
+          paddingLeft: '0px !important',
+        }}
+      >
         {usersLoading ? (
           <Spinner />
         ) : (
-          <FormControl fullWidth>
-            <SelectionList
+          <FormControl>
+            <UserSelectionList
               selectionList={userData}
               defaultValue={ticket?.requester?.email}
               label="Requester"
               cb={setRequester}
             />
 
-            <SelectionList
+            <UserSelectionList
               selectionList={userData}
               defaultValue={ticket?.assignee?.email}
               label="Assignee"
               cb={setAssignee}
+              assignee
             />
           </FormControl>
         )}
 
-        <FormControl sx={{ m: 1, width: 300, mt: 3 }}>
+        <FormControl sx={{ m: 1, width: '300px', mt: 3 }}>
           <TextField
             id="created-date"
             label="Created At:"
             value={ticket?.updatedAt && convert2FullDateTime(ticket?.createdAt)}
           />
         </FormControl>
-        <FormControl sx={{ m: 1, width: 300, mt: 3 }}>
+        <FormControl sx={{ m: 1, width: '300px', mt: 3 }}>
           <TextField
             id="updated-date"
             label="Updated At:"
             value={ticket?.updatedAt && convert2FullDateTime(ticket?.updatedAt)}
           />
         </FormControl>
-      </Grid>
-      <Grid item xs={12} md={7} lg={8}>
+      </Container>
+      <Container
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          padding: '0px !important',
+        }}
+      >
         <ScrollDrawer>
           <Container sx={{ marginBottom: '.5rem' }}>
-            <Card sx={{ display: 'flex', paddingBottom: '1rem' }}>
-              <CardHeader
-                title="Ticket Title:"
-                sx={{ mb: 0, pb: 0, width: '25%' }}
-              />
-              <CardContent sx={{ paddingBottom: '0 !important', width: '75%' }}>
+            <Card
+              sx={{ display: 'flex', padding: '1rem', flexWrap: 'wrap', mb: 1 }}
+            >
+              <Box
+                sx={{
+                  padding: '.2rem 0 0 0',
+                  maxWidth: '2rem',
+                  mr: '10px',
+                }}
+              >
+                <Typography variant="h6" sx={{ fontSize: '1.5rem' }}>
+                  Title:
+                </Typography>
+              </Box>
+              <Box sx={{ padding: '0 0 0 1rem', width: '75%' }}>
                 <FormControl fullWidth>
                   <TextField
+                    sx={{ '& input': { fontSize: '1.5rem' } }}
                     fullWidth
                     id="standard-helperText"
                     value={title}
@@ -133,24 +157,46 @@ function TicketPageForm({ data }) {
                     onChange={handleTitleChange}
                   />
                 </FormControl>
-              </CardContent>
+              </Box>
             </Card>
           </Container>
 
           <Container>
-            <Card>
-              <CardHeader title="Description:" />
-              <CardContent>
+            <Card
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                padding: '1rem',
+                flexWrap: 'wrap',
+                mb: 1,
+              }}
+            >
+              <Box>
+                <Typography variant="h6" sx={{ fontSize: '1.2rem' }}>
+                  Description:
+                </Typography>
+              </Box>
+              <Box sx={{ pt: '.5rem' }}>
                 <Typography variant="body2" color="text.secondary">
                   {ticket?.description}
                 </Typography>
-              </CardContent>
+              </Box>
             </Card>
-          </Container>
-          <Container>
-            <Card>
-              <CardHeader title="New Comment:" />
-              <CardContent>
+            <Card
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                padding: '1rem',
+                flexWrap: 'wrap',
+                mb: 1,
+              }}
+            >
+              <Box>
+                <Typography variant="h6" sx={{ fontSize: '1.2rem' }}>
+                  Comments:
+                </Typography>
+              </Box>
+              <Box sx={{ display: 'flex', flexDirection: 'column', mb: 1 }}>
                 <FormControlLabel
                   control={
                     <Switch
@@ -161,32 +207,36 @@ function TicketPageForm({ data }) {
                   label="Private"
                 />
                 <TextField
-                  id="outlined-multiline-static"
-                  label="Multiline"
+                  sx={{
+                    mt: 1,
+                    '& textarea': {
+                      background: privateChecked ? 'yellow' : 'white',
+                    },
+                  }}
+                  id="newComment"
+                  label={privateChecked ? 'Private Note' : 'New Comment'}
+                  placeholder={
+                    privateChecked
+                      ? 'Enter a Private Note'
+                      : 'Enter a New Comment.'
+                  }
                   multiline
                   rows={4}
                   onChange={handleCommentChange}
                   value={newComment}
                 />
-              </CardContent>
+              </Box>
+              <Box sx={{ maxHeight: '80vh', overflowY: 'scroll' }}>
+                {ticket?.comments.toReversed().map((comment) => (
+                  <Box sx={{ mb: '.8rem', p: '0 .5rem' }} key={comment.id}>
+                    <Comment comment={comment} />
+                  </Box>
+                ))}
+              </Box>
             </Card>
           </Container>
-
-          <Card>
-            <CardHeader title="Comments:" />
-            <CardContent sx={{ maxHeight: '30vh', overflow: 'scroll' }}>
-              {ticket?.comments.map((comment) => (
-                <Container
-                  sx={{ mb: '.8rem', p: '0rem !important' }}
-                  key={comment.id}
-                >
-                  <Comment comment={comment} />
-                </Container>
-              ))}
-            </CardContent>
-          </Card>
         </ScrollDrawer>
-      </Grid>
+      </Container>
       <Paper
         sx={{
           position: 'fixed',
@@ -213,7 +263,7 @@ function TicketPageForm({ data }) {
           />
         </Container>
       </Paper>
-    </Grid>
+    </Container>
   );
 }
 export default TicketPageForm;

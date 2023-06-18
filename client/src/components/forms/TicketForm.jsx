@@ -4,12 +4,12 @@ import { useQuery } from '@apollo/client';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import PopMenuButton from '../ui/PopMenuButton';
-import SelectionList from '../ui/SelectionList';
-import getAllUsers from '../../graphql/queries/getAllUser';
-import loggedInUserQ from '../../graphql/queries/loggedInUser';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
+import PopMenuButton from '../ui/PopMenuButton';
+import UserSelectionList from '../ui/UserSelectionList';
+import getAllUsers from '../../graphql/queries/getAllUser';
+import loggedInUserQ from '../../graphql/queries/loggedInUser';
 import Spinner from '../ui/LoadingSpinner';
 
 function TicketForm({ formTitle, handleSubmitCb, createForm }) {
@@ -90,18 +90,19 @@ function TicketForm({ formTitle, handleSubmitCb, createForm }) {
             <Spinner />
           ) : (
             <>
-              <SelectionList
+              <UserSelectionList
                 selectionList={usersData}
                 defaultValue=""
                 label="Requester"
                 cb={setRequester}
               />
 
-              <SelectionList
+              <UserSelectionList
                 selectionList={usersData}
                 defaultValue=""
                 label="Assignee"
                 cb={setAssignee}
+                assignee
               />
             </>
           )}
