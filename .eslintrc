@@ -36,6 +36,7 @@
     "react/jsx-props-no-spreading": "warn",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/jsx-wrap-multilines": "off",
+    "react/function-component-definition": "off",
     "operator-linebreak": "off",
     "object-curly-newline": "off"
   },

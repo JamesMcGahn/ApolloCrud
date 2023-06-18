@@ -18,42 +18,16 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route
-            path="/agent/dashboard"
-            element={
-              <ProtectedRoute>
-                <AgentHome />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/agent/dashboard/mytickets"
-            element={
-              <ProtectedRoute>
-                <MyTickets />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/agent/dashboard/mytickets/:status"
-            element={
-              <ProtectedRoute>
-                <MyTickets />
-              </ProtectedRoute>
-            }
-          />
+          <Route element={<ProtectedRoute allowedUser="agent" />}>
+            <Route path="/agent/dashboard" element={<AgentHome />} />
+            <Route path="/agent/dashboard/mytickets" element={<MyTickets />} />
+            <Route path="/agent/dashboard/ticket/:id" element={<Ticket />} />
+          </Route>
+          <Route element={<ProtectedRoute />}>
+            <Route path="/customer" element={<CustomerHome />} />
+            <Route path="/customer/dashboard" element={<CustomerDashboard />} />
+          </Route>
 
-          <Route
-            path="/agent/dashboard/ticket/:id"
-            element={
-              <ProtectedRoute>
-                <Ticket />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route path="/customer" element={<CustomerHome />} />
-          <Route path="/customer/dashboard" element={<CustomerDashboard />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="*" element={<>notfound</>} />
