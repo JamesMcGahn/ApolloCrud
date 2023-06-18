@@ -12,7 +12,7 @@ const MenuProps = {
   PaperProps: {
     style: {
       maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
+      width: 300,
     },
   },
 };
@@ -23,16 +23,15 @@ function getStyles(theme) {
   };
 }
 
-export default function SelectionList({
+export default function UserSelectionList({
   selectionList,
   defaultValue,
   cb,
   label,
+  assignee,
 }) {
   const theme = useTheme();
-  const [personName, setPersonName] = React.useState(
-    defaultValue ? defaultValue : '',
-  );
+  const [personName, setPersonName] = React.useState(defaultValue || '');
 
   const { users } = selectionList;
 
@@ -42,7 +41,7 @@ export default function SelectionList({
     } = event;
 
     if (cb) {
-      const usr = users.filter((usr) => usr.email === value);
+      const usr = users.filter((userL) => userL.email === value);
       cb(usr[0]);
     }
     setPersonName(typeof value === 'string' ? value.split(',') : value);
@@ -50,7 +49,7 @@ export default function SelectionList({
 
   return (
     <div>
-      <FormControl sx={{ m: 1, width: 300, mt: 3 }}>
+      <FormControl sx={{ m: 1, width: '300px', mt: 3 }}>
         <Select
           displayEmpty
           value={personName}
@@ -63,16 +62,20 @@ export default function SelectionList({
           defaultValue={defaultValue}
           inputProps={{ 'aria-label': 'Without label' }}
         >
-          {users.map((name) => (
-            <MenuItem
-              key={name.id}
-              name={name.id}
-              value={name.email}
-              style={getStyles(theme)}
-            >
-              {name.email}
-            </MenuItem>
-          ))}
+          {users.map((name) => {
+            if (assignee && name.role === 'user') return;
+
+            return (
+              <MenuItem
+                key={name.id}
+                name={name.id}
+                value={name.email}
+                style={getStyles(theme)}
+              >
+                {name.email}
+              </MenuItem>
+            );
+          })}
         </Select>
         <FormHelperText>{label}</FormHelperText>
       </FormControl>
