@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -21,7 +20,6 @@ import signOutQ from '../../graphql/mutations/signOut';
 import client from '../../graphql/apollo';
 
 const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function CustomerNav() {
   const navigate = useNavigate();
@@ -36,6 +34,7 @@ function CustomerNav() {
     },
   });
 
+  console.log(data);
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -157,7 +156,7 @@ function CustomerNav() {
                 }}
               >
                 <MenuItem onClick={handleCloseNavMenu}>
-                  <Link to={'/register'}>
+                  <Link to="/register">
                     <Typography textAlign="center">REGISTER</Typography>
                   </Link>
                 </MenuItem>
@@ -172,7 +171,7 @@ function CustomerNav() {
                 }}
               >
                 <MenuItem onClick={handleCloseNavMenu}>
-                  <Link to={'/login'}>
+                  <Link to="/login">
                     <Typography textAlign="center">LOGIN</Typography>
                   </Link>
                 </MenuItem>
@@ -185,11 +184,9 @@ function CustomerNav() {
               <Box sx={{ flexGrow: 0 }}>
                 <MenuItem onClick={handleCloseNavMenu}>
                   <Link
-                    to={
-                      data?.currentUser.role === 'user'
-                        ? '/customer'
-                        : '/agent/dashboard'
-                    }
+                    to={`/${
+                      data?.currentUser === 'user' ? 'customer' : 'agent'
+                    }/dashboard`}
                   >
                     <Typography textAlign="center">Tickets</Typography>
                   </Link>
@@ -231,7 +228,13 @@ function CustomerNav() {
                     <Typography textAlign="center">Profile</Typography>
                   </MenuItem>
                   <MenuItem onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">Dashboard</Typography>
+                    <Link
+                      to={`/${
+                        data?.currentUser.role === 'user' ? 'customer' : 'agent'
+                      }/dashboard`}
+                    >
+                      <Typography textAlign="center">Dashboard</Typography>
+                    </Link>
                   </MenuItem>
                   <MenuItem onClick={handleSignOut}>
                     <Typography textAlign="center">Logout</Typography>

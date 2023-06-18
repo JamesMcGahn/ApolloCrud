@@ -1,5 +1,4 @@
 import { useContext, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views-react-18-fix';
 import { useTheme } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
@@ -7,14 +6,12 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import { useQuery, useLazyQuery } from '@apollo/client';
-import { useParams } from 'react-router-dom';
 import loggedInUserQ from '../../graphql/queries/loggedInUser';
 import TicketTable from '../TicketTable';
 import getMyTickets from '../../graphql/queries/getMyTickets';
 import { TixDashTabContext } from '../../context/TixDashTabsContext';
 
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
+function TabPanel({ children, value, index, ...other }) {
   return (
     <div
       role="tabpanel"
@@ -28,12 +25,6 @@ function TabPanel(props) {
   );
 }
 
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.number.isRequired,
-  value: PropTypes.number.isRequired,
-};
-
 function a11yProps(index) {
   return {
     id: `full-width-tab-${index}`,
@@ -42,6 +33,7 @@ function a11yProps(index) {
 }
 
 function TicketTabPanel() {
+  // trunk-ignore(eslint/operator-linebreak)
   const { tabStatuses, currentTab, setCurrentTab } =
     useContext(TixDashTabContext);
 
@@ -49,12 +41,13 @@ function TicketTabPanel() {
 
   const { data: currU } = useQuery(loggedInUserQ);
 
-  const { loading, error, data } = useQuery(getMyTickets, {
+  const { loading, data } = useQuery(getMyTickets, {
     variables: {
       userId: currU?.currentUser.id,
     },
   });
-  const [getMyStatusTix, { loading: lzLoading, error: lzError, data: lzData }] =
+  // trunk-ignore(eslint/operator-linebreak)
+  const [getMyStatusTix, { loading: lzLoading, data: lzData }] =
     useLazyQuery(getMyTickets);
 
   const handleQuery = (status) => {
@@ -74,9 +67,6 @@ function TicketTabPanel() {
   }, [currentTab, tabStatuses]);
 
   const handleChange = (event, newValue) => {
-    if (event.target.name !== 'All') {
-      handleQuery(event.target.name);
-    }
     setCurrentTab(newValue);
   };
 
@@ -112,10 +102,8 @@ function TicketTabPanel() {
             index={i}
             dir={theme.direction}
           >
-            {console.log(data, lzData)}
             {i === 0 &&
               (loading ? 'loading' : <TicketTable data={data?.myTickets} />)}
-
             {i !== 0 &&
               (lzLoading ? (
                 'loading'

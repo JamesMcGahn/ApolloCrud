@@ -1,6 +1,4 @@
-import { useQuery } from '@apollo/client';
 import { Link } from 'react-router-dom';
-import getTickets from '../graphql/queries/getTickets';
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
@@ -11,9 +9,12 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
+import Container from '@mui/material/Container';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
 import TicketTableHead from './tables/TableHead';
 import TicketTableToolbar from './tables/TicketTableToolbar';
-import PopModal from '../components/ui/PopModal';
+import PopModal from './ui/PopModal';
 import BulkTicketEdit from './forms/BulkTicketEdit';
 import convert2FullDateTime from '../utils/convert2FullDateTime';
 
@@ -51,18 +52,24 @@ function stableSort(array, comparator) {
 }
 
 export default function TicketTable({ data }) {
-  const [tickets, setTickets] = React.useState(data);
+  const [tickets] = React.useState(data);
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [open, setOpen] = React.useState(false);
-  console.log(tickets);
+
   if (!tickets || tickets?.length === 0) {
-    return <>no tickets</>;
+    return (
+      <Container sx={{ display: 'flex', justifyContent: 'center' }}>
+        <Card>
+          <CardContent>No Tickets Available.</CardContent>
+        </Card>
+      </Container>
+    );
   }
-  // #TODO no tickets to display comp
+
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -110,18 +117,19 @@ export default function TicketTable({ data }) {
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
+  // trunk-ignore(eslint/operator-linebreak)
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - tickets.length) : 0;
 
   const visibleRows = stableSort(
-    tickets ? tickets : [],
+    tickets || [],
     getComparator(order, orderBy),
   ).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <TicketTableToolbar numSelected={selected.length} title={'All Tickets'}>
+        <TicketTableToolbar numSelected={selected.length} title="All Tickets">
           {selected.length > 0 && (
             <PopModal buttonText="Edit" open={open} setOpen={setOpen}>
               <BulkTicketEdit ids={selected} closeModal={setOpen} />
@@ -132,7 +140,7 @@ export default function TicketTable({ data }) {
           <Table
             sx={{ minWidth: 750 }}
             aria-labelledby="tableTitle"
-            size={'medium'}
+            size="medium"
           >
             <TicketTableHead
               numSelected={selected.length}

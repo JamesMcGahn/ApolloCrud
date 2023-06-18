@@ -9,12 +9,8 @@
   "extends": [
     "plugin:prettier/recommended",
     "plugin:import/recommended",
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:jsx-a11y/recommended",
-    "plugin:react-hooks/recommended",
     "airbnb"],
-  "plugins": ["prettier","import","react"],
+  "plugins": ["import","react","prettier"],
   "rules": {
     "prettier/prettier": "off",
     "spaced-comment": "off",
@@ -37,7 +33,11 @@
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
     "react/prop-types": "off",
-    "react/jsx-props-no-spreading": "warn"
+    "react/jsx-props-no-spreading": "warn",
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/jsx-wrap-multilines": "off",
+    "operator-linebreak": "off",
+    "object-curly-newline": "off"
   },
     "settings": {
       "react": {
