@@ -1,14 +1,11 @@
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import SwipeableViews from 'react-swipeable-views-react-18-fix';
 import { useTheme } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import { useQuery, useLazyQuery } from '@apollo/client';
-import loggedInUserQ from '../../graphql/queries/loggedInUser';
 import TicketTable from '../TicketTable';
-import getMyTickets from '../../graphql/queries/getMyTickets';
 import { TixDashTabContext } from '../../context/TixDashTabsContext';
 
 function TabPanel({ children, value, index, ...other }) {
@@ -32,38 +29,11 @@ function a11yProps(index) {
   };
 }
 
-function TicketTabPanel() {
+function TicketTabPanel({ ticketData }) {
   const { tabStatuses, currentTab, setCurrentTab } =
     useContext(TixDashTabContext);
 
   const theme = useTheme();
-
-  const { data: currU } = useQuery(loggedInUserQ);
-
-  const { loading, data } = useQuery(getMyTickets, {
-    variables: {
-      userId: currU?.currentUser.id,
-    },
-  });
-
-  const [getMyStatusTix, { loading: lzLoading, data: lzData }] =
-    useLazyQuery(getMyTickets);
-
-  const handleQuery = (status) => {
-    getMyStatusTix({
-      variables: {
-        userId: currU?.currentUser.id,
-        status: [status],
-      },
-    });
-  };
-
-  useEffect(() => {
-    if (currentTab === 0) {
-      return;
-    }
-    handleQuery(tabStatuses[currentTab]);
-  }, [currentTab, tabStatuses]);
 
   const handleChange = (event, newValue) => {
     setCurrentTab(newValue);
@@ -71,6 +41,17 @@ function TicketTabPanel() {
 
   const handleChangeIndex = (index) => {
     setCurrentTab(index);
+  };
+
+  const ticketStatusData = () => {
+    if (tabStatuses[currentTab] === 'All') {
+      return ticketData;
+    }
+
+    if (ticketData?.length > 0) {
+      return ticketData.filter((tix) => tix.status === tabStatuses[currentTab]);
+    }
+    return [];
   };
 
   return (
@@ -85,7 +66,7 @@ function TicketTabPanel() {
           aria-label="full width tabs example"
         >
           {tabStatuses.map((tab, i) => (
-            <Tab label={tab} {...a11yProps(i)} name={tab} key={`${tab}-tab`} />
+            <Tab label={tab} {...a11yProps(i)} name={tab} key={tab} />
           ))}
         </Tabs>
       </AppBar>
@@ -96,19 +77,12 @@ function TicketTabPanel() {
       >
         {tabStatuses.map((tabP, i) => (
           <TabPanel
-            key={`${tabP}-tab-pabel`}
+            key={`${tabP}-display`}
             value={currentTab}
             index={i}
             dir={theme.direction}
           >
-            {i === 0 &&
-              (loading ? 'loading' : <TicketTable data={data?.myTickets} />)}
-            {i !== 0 &&
-              (lzLoading ? (
-                'loading'
-              ) : (
-                <TicketTable data={lzData?.myTickets} />
-              ))}
+            <TicketTable data={ticketStatusData} />
           </TabPanel>
         ))}
       </SwipeableViews>

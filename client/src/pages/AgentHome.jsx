@@ -4,7 +4,7 @@ import getTickets from '../graphql/queries/getTickets';
 import TicketTable from '../components/TicketTable';
 
 function AgentHome() {
-  const { loading, error, data } = useQuery(getTickets);
+  const { loading, data } = useQuery(getTickets);
 
   return (
     <AgentLayout>
