@@ -54,7 +54,7 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function TicketTable({ data }) {
+export default function TicketTable({ data, title }) {
   const [tickets] = React.useState(data);
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
@@ -142,7 +142,7 @@ export default function TicketTable({ data }) {
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <TicketTableToolbar numSelected={selected.length} title="All Tickets">
+        <TicketTableToolbar numSelected={selected.length} title={title}>
           {selected.length > 0 && (
             <PopModal buttonText="Edit" open={open} setOpen={setOpen}>
               <BulkTicketEdit ids={selected} closeModal={setOpen} />

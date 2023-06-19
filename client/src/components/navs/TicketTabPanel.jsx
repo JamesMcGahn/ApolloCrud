@@ -82,7 +82,7 @@ function TicketTabPanel({ ticketData }) {
             index={i}
             dir={theme.direction}
           >
-            <TicketTable data={ticketStatusData} />
+            <TicketTable data={ticketStatusData} title={`${tabP} Tickets`} />
           </TabPanel>
         ))}
       </SwipeableViews>

@@ -4,11 +4,8 @@ import { alpha } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import DeleteIcon from '@mui/icons-material/Delete';
-import FilterListIcon from '@mui/icons-material/FilterList';
 
-function TicketTableToolbar(props) {
-  const { numSelected, children, title } = props;
-
+function TicketTableToolbar({ numSelected, children, title = 'All Tickets' }) {
   return (
     <Toolbar
       sx={{
@@ -16,6 +13,7 @@ function TicketTableToolbar(props) {
         pr: { xs: 1, sm: 1 },
         ...(numSelected > 0 && {
           bgcolor: (theme) =>
+            // trunk-ignore(eslint/implicit-arrow-linebreak)
             alpha(
               theme.palette.primary.main,
               theme.palette.action.activatedOpacity,
@@ -30,7 +28,7 @@ function TicketTableToolbar(props) {
           variant="subtitle1"
           component="div"
         >
-          {numSelected} selected
+          {`${numSelected} selected`}
         </Typography>
       ) : (
         <Typography

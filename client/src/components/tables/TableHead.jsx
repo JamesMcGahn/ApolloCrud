@@ -4,6 +4,7 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import TableCell from '@mui/material/TableCell';
 import Checkbox from '@mui/material/Checkbox';
 import Box from '@mui/material/Box';
+// trunk-ignore(eslint/import/no-extraneous-dependencies)
 import { visuallyHidden } from '@mui/utils';
 
 function TicketTableHead(props) {
