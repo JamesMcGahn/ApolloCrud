@@ -33,7 +33,6 @@ function a11yProps(index) {
 }
 
 function TicketTabPanel() {
-  // trunk-ignore(eslint/operator-linebreak)
   const { tabStatuses, currentTab, setCurrentTab } =
     useContext(TixDashTabContext);
 
@@ -46,7 +45,7 @@ function TicketTabPanel() {
       userId: currU?.currentUser.id,
     },
   });
-  // trunk-ignore(eslint/operator-linebreak)
+
   const [getMyStatusTix, { loading: lzLoading, data: lzData }] =
     useLazyQuery(getMyTickets);
 

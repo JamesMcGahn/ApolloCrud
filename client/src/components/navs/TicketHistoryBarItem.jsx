@@ -1,9 +1,12 @@
 import React, { useEffect, useRef, useContext } from 'react';
+import { useQuery } from '@apollo/client';
 import { Link } from 'react-router-dom';
 import ClearIcon from '@mui/icons-material/Clear';
 import { TixHistoryContext } from '../../context/TixHistoryContext';
+import loggedInUserQ from '../../graphql/queries/loggedInUser';
 
 function TicketHistoryBarItem({ id }) {
+  const { data: userData } = useQuery(loggedInUserQ);
   const { removeHistory } = useContext(TixHistoryContext);
   const [showDelete, setShowDelete] = React.useState(false);
   const instance = useRef({ timer: 0 });
@@ -29,7 +32,11 @@ function TicketHistoryBarItem({ id }) {
   return (
     <>
       <Link
-        to={`/agent/dashboard/ticket/${id}`}
+        to={
+          userData.currentUser.role === 'user'
+            ? `/customer/dashboard/ticket/${id}`
+            : `/agent/dashboard/ticket/${id}`
+        }
         style={{
           width: '70%',
           display: 'inline-block',
