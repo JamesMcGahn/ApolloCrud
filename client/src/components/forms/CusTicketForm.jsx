@@ -11,9 +11,9 @@ import loggedInUserQ from '../../graphql/queries/loggedInUser';
 function AgentTicketForm({ formTitle, handleSubmitCb, createForm }) {
   const [assignee, setAssignee] = useState();
   const [ticket, setTicket] = useState({
-    title: undefined,
-    description: undefined,
-    comment: undefined,
+    title: '',
+    description: '',
+    comment: '',
     privateComment: false,
   });
 
@@ -29,7 +29,7 @@ function AgentTicketForm({ formTitle, handleSubmitCb, createForm }) {
     const addComment = {
       author: currentUser.id,
       content: ticket.comment,
-      private: ticket.privateComment,
+      private: false,
     };
 
     const ticketSubmit = {
@@ -37,8 +37,8 @@ function AgentTicketForm({ formTitle, handleSubmitCb, createForm }) {
       requester: currentUser.id,
       comment: addComment.content ? addComment : null,
       status,
-      title: ticket.title,
-      description: ticket.description,
+      title: ticket.title === '' ? undefined : ticket.title,
+      description: ticket.description === '' ? undefined : ticket.description,
     };
 
     handleSubmitCb(ticketSubmit);
@@ -89,20 +89,22 @@ function AgentTicketForm({ formTitle, handleSubmitCb, createForm }) {
             sx={{ padding: '0', minWidth: '300px' }}
           />
         </Container>
-        <Container sx={{ width: '100%', padding: '0' }}>
-          <TextField
-            required={createForm}
-            fullWidth
-            variant="outlined"
-            type="text"
-            id="Description"
-            label="Description"
-            name="description"
-            value={ticket.description}
-            onChange={handleOnChange}
-            sx={{ padding: '0', minWidth: '300px' }}
-          />
-        </Container>
+        {createForm && (
+          <Container sx={{ width: '100%', padding: '0' }}>
+            <TextField
+              required={createForm}
+              fullWidth
+              variant="outlined"
+              type="text"
+              id="Description"
+              label="Description"
+              name="description"
+              value={ticket.description}
+              onChange={handleOnChange}
+              sx={{ padding: '0', minWidth: '300px' }}
+            />
+          </Container>
+        )}
         <Container sx={{ width: '100%', padding: '0' }}>
           <TextField
             fullWidth

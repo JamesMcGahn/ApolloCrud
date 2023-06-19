@@ -47,8 +47,8 @@ function AgentTicketForm({ formTitle, handleSubmitCb, createForm }) {
       requester: requester?.id,
       comment: addComment.content ? addComment : null,
       status,
-      title: ticket.title,
-      description: ticket.description,
+      title: ticket.title === '' ? undefined : ticket.title,
+      description: ticket.description === '' ? undefined : ticket.description,
     };
 
     handleSubmitCb(ticketSubmit);
