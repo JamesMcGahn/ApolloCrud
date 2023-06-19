@@ -26,6 +26,7 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="/customer" element={<CustomerHome />} />
             <Route path="/customer/dashboard" element={<CustomerDashboard />} />
+            <Route path="/customer/dashboard/ticket/:id" element={<Ticket />} />
           </Route>
 
           <Route path="/login" element={<Login />} />

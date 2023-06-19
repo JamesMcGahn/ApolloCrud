@@ -8,9 +8,14 @@
 - User Create
 - ~~User Dashboard~~
 - Search Tickets
-
+- Add Ticket fields
+  - Priority
+  -
+- BreadCrumbs
+  - Ticket page Customer
 
 ## Feature Ideas
+
 - Add User Company Model
   - CRUD
 - Public Homepage

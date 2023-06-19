@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import * as React from 'react';
 import Box from '@mui/material/Box';
+import { useQuery } from '@apollo/client';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -17,6 +18,7 @@ import TicketTableToolbar from './tables/TicketTableToolbar';
 import PopModal from './ui/PopModal';
 import BulkTicketEdit from './forms/BulkTicketEdit';
 import convert2FullDateTime from '../utils/convert2FullDateTime';
+import loggedInUserQ from '../graphql/queries/loggedInUser';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -59,6 +61,8 @@ export default function TicketTable({ data }) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [open, setOpen] = React.useState(false);
+
+  const { data: userData } = useQuery(loggedInUserQ);
 
   if (!tickets || tickets?.length === 0) {
     return (
@@ -181,7 +185,13 @@ export default function TicketTable({ data }) {
                       scope="row"
                       padding="none"
                     >
-                      <Link to={`/agent/dashboard/ticket/${row.id}`}>
+                      <Link
+                        to={
+                          userData.currentUser.role === 'user'
+                            ? `/customer/dashboard/ticket/${row.id}`
+                            : `/agent/dashboard/ticket/${row.id}`
+                        }
+                      >
                         {row.id}
                       </Link>
                     </TableCell>
