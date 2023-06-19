@@ -13,6 +13,10 @@ import {
 import { loginUser, signOut, currentUser } from './resolvers/authResolvers.mjs';
 import { createAUser } from './resolvers/userResolver.mjs';
 import { getUsers } from './resolvers/usersResolvers.mjs';
+import {
+  createCompany,
+  updateACompany,
+} from './resolvers/companyResolvers.mjs';
 
 const resolvers = {
   Query: {
@@ -28,6 +32,8 @@ const resolvers = {
     updateTickets: bulkUpdateTickets,
     deleteTicket: deleteTicket,
     createUser: createAUser,
+    createCompany: createCompany,
+    updateCompany: updateACompany,
     loginUser: loginUser,
     signOut: signOut,
   },

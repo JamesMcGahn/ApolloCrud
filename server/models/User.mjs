@@ -7,9 +7,15 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    company: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Company',
+    },
     email: {
       type: String,
       required: true,
+      unique: true,
+      lowercase: true,
     },
     password: {
       type: String,
@@ -35,6 +41,13 @@ const UserSchema = new mongoose.Schema(
   },
   { timestamps: true },
 );
+
+UserSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'company',
+  });
+  next();
+});
 
 UserSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();

@@ -23,6 +23,7 @@ const typeDefs = `#graphQL
 
   type userInfo {
     id: ID!
+    company: userCompany
     name: String!
     email: String!
     role: String!
@@ -68,17 +69,59 @@ const typeDefs = `#graphQL
     passwordConfirm: String!
   }
 
+   input updateUser {
+    name: String!
+    email: String!
+    company: ID
+  }
+
   input loginUser {
     email: String!
     password: String!
   }
 
+  type userCompany {
+    id: ID!
+    name: String!
+  }
+
   type user {
     id: ID!
+    company: userCompany
     name: String!
     email: String!
     role: String!
     token: String
+  }
+
+  enum ServiceLevelType {
+      Small
+      Medium
+      Large
+      Enterprise
+    }
+
+
+  type company {
+    id: ID!
+    name: String!
+    users: [userInfo]
+    notes: String
+    level: ServiceLevelType
+  }
+
+  input newCompany {
+    name: String!
+    users: [ID]
+    notes: String
+    level: ServiceLevelType
+  }
+
+  input updateCompany {
+    name: String
+    users: [ID]
+    notes: String
+    level: ServiceLevelType
   }
 
   type Query {
@@ -95,6 +138,8 @@ const typeDefs = `#graphQL
     updateTickets(ids: [ID!], updateTickets: updateTicket): [Ticket!]
     deleteTicket(id: ID!): Ticket!
     createUser(createUser: createUser!): user!
+    createCompany(newCompany: newCompany!): company!
+    updateCompany(id: ID!, updateCompany: updateCompany!): company!
     loginUser(loginUser: loginUser!): user!
     signOut: Boolean!
   }
