@@ -12,6 +12,7 @@ import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 import Container from '@mui/material/Container';
 import Card from '@mui/material/Card';
+import Chip from '@mui/material/Chip';
 import CardContent from '@mui/material/CardContent';
 import TicketTableHead from './tables/TableHead';
 import TicketTableToolbar from './tables/TicketTableToolbar';
@@ -130,6 +131,14 @@ export default function TicketTable({ data }) {
     getComparator(order, orderBy),
   ).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
+  const chipColor = {
+    New: 'primary',
+    Open: 'warning',
+    Pending: 'secondary',
+    Blocked: 'error',
+    Closed: 'info',
+  };
+
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
@@ -205,7 +214,9 @@ export default function TicketTable({ data }) {
 
                     <TableCell align="left">{row.requester?.name}</TableCell>
                     <TableCell align="left">{row.assignee?.name}</TableCell>
-                    <TableCell align="left">{row.status}</TableCell>
+                    <TableCell align="left">
+                      <Chip label={row.status} color={chipColor[row.status]} />
+                    </TableCell>
                   </TableRow>
                 );
               })}
