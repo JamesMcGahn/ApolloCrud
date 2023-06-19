@@ -1,30 +1,34 @@
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import createATicket from '../../graphql/mutations/createATicket';
-import getTickets from '../../graphql/queries/getTickets';
-import TicketForm from './TicketForm';
+import AgentTicketForm from './AgentTicketForm';
+import loggedInUserQ from '../../graphql/queries/loggedInUser';
+import CusTicketForm from './CusTicketForm';
 
 function CreateTicketForm({ closeModal }) {
+  const navigate = useNavigate();
+  const {
+    data: { currentUser },
+  } = useQuery(loggedInUserQ);
+
   const [creatTicket] = useMutation(createATicket, {
     onCompleted: (data) => {
+      const ticket = data.createTicket;
+
       toast.success('Ticket Created', {
         theme: 'colored',
       });
       closeModal(false);
+      navigate(
+        currentUser.role === 'user'
+          ? `/customer/dashboard/ticket/${ticket.id}`
+          : `/agent/dashboard/ticket/${ticket.id}`,
+      );
     },
     onError(err) {
-      console.log(err);
       toast.error(err.message, {
         theme: 'colored',
-      });
-    },
-    update(cache, data) {
-      const cacheTickets = cache.readQuery({ query: getTickets });
-      const { tickets } = cacheTickets;
-
-      cache.writeQuery({
-        query: getTickets,
-        data: { tickets: [...tickets, data.data.createTicket] },
       });
     },
   });
@@ -46,11 +50,22 @@ function CreateTicketForm({ closeModal }) {
   };
 
   return (
-    <TicketForm
-      handleSubmitCb={handleSubmit}
-      formTitle="Create Ticket."
-      createForm
-    />
+    // trunk-ignore(eslint/react/jsx-no-useless-fragment)
+    <>
+      {currentUser.role === 'user' ? (
+        <CusTicketForm
+          handleSubmitCb={handleSubmit}
+          formTitle="Create Ticket."
+          createForm
+        />
+      ) : (
+        <AgentTicketForm
+          handleSubmitCb={handleSubmit}
+          formTitle="Create Ticket."
+          createForm
+        />
+      )}
+    </>
   );
 }
 export default CreateTicketForm;

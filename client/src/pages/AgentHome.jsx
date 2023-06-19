@@ -1,14 +1,16 @@
 import { useQuery } from '@apollo/client';
 import AgentLayout from '../components/layout/AgentLayout';
 import getTickets from '../graphql/queries/getTickets';
-import TicketTable from '../components/TicketTable';
+import TicketTabPanel from '../components/navs/TicketTabPanel';
 
 function AgentHome() {
   const { loading, data } = useQuery(getTickets);
 
   return (
     <AgentLayout>
-      {!loading && <TicketTable data={data?.tickets} />}
+      {!loading && (
+        <TicketTabPanel ticketData={data?.tickets} loading={loading} />
+      )}
     </AgentLayout>
   );
 }

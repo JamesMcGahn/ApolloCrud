@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -18,14 +18,16 @@ import { useQuery, useMutation } from '@apollo/client';
 import loggedInUserQ from '../../graphql/queries/loggedInUser';
 import signOutQ from '../../graphql/mutations/signOut';
 import client from '../../graphql/apollo';
+import PopModal from '../ui/PopModal';
+import CreateTicketForm from '../forms/CreateTicketForm';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 
 function CustomerNav() {
   const navigate = useNavigate();
-
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
   const { data, loading: cULoading } = useQuery(loggedInUserQ);
   const [signOut] = useMutation(signOutQ, {
     onCompleted: async () => {
@@ -34,7 +36,6 @@ function CustomerNav() {
     },
   });
 
-  console.log(data);
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -181,16 +182,15 @@ function CustomerNav() {
 
           {!cULoading && data?.currentUser && (
             <>
-              <Box sx={{ flexGrow: 0 }}>
-                <MenuItem onClick={handleCloseNavMenu}>
-                  <Link
-                    to={`/${
-                      data?.currentUser === 'user' ? 'customer' : 'agent'
-                    }/dashboard`}
-                  >
-                    <Typography textAlign="center">Tickets</Typography>
-                  </Link>
-                </MenuItem>
+              <Box sx={{ flexGrow: 0, padding: '0 1.5rem' }}>
+                <PopModal
+                  buttonText="New Ticket"
+                  open={modalOpen}
+                  setOpen={setModalOpen}
+                  buttonSx={{ color: 'white', borderColor: 'white' }}
+                >
+                  <CreateTicketForm closeModal={setModalOpen} />
+                </PopModal>
               </Box>
               <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">

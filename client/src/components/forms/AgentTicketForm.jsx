@@ -12,14 +12,14 @@ import getAllUsers from '../../graphql/queries/getAllUser';
 import loggedInUserQ from '../../graphql/queries/loggedInUser';
 import Spinner from '../ui/LoadingSpinner';
 
-function TicketForm({ formTitle, handleSubmitCb, createForm }) {
+function AgentTicketForm({ formTitle, handleSubmitCb, createForm }) {
   const { data: usersData, loading: usersLoading } = useQuery(getAllUsers);
   const [assignee, setAssignee] = useState();
   const [requester, setRequester] = useState();
   const [ticket, setTicket] = useState({
-    title: undefined,
-    description: undefined,
-    comment: undefined,
+    title: '',
+    description: '',
+    comment: '',
     privateComment: false,
   });
 
@@ -161,11 +161,18 @@ function TicketForm({ formTitle, handleSubmitCb, createForm }) {
             sx={{ padding: '0', minWidth: '300px' }}
           />
         </Container>
-        <Container sx={{ maxWidth: '150px', marginTop: '1rem' }}>
+        <Container
+          sx={{
+            maxWidth: '150px',
+            marginTop: '1rem',
+            display: 'flex',
+            justifyContent: 'right',
+          }}
+        >
           <PopMenuButton handleSubmit={handleSubmit} />
         </Container>
       </Box>
     </Container>
   );
 }
-export default TicketForm;
+export default AgentTicketForm;

@@ -6,13 +6,16 @@
 
 - App Styling
 - User Create
-- ~~User Dashboard~~
+- ~~User Ticket Dashboard~~
 - Search Tickets
 - Add Ticket fields
   - Priority
-  -
 - BreadCrumbs
-  - Ticket page Customer
+  - Ticket page Customer / Agent
+- ~~Status chip for ticket table~~
+- Protect ticket graphlql q/m
+- ~~Fix Customer Bulk Ticket Update~~
+- Fix Padding in Arrow in Status Selection List
 
 ## Feature Ideas
 
