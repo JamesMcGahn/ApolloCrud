@@ -3,7 +3,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 import loggedInUserQ from '../../graphql/queries/loggedInUser';
 import Spinner from '../ui/LoadingSpinner';
 
-const ProtectedRoute = ({ children, allowedUser }) => {
+const ProtectedRoute = ({ allowedUser }) => {
   const { loading, data } = useQuery(loggedInUserQ);
 
   if (loading) {
@@ -18,7 +18,7 @@ const ProtectedRoute = ({ children, allowedUser }) => {
     return <Navigate to="/customer" />;
   }
 
-  return children || <Outlet />;
+  return <Outlet />;
 };
 
 export default ProtectedRoute;

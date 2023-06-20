@@ -1,4 +1,5 @@
 import React from 'react';
+import { RouterProvider } from 'react-router-dom';
 import ReactDOM from 'react-dom/client';
 import { ThemeProvider } from '@mui/material/styles';
 import { ApolloProvider } from '@apollo/client';
@@ -17,7 +18,7 @@ root.render(
       <TixHistoryProvider>
         <TixDashTabsProvider>
           <ThemeProvider theme={muiTheme}>
-            <App />
+            <RouterProvider router={App} />
           </ThemeProvider>
         </TixDashTabsProvider>
       </TixHistoryProvider>
