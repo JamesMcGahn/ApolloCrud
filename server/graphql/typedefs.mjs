@@ -121,6 +121,13 @@ const typeDefs = `#graphQL
     level: ServiceLevelType
   }
 
+  type companyInfo {
+    id: ID!
+    name: String!
+    notes: String
+    level: ServiceLevelType
+  }
+
   input newCompany {
     name: String!
     users: [ID]
@@ -140,6 +147,7 @@ const typeDefs = `#graphQL
     ticket(id: ID!): Ticket!
     myTickets(userId: ID!, status: [StatusType]): [Ticket!]
     users: [userInfo!]
+    companies: [companyInfo!]
     currentUser: userInfo!
   }
 

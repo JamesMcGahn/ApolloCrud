@@ -17,6 +17,7 @@ import {
   createCompany,
   updateACompany,
 } from './resolvers/companyResolvers.mjs';
+import { getAllCompanies } from './resolvers/companiesResolvers.mjs';
 
 const resolvers = {
   Query: {
@@ -25,6 +26,7 @@ const resolvers = {
     myTickets: myTickets,
     users: getUsers,
     currentUser: currentUser,
+    companies: getAllCompanies,
   },
   Mutation: {
     createTicket: createTicket,

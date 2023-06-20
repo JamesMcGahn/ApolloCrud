@@ -1,5 +1,18 @@
+import { GraphQLError } from 'graphql';
 import Company from '../../models/Company.mjs';
 import User from '../../models/User.mjs';
+
+const getAllCompanies = async (_, args, context) => {
+  const { user } = context;
+  if (!user || user.role === 'user') {
+    throw new GraphQLError('You dont have permission to view', {
+      extensions: {
+        code: 'FORBIDDEN',
+      },
+    });
+  }
+  return await Company.find().populate('users');
+};
 
 const createCompany = async (_, args) => {
   const { newCompany } = args;
@@ -45,4 +58,4 @@ const updateACompany = async (_, args) => {
   ).populate('users');
 };
 
-export { createCompany, updateACompany };
+export { createCompany, updateACompany, getAllCompanies };

@@ -224,9 +224,15 @@ function CustomerNav() {
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
-                  <MenuItem onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">Profile</Typography>
-                  </MenuItem>
+                  <Link
+                    to={`/${
+                      data?.currentUser.role === 'user' ? 'customer' : 'agent'
+                    }/profile`}
+                  >
+                    <MenuItem onClick={handleCloseUserMenu}>
+                      <Typography textAlign="center">Profile</Typography>
+                    </MenuItem>
+                  </Link>
                   <MenuItem onClick={handleCloseUserMenu}>
                     <Link
                       to={`/${
