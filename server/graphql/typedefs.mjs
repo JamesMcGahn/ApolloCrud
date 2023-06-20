@@ -147,6 +147,7 @@ const typeDefs = `#graphQL
     ticket(id: ID!): Ticket!
     myTickets(userId: ID!, status: [StatusType]): [Ticket!]
     users: [userInfo!]
+    user(id: ID!): userInfo!
     companies: [companyInfo!]
     currentUser: userInfo!
   }

@@ -11,7 +11,11 @@ import {
   deleteTicket,
 } from './resolvers/ticketResolvers.mjs';
 import { loginUser, signOut, currentUser } from './resolvers/authResolvers.mjs';
-import { createAUser, updateAUser } from './resolvers/userResolver.mjs';
+import {
+  createAUser,
+  updateAUser,
+  getUser,
+} from './resolvers/userResolver.mjs';
 import { getUsers } from './resolvers/usersResolvers.mjs';
 import {
   createCompany,
@@ -25,6 +29,7 @@ const resolvers = {
     ticket: getTicket,
     myTickets: myTickets,
     users: getUsers,
+    user: getUser,
     currentUser: currentUser,
     companies: getAllCompanies,
   },

@@ -3,6 +3,29 @@ import User from '../../models/User.mjs';
 import signToken from '../../utils/signToken.mjs';
 import Company from '../../models/Company.mjs';
 
+const getUser = async (_, args, context) => {
+  const { id } = args;
+  const { user } = context;
+
+  if (user.role === 'user' && id !== user.id) {
+    throw new GraphQLError('You dont have permission to view', {
+      extensions: {
+        code: 'FORBIDDEN',
+      },
+    });
+  }
+  const foundUser = await User.findById(args.id);
+  if (!foundUser) {
+    throw new GraphQLError('Cant Find That ID', {
+      extenstions: {
+        code: 'BAD_USER_INPUT',
+      },
+    });
+  }
+
+  return foundUser;
+};
+
 const createAUser = async (_, args) => {
   const { createUser } = args;
 
@@ -41,8 +64,7 @@ const updateAUser = async (_, args, context) => {
   if (user.id !== id && user.role === 'user') {
     throw new GraphQLError('You dont have permission to view', {
       extensions: {
-        code: 'UNAUTHENTICATED',
-        http: { status: 401 },
+        code: 'FORBIDDEN',
       },
     });
   }
@@ -50,8 +72,7 @@ const updateAUser = async (_, args, context) => {
   if (updateUser?.role && user.role !== 'admin') {
     throw new GraphQLError('You dont have permission to update roles.', {
       extensions: {
-        code: 'UNAUTHENTICATED',
-        http: { status: 401 },
+        code: 'FORBIDDEN',
       },
     });
   }
@@ -59,8 +80,7 @@ const updateAUser = async (_, args, context) => {
   if (updateUser.company && user.role === 'user') {
     throw new GraphQLError('You dont have permission to update companies.', {
       extensions: {
-        code: 'UNAUTHENTICATED',
-        http: { status: 401 },
+        code: 'FORBIDDEN',
       },
     });
   }
@@ -78,4 +98,4 @@ const updateAUser = async (_, args, context) => {
   } else await User.findByIdAndUpdate(id, updateUser, { runValidators: true });
   return await User.findById(id);
 };
-export { createAUser, updateAUser };
+export { createAUser, updateAUser, getUser };
