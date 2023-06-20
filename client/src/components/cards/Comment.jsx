@@ -5,7 +5,7 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { green, blue } from '@mui/material/colors';
 import Chip from '@mui/material/Chip';
-import convert2FullDateTime from '../utils/convert2FullDateTime';
+import convert2FullDateTime from '../../utils/convert2FullDateTime';
 
 function Comment({ comment }) {
   return (

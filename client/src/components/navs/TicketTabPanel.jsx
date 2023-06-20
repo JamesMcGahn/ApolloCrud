@@ -5,7 +5,7 @@ import AppBar from '@mui/material/AppBar';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import TicketTable from '../TicketTable';
+import TicketTable from '../tables/TicketTable/TicketTable';
 import { TixDashTabContext } from '../../context/TixDashTabsContext';
 
 function TabPanel({ children, value, index, ...other }) {

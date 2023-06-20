@@ -14,12 +14,12 @@ import Container from '@mui/material/Container';
 import Card from '@mui/material/Card';
 import Chip from '@mui/material/Chip';
 import CardContent from '@mui/material/CardContent';
-import TicketTableHead from './tables/TableHead';
-import TicketTableToolbar from './tables/TicketTableToolbar';
-import PopModal from './ui/PopModal';
-import BulkTicketEdit from './forms/BulkTicketEdit';
-import convert2FullDateTime from '../utils/convert2FullDateTime';
-import loggedInUserQ from '../graphql/queries/loggedInUser';
+import TicketTableHead from './TableHead';
+import TicketTableToolbar from './TicketTableToolbar';
+import PopModal from '../../ui/PopModal';
+import BulkTicketEdit from '../../forms/BulkTicketEdit';
+import convert2FullDateTime from '../../../utils/convert2FullDateTime';
+import loggedInUserQ from '../../../graphql/queries/loggedInUser';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {

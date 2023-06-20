@@ -16,7 +16,7 @@ import Spinner from '../ui/LoadingSpinner';
 import PopMenuButton from '../ui/PopMenuButton';
 import UserSelectionList from '../ui/UserSelectionList';
 import getAllUsers from '../../graphql/queries/getAllUser';
-import Comment from '../Comment';
+import Comment from '../cards/Comment';
 import ScrollDrawer from '../ui/ScrollDrawer';
 import convert2FullDateTime from '../../utils/convert2FullDateTime';
 

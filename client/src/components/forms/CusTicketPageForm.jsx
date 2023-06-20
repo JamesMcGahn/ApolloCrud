@@ -11,7 +11,7 @@ import { toast } from 'react-toastify';
 import loggedInUserQ from '../../graphql/queries/loggedInUser';
 import updateATicket from '../../graphql/mutations/updateTicket';
 import PopMenuButton from '../ui/PopMenuButton';
-import Comment from '../Comment';
+import Comment from '../cards/Comment';
 import ScrollDrawer from '../ui/ScrollDrawer';
 import convert2FullDateTime from '../../utils/convert2FullDateTime';
 

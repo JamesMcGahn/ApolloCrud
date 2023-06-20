@@ -32,7 +32,6 @@ function Profile() {
           handleSubmit={handleUpdate}
           user={updateData?.updateUser || data.currentUser}
           agent={data.currentUser.role !== 'user'}
-          key={'profile-form'}
         />
       )}
     </CustomerLayout>
