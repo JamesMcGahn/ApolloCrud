@@ -5,7 +5,19 @@ import Company from '../../models/Company.mjs';
 
 const createAUser = async (_, args) => {
   const { createUser } = args;
-  const newUser = await User.create(createUser);
+
+  const cusDomain = createUser.email.split('@')[1];
+
+  const company = await Company.findOne({ domain: cusDomain });
+  let newUser;
+
+  if (company) {
+    newUser = await User.create({ ...createUser, company: company.id });
+    company.users.addToSet(newUser.id);
+    await company.save();
+  } else {
+    newUser = await User.create({ ...createUser });
+  }
 
   const createdUser = {
     id: newUser._id,

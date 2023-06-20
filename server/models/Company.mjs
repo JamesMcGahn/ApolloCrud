@@ -12,6 +12,10 @@ const CompanySchema = new mongoose.Schema(
         ref: 'User',
       },
     ],
+    domain: {
+      type: String,
+      unique: true,
+    },
     notes: {
       type: String,
     },

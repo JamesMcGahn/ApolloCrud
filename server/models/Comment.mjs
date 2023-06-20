@@ -22,7 +22,6 @@ const CommentSchema = new mongoose.Schema(
 CommentSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'author',
-    select: '-__v -passwordConfirm',
   });
   next();
 });
