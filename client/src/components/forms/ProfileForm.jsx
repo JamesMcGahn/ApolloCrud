@@ -49,7 +49,7 @@ function ProfileForm({ handleSubmit, user, agent }) {
           >
             <Avatar
               sx={{
-                bgcolor: green[500] || blue[500],
+                bgcolor: userInfo.role === 'user' ? green[500] : blue[500],
                 width: 85,
                 height: 85,
               }}
