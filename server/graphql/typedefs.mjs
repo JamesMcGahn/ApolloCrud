@@ -21,12 +21,19 @@ const typeDefs = `#graphQL
     Closed
   }
 
+  enum RolesType {
+    user
+    agent
+    lead
+    admin
+  }
+
   type userInfo {
     id: ID!
     company: userCompany
     name: String!
     email: String!
-    role: String!
+    role: RolesType!
   }
 
   type Comment {
@@ -68,10 +75,14 @@ const typeDefs = `#graphQL
     password: String!
     passwordConfirm: String!
   }
-
+ input updateUser {
+    name: String
+    email: String
+    role: RolesType
+  }
    input updateUser {
-    name: String!
-    email: String!
+    name: String
+    email: String
     company: ID
   }
 
@@ -90,7 +101,7 @@ const typeDefs = `#graphQL
     company: userCompany
     name: String!
     email: String!
-    role: String!
+    role: RolesType!
     token: String
   }
 
@@ -138,6 +149,7 @@ const typeDefs = `#graphQL
     updateTickets(ids: [ID!], updateTickets: updateTicket): [Ticket!]
     deleteTicket(id: ID!): Ticket!
     createUser(createUser: createUser!): user!
+    updateUser(id: ID!, updateUser: updateUser!):user!
     createCompany(newCompany: newCompany!): company!
     updateCompany(id: ID!, updateCompany: updateCompany!): company!
     loginUser(loginUser: loginUser!): user!

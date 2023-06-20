@@ -18,7 +18,7 @@ const CompanySchema = new mongoose.Schema(
     level: {
       type: String,
       enum: ['Small', 'Medium', 'Large', 'Enterprise'],
-      default: 'small',
+      default: 'Small',
     },
   },
   { timestamps: true },
