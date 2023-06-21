@@ -26,7 +26,7 @@ import loggedInUserQ from '../../graphql/queries/loggedInUser';
 import signOutQ from '../../graphql/mutations/signOut';
 import client from '../../graphql/apollo';
 import LinkRouter from '../utils/LinkRouter';
-
+import { ReactComponent as ApolloLogo } from '../../assets/svgs/ApolloTicketsNameNLogo.svg';
 const drawerWidth = 240;
 
 const Search = styled('div')(({ theme }) => ({
@@ -172,10 +172,16 @@ export default function DashboardLayout({ children, list, dwrDefOpen }) {
               display: 'flex',
             }}
           >
-            <Box sx={{ width: '45%' }}>
-              <Typography variant="h6" noWrap component="div">
-                Ticketing
-              </Typography>
+            <Box sx={{ width: '45%', display: 'flex' }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  minHeight: '3vh',
+                  maxWidth: { sm: '20vw', md: '15vw' },
+                }}
+              >
+                <ApolloLogo style={{ minHeight: '3vh' }} />
+              </Box>
             </Box>
             <Box sx={{ minWidth: '20vw' }}>
               <Search>

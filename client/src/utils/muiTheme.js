@@ -7,6 +7,9 @@ const muiTheme = createTheme({
       main: grey[500],
     },
   },
+  typography: {
+    fontFamily: ['Average Sans', 'sans-serif'].join(','),
+  },
 });
 
 export default muiTheme;

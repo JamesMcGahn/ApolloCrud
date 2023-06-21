@@ -9,6 +9,7 @@ import App from './App';
 import { TixDashTabsProvider } from './context/TixDashTabsContext';
 import { TixHistoryProvider } from './context/TixHistoryContext';
 import muiTheme from './utils/muiTheme';
+import '@fontsource/average-sans';
 
 // trunk-ignore(eslint/no-undef)
 const root = ReactDOM.createRoot(document.getElementById('root'));

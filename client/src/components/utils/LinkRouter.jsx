@@ -17,7 +17,7 @@ function LinkRouter({
       to={to}
       key={key}
       component={RouterLink}
-      onclick={onClick}
+      onClick={onClick}
       sx={sx}
     >
       {children}

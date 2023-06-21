@@ -21,6 +21,7 @@ import client from '../../graphql/apollo';
 import PopModal from '../ui/PopModal';
 import CreateTicketForm from '../forms/CreateTicketForm';
 import LinkRouter from '../utils/LinkRouter';
+import { ReactComponent as ApolloLogo } from '../../assets/svgs/ApolloTicketsNameNLogo.svg';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 
@@ -61,25 +62,17 @@ function CustomerNav() {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="/"
+          <Box
             sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
+              display: 'flex',
+              flexGrow: 0,
+              minHeight: { xs: '0', md: '7vh', lg: '7vh' },
+              minWidth: { xs: '0', md: '15vw', lg: '13vw' },
+              '& svg': { display: { xs: 'none', md: 'flex' } },
             }}
           >
-            LOGO
-          </Typography>
-
+            <ApolloLogo style={{ maxHeight: '10vh' }} />
+          </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -91,6 +84,15 @@ function CustomerNav() {
             >
               <MenuIcon />
             </IconButton>
+            <Box
+              sx={{
+                maxHeight: '10vh',
+                minWidth: '20vw',
+                display: { xs: 'flex', md: 'none' },
+              }}
+            >
+              <ApolloLogo style={{ maxHeight: '20vh' }} />
+            </Box>
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
@@ -116,25 +118,7 @@ function CustomerNav() {
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href=""
-            sx={{
-              mr: 2,
-              display: { xs: 'flex', md: 'none' },
-              flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            LOGO
-          </Typography>
+
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
