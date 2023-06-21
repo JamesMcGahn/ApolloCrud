@@ -2,8 +2,9 @@ import { GraphQLError } from 'graphql';
 import Company from '../../models/Company.mjs';
 import User from '../../models/User.mjs';
 
-const getAllCompanies = async (_, args, context) => {
+const getCompany = async (_, args, context) => {
   const { user } = context;
+  const { id } = args;
   if (!user || user.role === 'user') {
     throw new GraphQLError('You dont have permission to view', {
       extensions: {
@@ -11,7 +12,16 @@ const getAllCompanies = async (_, args, context) => {
       },
     });
   }
-  return await Company.find().populate('users');
+
+  const foundCompany = await Company.findById(id).populate('users');
+  if (!foundCompany) {
+    throw new GraphQLError('We cant find that company.', {
+      extensions: {
+        code: 'BAD_USER_INPUT',
+      },
+    });
+  }
+  return foundCompany;
 };
 
 const createCompany = async (_, args) => {
@@ -58,4 +68,4 @@ const updateACompany = async (_, args) => {
   ).populate('users');
 };
 
-export { createCompany, updateACompany, getAllCompanies };
+export { createCompany, updateACompany, getCompany };

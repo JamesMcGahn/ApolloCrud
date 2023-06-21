@@ -34,6 +34,7 @@ const typeDefs = `#graphQL
     name: String!
     email: String!
     role: RolesType!
+    isActive: Boolean!
   }
 
   type Comment {
@@ -78,13 +79,11 @@ const typeDefs = `#graphQL
  input updateUser {
     name: String
     email: String
-    role: RolesType
-  }
-   input updateUser {
-    name: String
-    email: String
     company: ID
+    role: RolesType
+    isActive: Boolean
   }
+
 
   input loginUser {
     email: String!
@@ -101,6 +100,7 @@ const typeDefs = `#graphQL
     company: userCompany
     name: String!
     email: String!
+    isActive: Boolean!
     role: RolesType!
     token: String
   }
@@ -128,6 +128,7 @@ const typeDefs = `#graphQL
     level: ServiceLevelType
   }
 
+
   input newCompany {
     name: String!
     users: [ID]
@@ -149,6 +150,7 @@ const typeDefs = `#graphQL
     users: [userInfo!]
     user(id: ID!): userInfo!
     companies: [companyInfo!]
+    company(id: ID!): company!
     currentUser: userInfo!
   }
 

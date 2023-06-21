@@ -18,6 +18,7 @@ import {
 } from './resolvers/userResolver.mjs';
 import { getUsers } from './resolvers/usersResolvers.mjs';
 import {
+  getCompany,
   createCompany,
   updateACompany,
 } from './resolvers/companyResolvers.mjs';
@@ -32,6 +33,7 @@ const resolvers = {
     user: getUser,
     currentUser: currentUser,
     companies: getAllCompanies,
+    company: getCompany,
   },
   Mutation: {
     createTicket: createTicket,

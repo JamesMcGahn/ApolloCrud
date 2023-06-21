@@ -10,7 +10,7 @@ const getAllCompanies = async (_, args, context) => {
       },
     });
   }
-  return await Company.find().populate('users');
+  return await Company.find();
 };
 
 // trunk-ignore(eslint/import/prefer-default-export)

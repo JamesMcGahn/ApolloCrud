@@ -38,6 +38,10 @@ const UserSchema = new mongoose.Schema(
       enum: ['user', 'agent', 'lead', 'admin'],
       default: 'user',
     },
+    isActive: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true },
 );

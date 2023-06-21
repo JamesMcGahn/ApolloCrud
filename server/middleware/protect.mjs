@@ -20,7 +20,9 @@ const protect = async (req, res) => {
 
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
   const user = await User.findById(decoded.id);
-
+  if (!user.isActive) {
+    return false;
+  }
   return user;
 };
 
