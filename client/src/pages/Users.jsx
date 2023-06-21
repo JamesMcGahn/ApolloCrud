@@ -18,6 +18,7 @@ const Users = () => {
         cell2: user?.company?.name || 'No Company Assigned',
         cell3: user.role,
         cell4: user.email,
+        cell5: user.isActive ? 'Active' : 'Disabled',
       }))
     : [];
 
@@ -45,6 +46,12 @@ const Users = () => {
       numeric: false,
       disablePadding: false,
       label: 'Email',
+    },
+    {
+      id: 'cell5',
+      numeric: false,
+      disablePadding: false,
+      label: 'Active:',
     },
   ];
 
@@ -76,7 +83,7 @@ const Users = () => {
             <InfoDisplayTable
               rows={rows}
               heads={headCells}
-              numCellPerRow={4}
+              numCellPerRow={5}
               cellLink="/agent/dashboard/users/"
             />
           )}

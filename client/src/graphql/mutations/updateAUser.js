@@ -11,6 +11,7 @@ const updateAUser = gql`
       id
       name
       role
+      isActive
     }
   }
 `;

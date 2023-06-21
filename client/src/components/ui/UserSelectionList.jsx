@@ -29,11 +29,13 @@ export default function UserSelectionList({
   cb,
   label,
   assignee,
+  valueBy = 'email',
+  sxStyles = { m: 1, width: '300px', mt: 3 },
 }) {
   const theme = useTheme();
   const [personName, setPersonName] = React.useState(defaultValue || '');
 
-  const { users } = selectionList;
+  const users = selectionList?.users || selectionList;
 
   const handleChange = (event) => {
     const {
@@ -41,7 +43,7 @@ export default function UserSelectionList({
     } = event;
 
     if (cb) {
-      const usr = users.filter((userL) => userL.email === value);
+      const usr = users.filter((userL) => userL[valueBy] === value);
       cb(usr[0]);
     }
     setPersonName(typeof value === 'string' ? value.split(',') : value);
@@ -49,7 +51,7 @@ export default function UserSelectionList({
 
   return (
     <div>
-      <FormControl sx={{ m: 1, width: '300px', mt: 3 }}>
+      <FormControl sx={sxStyles}>
         <Select
           displayEmpty
           value={personName}
@@ -69,10 +71,10 @@ export default function UserSelectionList({
               <MenuItem
                 key={name.id}
                 name={name.id}
-                value={name.email}
+                value={name[valueBy]}
                 style={getStyles(theme)}
               >
-                {name.email}
+                {name[valueBy]}
               </MenuItem>
             );
           })}

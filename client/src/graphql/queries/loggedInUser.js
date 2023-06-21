@@ -11,6 +11,7 @@ const loggedInUser = gql`
       id
       name
       role
+      isActive
     }
   }
 `;

@@ -11,6 +11,7 @@ const getAllUsers = gql`
       id
       name
       role
+      isActive
     }
   }
 `;

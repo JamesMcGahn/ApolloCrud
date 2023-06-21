@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import { useQuery, useMutation } from '@apollo/client';
 import CustomerLayout from '../components/layout/CustomerLayout';
 import loggedInUserQ from '../graphql/queries/loggedInUser';
@@ -11,6 +12,16 @@ function Profile() {
   const [updateUser, { loading: updateLoading, data: updateData }] =
     useMutation(updateAUser, {
       refetchQueries: [{ query: loggedInUserQ }],
+      onCompleted: (udata) => {
+        toast.success(`User ${udata.updateUser.name} Updated`, {
+          theme: 'colored',
+        });
+      },
+      onError(err) {
+        toast.error(err.message, {
+          theme: 'colored',
+        });
+      },
     });
 
   const handleUpdate = (user) => {
@@ -31,7 +42,6 @@ function Profile() {
         <ProfileForm
           handleSubmit={handleUpdate}
           user={updateData?.updateUser || data.currentUser}
-          agent={data?.currentUser.role}
         />
       )}
     </CustomerLayout>
