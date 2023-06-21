@@ -2,7 +2,6 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
   Route,
-  Link,
 } from 'react-router-dom';
 import Home from './pages/Home';
 import CustomerHome from './pages/CustomerHome';

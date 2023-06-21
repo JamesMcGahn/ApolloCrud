@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -11,6 +11,7 @@ import DashboardLayout from './DashboardLayout';
 import { TixDashTabContext } from '../../context/TixDashTabsContext';
 import TicketHistoryNav from '../navs/TicketHistoryNav';
 import BreadCrumbs from '../navs/BreadCrumbs';
+import LinkRouter from '../utils/LinkRouter';
 
 function Layout({ children }) {
   const location = useLocation();
@@ -29,7 +30,7 @@ function Layout({ children }) {
       list={
         <>
           <List>
-            <Link to="/agent/dashboard">
+            <LinkRouter to="/agent/dashboard" underline="none">
               <ListItem disablePadding>
                 <ListItemButton>
                   <ListItemIcon>
@@ -38,7 +39,7 @@ function Layout({ children }) {
                   <ListItemText primary="All Tickets" />
                 </ListItemButton>
               </ListItem>
-            </Link>
+            </LinkRouter>
           </List>
           <Divider />
           <List>
@@ -46,7 +47,8 @@ function Layout({ children }) {
               <ListItemText primary="My Tickets" />
             </ListItem>
             {tabStatuses.map((status, i) => (
-              <Link
+              <LinkRouter
+                underline="none"
                 to="/agent/dashboard/mytickets/"
                 key={`${status}-nav-item`}
                 onClick={() => handleOnClick(i)}
@@ -59,7 +61,7 @@ function Layout({ children }) {
                     <ListItemText primary={status} />
                   </ListItemButton>
                 </ListItem>
-              </Link>
+              </LinkRouter>
             ))}
           </List>
         </>

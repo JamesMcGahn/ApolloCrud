@@ -1,5 +1,3 @@
-import { Link as RouterLink } from 'react-router-dom';
-import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
@@ -7,6 +5,7 @@ import { useQuery } from '@apollo/client';
 import useBreadcrumbs from 'use-react-router-breadcrumbs';
 import getUser from '../../graphql/queries/getUser';
 import getACompany from '../../graphql/queries/getACompany';
+import LinkRouter from '../utils/LinkRouter';
 
 const userBread = ({ match }) => {
   const { id } = match.params;
@@ -18,10 +17,6 @@ const comanyBread = ({ match }) => {
   const { data } = useQuery(getACompany, { variables: { companyId: id } });
   return data?.company.name;
 };
-
-function LinkRouter(props) {
-  return <Link {...props} component={RouterLink} />;
-}
 
 function BreadCrumbs() {
   const routes = [

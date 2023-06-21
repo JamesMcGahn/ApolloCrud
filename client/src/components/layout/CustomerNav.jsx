@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -20,6 +20,7 @@ import signOutQ from '../../graphql/mutations/signOut';
 import client from '../../graphql/apollo';
 import PopModal from '../ui/PopModal';
 import CreateTicketForm from '../forms/CreateTicketForm';
+import LinkRouter from '../utils/LinkRouter';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 
@@ -157,9 +158,9 @@ function CustomerNav() {
                 }}
               >
                 <MenuItem onClick={handleCloseNavMenu}>
-                  <Link to="/register">
+                  <LinkRouter to="/register" underline="none">
                     <Typography textAlign="center">REGISTER</Typography>
-                  </Link>
+                  </LinkRouter>
                 </MenuItem>
               </Box>
               <Box
@@ -172,9 +173,9 @@ function CustomerNav() {
                 }}
               >
                 <MenuItem onClick={handleCloseNavMenu}>
-                  <Link to="/login">
+                  <LinkRouter to="/login" underline="none">
                     <Typography textAlign="center">LOGIN</Typography>
-                  </Link>
+                  </LinkRouter>
                 </MenuItem>
               </Box>
             </>
@@ -224,7 +225,8 @@ function CustomerNav() {
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
-                  <Link
+                  <LinkRouter
+                    underline="none"
                     to={`/${
                       data?.currentUser.role === 'user' ? 'customer' : 'agent'
                     }/profile`}
@@ -232,15 +234,16 @@ function CustomerNav() {
                     <MenuItem onClick={handleCloseUserMenu}>
                       <Typography textAlign="center">Profile</Typography>
                     </MenuItem>
-                  </Link>
+                  </LinkRouter>
                   <MenuItem onClick={handleCloseUserMenu}>
-                    <Link
+                    <LinkRouter
+                      underline="none"
                       to={`/${
                         data?.currentUser.role === 'user' ? 'customer' : 'agent'
                       }/dashboard`}
                     >
                       <Typography textAlign="center">Dashboard</Typography>
-                    </Link>
+                    </LinkRouter>
                   </MenuItem>
                   <MenuItem onClick={handleSignOut}>
                     <Typography textAlign="center">Logout</Typography>

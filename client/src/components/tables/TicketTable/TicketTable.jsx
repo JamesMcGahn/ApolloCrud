@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import { useQuery } from '@apollo/client';
@@ -20,6 +19,7 @@ import PopModal from '../../ui/PopModal';
 import BulkTicketEdit from '../../forms/BulkTicketEdit';
 import convert2FullDateTime from '../../../utils/convert2FullDateTime';
 import loggedInUserQ from '../../../graphql/queries/loggedInUser';
+import LinkRouter from '../../utils/LinkRouter';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -194,7 +194,8 @@ export default function TicketTable({ data, title }) {
                       scope="row"
                       padding="none"
                     >
-                      <Link
+                      <LinkRouter
+                        underline="hover"
                         to={
                           userData.currentUser.role === 'user'
                             ? `/customer/dashboard/ticket/${row.id}`
@@ -202,7 +203,7 @@ export default function TicketTable({ data, title }) {
                         }
                       >
                         {row.id}
-                      </Link>
+                      </LinkRouter>
                     </TableCell>
                     <TableCell align="left">{row.title}</TableCell>
                     <TableCell align="left">

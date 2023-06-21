@@ -9,9 +9,9 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import Paper from '@mui/material/Paper';
-import { Link } from 'react-router-dom';
 // trunk-ignore(eslint/import/no-extraneous-dependencies)
 import { visuallyHidden } from '@mui/utils';
+import LinkRouter from '../utils/LinkRouter';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -154,9 +154,12 @@ export default function EnhancedTable({
                               scope="row"
                               key={`${row.id}-${row[`cell${i + 1}`]}`}
                             >
-                              <Link to={`${cellLink}${row.id}`}>
+                              <LinkRouter
+                                to={`${cellLink}${row.id}`}
+                                underline="hover"
+                              >
                                 {row[`cell${i + 1}`]}
-                              </Link>
+                              </LinkRouter>
                             </TableCell>
                           );
                         }

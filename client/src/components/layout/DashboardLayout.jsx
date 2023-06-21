@@ -13,19 +13,19 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
-import Container from '@mui/material/Container';
-import CreateTicketForm from '../forms/CreateTicketForm';
-import PopModal from '../ui/PopModal';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { green, blue } from '@mui/material/colors';
 import { useQuery, useMutation } from '@apollo/client';
+import CreateTicketForm from '../forms/CreateTicketForm';
+import PopModal from '../ui/PopModal';
 import loggedInUserQ from '../../graphql/queries/loggedInUser';
 import signOutQ from '../../graphql/mutations/signOut';
 import client from '../../graphql/apollo';
+import LinkRouter from '../utils/LinkRouter';
 
 const drawerWidth = 240;
 
@@ -118,24 +118,16 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export default function DashboardLayout({ children, list, dwrDefOpen }) {
   const navigate = useNavigate();
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const theme = useTheme();
   const [open, setOpen] = React.useState(dwrDefOpen);
   const [modalOpen, setModalOpen] = React.useState(false);
   const { data, loading: cULoading } = useQuery(loggedInUserQ);
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -209,63 +201,63 @@ export default function DashboardLayout({ children, list, dwrDefOpen }) {
           </Box>
 
           {!cULoading && data?.currentUser && (
-            <>
-              <Box sx={{ flexGrow: 0 }}>
-                <Tooltip title="Open settings">
-                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar
-                      sx={{
-                        bgcolor:
-                          data?.currentUser?.role === 'user'
-                            ? green[500]
-                            : blue[500],
-                      }}
-                      aria-label="recipe"
-                    >
-                      {`${data?.currentUser?.name || 'A'}`[0].toUpperCase()}
-                    </Avatar>
-                  </IconButton>
-                </Tooltip>
-                <Menu
-                  sx={{ mt: '45px' }}
-                  id="menu-appbar"
-                  anchorEl={anchorElUser}
-                  anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  open={Boolean(anchorElUser)}
-                  onClose={handleCloseUserMenu}
-                >
-                  <Link
-                    to={`/${
-                      data?.currentUser.role === 'user' ? 'customer' : 'agent'
-                    }/profile`}
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar
+                    sx={{
+                      bgcolor:
+                        data?.currentUser?.role === 'user'
+                          ? green[500]
+                          : blue[500],
+                    }}
+                    aria-label="recipe"
                   >
-                    <MenuItem onClick={handleCloseUserMenu}>
-                      <Typography textAlign="center">Profile</Typography>
-                    </MenuItem>
-                  </Link>
+                    {`${data?.currentUser?.name || 'A'}`[0].toUpperCase()}
+                  </Avatar>
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: '45px' }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                <LinkRouter
+                  underline="none"
+                  to={`/${
+                    data?.currentUser.role === 'user' ? 'customer' : 'agent'
+                  }/profile`}
+                >
                   <MenuItem onClick={handleCloseUserMenu}>
-                    <Link
-                      to={`/${
-                        data?.currentUser === 'user' ? 'customer' : 'agent'
-                      }/dashboard`}
-                    >
-                      <Typography textAlign="center">Dashboard</Typography>
-                    </Link>
+                    <Typography textAlign="center">Profile</Typography>
                   </MenuItem>
-                  <MenuItem onClick={handleSignOut}>
-                    <Typography textAlign="center">Logout</Typography>
-                  </MenuItem>
-                </Menu>
-              </Box>
-            </>
+                </LinkRouter>
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <LinkRouter
+                    underline="none"
+                    to={`/${
+                      data?.currentUser === 'user' ? 'customer' : 'agent'
+                    }/dashboard`}
+                  >
+                    <Typography textAlign="center">Dashboard</Typography>
+                  </LinkRouter>
+                </MenuItem>
+                <MenuItem onClick={handleSignOut}>
+                  <Typography textAlign="center">Logout</Typography>
+                </MenuItem>
+              </Menu>
+            </Box>
           )}
         </Toolbar>
       </AppBar>
