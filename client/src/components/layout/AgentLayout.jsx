@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import { useLocation, Link } from 'react-router-dom';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -6,12 +7,17 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
-import { Link } from 'react-router-dom';
 import DashboardLayout from './DashboardLayout';
 import { TixDashTabContext } from '../../context/TixDashTabsContext';
 import TicketHistoryNav from '../navs/TicketHistoryNav';
+import BreadCrumbs from '../navs/BreadCrumbs';
 
 function Layout({ children }) {
+  const location = useLocation();
+
+  const noBreads = ['/agent/dashboard', '/agent/dashboard/mytickets/'];
+  const noBreadCrumbs = noBreads.includes(location.pathname);
+
   const { tabStatuses, setCurrentTab } = useContext(TixDashTabContext);
   const handleOnClick = (i) => {
     setCurrentTab(i);
@@ -60,6 +66,7 @@ function Layout({ children }) {
       }
     >
       <TicketHistoryNav />
+      {!noBreadCrumbs && <BreadCrumbs />}
       {children}
     </DashboardLayout>
   );

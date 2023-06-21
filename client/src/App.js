@@ -16,6 +16,7 @@ import ProtectedRoute from './components/utils/ProtectedRoute';
 import 'react-toastify/dist/ReactToastify.css';
 import CustomerDashboard from './pages/CustomerDashboard';
 import Companies from './pages/Companies';
+import Company from './pages/Company';
 import Users from './pages/Users';
 import User from './pages/User';
 import RootLayout from './components/layout/RootLayout';
@@ -25,17 +26,13 @@ const appRouter = createBrowserRouter(
     <Route element={<RootLayout />}>
       <Route path="/" element={<Home />} />
       <Route element={<ProtectedRoute allowedUser="agent" />}>
-        <Route
-          path="/agent/dashboard"
-          element={<AgentHome />}
-          handle={{
-            crumb: () => <Link to="/dashboard">Dashboard</Link>,
-          }}
-        />
+        <Route path="/agent" element={<Home />} />
+        <Route path="/agent/dashboard/" element={<AgentHome />} />
         <Route path="/agent/profile" element={<Profile />} />
         <Route path="/agent/dashboard/mytickets" element={<MyTickets />} />
         <Route path="/agent/dashboard/ticket/:id" element={<Ticket />} />
         <Route path="/agent/dashboard/companies" element={<Companies />} />
+        <Route path="/agent/dashboard/companies/:id" element={<Company />} />
         <Route path="/agent/dashboard/users" element={<Users />} />
         <Route path="/agent/dashboard/users/:id" element={<User />} />
       </Route>
