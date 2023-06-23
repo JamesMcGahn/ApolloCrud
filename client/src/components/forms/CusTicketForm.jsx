@@ -7,6 +7,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import PopMenuButton from '../ui/PopMenuButton';
 import loggedInUserQ from '../../graphql/queries/loggedInUser';
+import UserSelectionList from '../ui/UserSelectionList';
 
 function AgentTicketForm({ formTitle, handleSubmitCb, createForm }) {
   const [assignee, setAssignee] = useState();
@@ -15,10 +16,15 @@ function AgentTicketForm({ formTitle, handleSubmitCb, createForm }) {
     description: '',
     comment: '',
     privateComment: false,
+    priority: '',
   });
 
   const handleOnChange = (e) => {
     setTicket((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handlePriorityChange = (priority) => {
+    setTicket((prev) => ({ ...prev, priority: priority.name }));
   };
 
   const {
@@ -37,6 +43,7 @@ function AgentTicketForm({ formTitle, handleSubmitCb, createForm }) {
       requester: currentUser.id,
       comment: addComment.content ? addComment : null,
       status,
+      priority: ticket.priority === '' ? undefined : ticket.priority,
       title: ticket.title === '' ? undefined : ticket.title,
       description: ticket.description === '' ? undefined : ticket.description,
     };
@@ -50,6 +57,11 @@ function AgentTicketForm({ formTitle, handleSubmitCb, createForm }) {
       privateComment: false,
     });
   };
+
+  const priorities = ['Low', 'Normal', 'High', 'Urgent'].map((n) => ({
+    id: n,
+    name: n,
+  }));
 
   return (
     <Container
@@ -102,6 +114,15 @@ function AgentTicketForm({ formTitle, handleSubmitCb, createForm }) {
               value={ticket.description}
               onChange={handleOnChange}
               sx={{ padding: '0', minWidth: '300px' }}
+            />
+
+            <UserSelectionList
+              selectionList={priorities}
+              label="Priority"
+              defaultValue="Normal"
+              valueBy="name"
+              sxStyles={{ width: '310px', mb: '1rem', paddingLeft: '.5rem' }}
+              cb={handlePriorityChange}
             />
           </Container>
         )}

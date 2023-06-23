@@ -9,8 +9,16 @@ const typeDefs = `#graphQL
     description: String!
     updatedAt: Date
     createdAt: Date
+    priority: PriorityType
     status: StatusType
     comments: [Comment!]
+  }
+
+  enum PriorityType {
+    Low
+    Normal
+    High
+    Urgent
   }
 
   enum StatusType {
@@ -59,6 +67,7 @@ const typeDefs = `#graphQL
     description: String!
     status: StatusType
     comment: newComment
+    priority: PriorityType
   }
 
   input updateTicket {
@@ -68,6 +77,7 @@ const typeDefs = `#graphQL
     description: String
     status: StatusType
     comment: newComment
+    priority: PriorityType
   }
 
   input createUser {

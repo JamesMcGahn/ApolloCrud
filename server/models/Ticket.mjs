@@ -26,6 +26,11 @@ const TicketSchema = new mongoose.Schema(
       enum: ['New', 'Open', 'Pending', 'Blocked', 'Closed'],
       default: 'New',
     },
+    priority: {
+      type: String,
+      enum: ['Low', 'Normal', 'High', 'Urgent'],
+      default: 'Normal',
+    },
     comments: [
       {
         type: mongoose.Schema.ObjectId,

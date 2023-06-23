@@ -23,6 +23,7 @@ import convert2FullDateTime from '../../utils/convert2FullDateTime';
 function TicketPageForm({ data }) {
   const [ticket, setTicket] = useState(data.ticket);
   const [assignee, setAssignee] = useState();
+  const [tixPriority, setTixPriority] = useState();
   const [title, setTitle] = useState(data?.ticket.title);
   const [requester, setRequester] = useState();
   const [newComment, setNewComment] = useState();
@@ -46,7 +47,9 @@ function TicketPageForm({ data }) {
   });
 
   const { data: userData, loading: usersLoading } = useQuery(getAllUsers);
-
+  const handlePriorityChange = (priority) => {
+    setTixPriority(priority.name);
+  };
   const handleCommentChange = (e) => setNewComment(e.target.value);
   const handlePrivateChecked = (e) => setPrivateChecked(e.target.checked);
   const handleTitleChange = (e) => setTitle(e.target.value);
@@ -65,6 +68,7 @@ function TicketPageForm({ data }) {
       description: ticket.description,
       status,
       title,
+      priority: tixPriority,
     };
 
     updateTicket({
@@ -73,6 +77,11 @@ function TicketPageForm({ data }) {
 
     setNewComment('');
   };
+
+  const priorities = ['Low', 'Normal', 'High', 'Urgent'].map((n) => ({
+    id: n,
+    name: n,
+  }));
 
   return (
     <Container sx={{ paddingBottom: '5rem', display: 'flex' }}>
@@ -101,6 +110,15 @@ function TicketPageForm({ data }) {
               label="Assignee"
               cb={setAssignee}
               assignee
+            />
+
+            <UserSelectionList
+              selectionList={priorities}
+              label="Priority"
+              defaultValue={ticket?.priority}
+              valueBy="name"
+              sxStyles={{ width: '310px', mb: '1rem', paddingLeft: '.5rem' }}
+              cb={handlePriorityChange}
             />
           </FormControl>
         )}

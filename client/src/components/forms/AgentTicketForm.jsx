@@ -21,6 +21,7 @@ function AgentTicketForm({ formTitle, handleSubmitCb, createForm }) {
     description: '',
     comment: '',
     privateComment: false,
+    priority: 'Normal',
   });
 
   const handleOnChange = (e) => {
@@ -29,6 +30,10 @@ function AgentTicketForm({ formTitle, handleSubmitCb, createForm }) {
       return;
     }
     setTicket((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handlePriorityChange = (priority) => {
+    setTicket((prev) => ({ ...prev, priority: priority.name }));
   };
 
   const {
@@ -47,6 +52,7 @@ function AgentTicketForm({ formTitle, handleSubmitCb, createForm }) {
       requester: requester?.id,
       comment: addComment.content ? addComment : null,
       status,
+      priority: ticket.priority,
       title: ticket.title === '' ? undefined : ticket.title,
       description: ticket.description === '' ? undefined : ticket.description,
     };
@@ -59,8 +65,14 @@ function AgentTicketForm({ formTitle, handleSubmitCb, createForm }) {
       description: '',
       comment: '',
       privateComment: false,
+      priority: '',
     });
   };
+
+  const priorities = ['Low', 'Normal', 'High', 'Urgent'].map((n) => ({
+    id: n,
+    name: n,
+  }));
 
   return (
     <Container
@@ -106,6 +118,14 @@ function AgentTicketForm({ formTitle, handleSubmitCb, createForm }) {
               />
             </>
           )}
+          <UserSelectionList
+            selectionList={priorities}
+            label="Priority"
+            defaultValue="Normal"
+            valueBy="name"
+            sxStyles={{ width: '310px', mb: '1rem', paddingLeft: '.5rem' }}
+            cb={handlePriorityChange}
+          />
         </Container>
 
         <Container sx={{ width: '100%', padding: '0' }}>

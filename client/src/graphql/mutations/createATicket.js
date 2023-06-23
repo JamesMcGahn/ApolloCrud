@@ -31,6 +31,7 @@ const createATicket = gql`
         name
         role
       }
+      priority
       status
       title
       updatedAt

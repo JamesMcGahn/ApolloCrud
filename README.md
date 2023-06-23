@@ -12,7 +12,7 @@ Fake company website - and ticketing system
 - ~~User Ticket Dashboard~~
 - Search Tickets
 - Add Ticket fields
-  - Priority
+  - ~~Priority~~
 - ~~BreadCrumbs~~
 - ~~Ticket page Customer / Agent~~
 - ~~Status chip for ticket table~~

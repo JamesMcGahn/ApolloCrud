@@ -33,6 +33,7 @@ const updateTicket = gql`
       }
       status
       title
+      priority
       updatedAt
     }
   }

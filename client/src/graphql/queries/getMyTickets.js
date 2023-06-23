@@ -13,6 +13,7 @@ const getMyTickets = gql`
       status
       title
       updatedAt
+      priority
       description
       createdAt
       assignee {

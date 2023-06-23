@@ -32,6 +32,7 @@ const getTicket = gql`
         role
       }
       status
+      priority
       title
       updatedAt
     }
