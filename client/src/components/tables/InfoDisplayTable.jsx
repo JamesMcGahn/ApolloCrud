@@ -163,6 +163,22 @@ export default function EnhancedTable({
                             </TableCell>
                           );
                         }
+                        if (row[`cell${i + 1}`]?.link === true) {
+                          return (
+                            <TableCell
+                              align="left"
+                              key={`${row.id}-${row[`cell${i + 1}`]}`}
+                            >
+                              <LinkRouter
+                                to={row[`cell${i + 1}`].path}
+                                underline="hover"
+                              >
+                                {row[`cell${i + 1}`].display}
+                              </LinkRouter>
+                            </TableCell>
+                          );
+                        }
+
                         return (
                           <TableCell
                             align="left"

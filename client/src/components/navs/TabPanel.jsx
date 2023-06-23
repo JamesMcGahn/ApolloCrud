@@ -1,12 +1,10 @@
-import { useContext } from 'react';
+import { useState } from 'react';
 import SwipeableViews from 'react-swipeable-views-react-18-fix';
 import { useTheme } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import TicketTable from '../tables/TicketTable/TicketTable';
-import { TixDashTabContext } from '../../context/TixDashTabsContext';
 import BreadCrumbs from './BreadCrumbs';
 
 function TabPanel({ children, value, index, ...other }) {
@@ -30,56 +28,44 @@ function a11yProps(index) {
   };
 }
 
-function TicketTabPanel({ ticketData }) {
-  const { tabStatuses, currentTab, setCurrentTab } =
-    useContext(TixDashTabContext);
+function TicketTabPanel({ tabHeaders, tabContent }) {
+  const [tabIndex, setTabIndex] = useState(0);
 
   const theme = useTheme();
 
   const handleChange = (event, newValue) => {
-    setCurrentTab(newValue);
+    setTabIndex(newValue);
   };
 
   const handleChangeIndex = (index) => {
-    setCurrentTab(index);
-  };
-
-  const ticketStatusData = () => {
-    if (tabStatuses[currentTab] === 'All') {
-      return ticketData;
-    }
-
-    if (ticketData?.length > 0) {
-      return ticketData.filter((tix) => tix.status === tabStatuses[currentTab]);
-    }
-    return [];
+    setTabIndex(index);
   };
 
   return (
     <Box sx={{ bgcolor: 'background.paper', minWidth: '60vw' }}>
       <AppBar position="static">
         <Tabs
-          value={currentTab}
+          value={tabIndex}
           onChange={handleChange}
           indicatorColor="secondary"
           textColor="inherit"
           variant="fullWidth"
           aria-label="full width tabs example"
         >
-          {tabStatuses.map((tab, i) => (
+          {tabHeaders.map((tab, i) => (
             <Tab label={tab} {...a11yProps(i)} name={tab} key={tab} />
           ))}
         </Tabs>
       </AppBar>
       <SwipeableViews
         axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-        index={currentTab}
+        index={tabIndex}
         onChangeIndex={handleChangeIndex}
       >
-        {tabStatuses.map((tabP, i) => (
+        {tabContent.map((tabC, i) => (
           <TabPanel
-            key={`${tabP}-display`}
-            value={currentTab}
+            key={`${i}-display`}
+            value={tabIndex}
             index={i}
             dir={theme.direction}
           >
@@ -92,8 +78,7 @@ function TicketTabPanel({ ticketData }) {
             >
               <BreadCrumbs />
             </Box>
-
-            <TicketTable data={ticketStatusData} title={`${tabP} Tickets`} />
+            {tabC}
           </TabPanel>
         ))}
       </SwipeableViews>

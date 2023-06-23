@@ -8,8 +8,8 @@ import getACompany from '../../graphql/queries/getACompany';
 import LinkRouter from '../utils/LinkRouter';
 
 const userBread = ({ match }) => {
-  const { id } = match.params;
-  const { data } = useQuery(getUser, { variables: { userId: id } });
+  const { userId } = match.params;
+  const { data } = useQuery(getUser, { variables: { userId: userId } });
   return data?.user.name;
 };
 const comanyBread = ({ match }) => {
@@ -23,8 +23,12 @@ function BreadCrumbs() {
     { path: '/agent', breadcrumb: 'Agent Home' },
     { path: '/agent/dashboard/mytickets', breadcrumb: 'My Tickets' },
     { path: '/agent/dashboard/ticket/', breadcrumb: null },
-    { path: '/agent/dashboard/users/:id', breadcrumb: userBread },
+    { path: '/agent/dashboard/users/:userId', breadcrumb: userBread },
     { path: '/agent/dashboard/companies/:id', breadcrumb: comanyBread },
+    {
+      path: '/agent/dashboard/companies/:id/:userId',
+      breadcrumb: userBread,
+    },
   ];
   const breadcrumbs = useBreadcrumbs(routes);
   const last = breadcrumbs.length - 1;

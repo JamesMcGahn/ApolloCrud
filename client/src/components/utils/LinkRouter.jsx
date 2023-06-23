@@ -6,7 +6,6 @@ function LinkRouter({
   underline = 'hover',
   color = 'inherit',
   to,
-  key,
   onClick,
   sx,
 }) {
@@ -15,7 +14,6 @@ function LinkRouter({
       underline={underline}
       color={color}
       to={to}
-      key={key}
       component={RouterLink}
       onClick={onClick}
       sx={sx}

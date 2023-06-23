@@ -15,7 +15,13 @@ const Users = () => {
     ? data.users.map((user) => ({
         id: user.id,
         cell1: user.name,
-        cell2: user?.company?.name || 'No Company Assigned',
+        cell2: {
+          link: true,
+          display: user?.company?.name || 'No Company Assigned',
+          path: user?.company
+            ? `/agent/dashboard/companies/${user.company.id}`
+            : `/agent/dashboard/users/${user.id}`,
+        },
         cell3: user.role,
         cell4: user.email,
         cell5: user.isActive ? 'Active' : 'Disabled',

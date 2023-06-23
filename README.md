@@ -1,10 +1,13 @@
-# ApolloCrud - (Under Development)
+# ApolloTickets - (Under Development)
 
-#### MERN Apollo Server / Apollo Client - Ticketing System
+#### MERN GraphQL Apollo Server / Apollo Client - Ticketing System
+
+Fake company website - and ticketing system
 
 ## Todos
 
 - App Styling
+  - Responsive Styling
 - User Create
 - ~~User Ticket Dashboard~~
 - Search Tickets
@@ -16,6 +19,7 @@
 - Protect ticket graphlql q/m
 - ~~Fix Customer Bulk Ticket Update~~
 - Fix Padding in Arrow in Status Selection List
+- Dashboard Open Context?
 
 ## Feature Ideas
 

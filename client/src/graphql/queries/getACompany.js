@@ -8,6 +8,10 @@ const getACompany = gql`
       name
       notes
       users {
+        company {
+          id
+          name
+        }
         email
         id
         isActive

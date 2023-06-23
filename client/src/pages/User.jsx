@@ -9,16 +9,16 @@ import UserProfileForm from '../components/forms/UserProfileForm';
 import Spinner from '../components/ui/LoadingSpinner';
 
 function User() {
-  const { id } = useParams();
+  const { userId } = useParams();
   const { data: currUser } = useQuery(loggedInUserQ);
 
   const { data, loading } = useQuery(getUser, {
-    variables: { userId: id },
+    variables: { userId: userId },
   });
 
   const [updateUser, { loading: updateLoading, data: updateData }] =
     useMutation(updateAUser, {
-      refetchQueries: [{ query: getUser, variables: { userId: id } }],
+      refetchQueries: [{ query: getUser, variables: { userId: userId } }],
       onCompleted: (udata) => {
         toast.success(`User ${udata.updateUser.name} Updated`, {
           theme: 'colored',

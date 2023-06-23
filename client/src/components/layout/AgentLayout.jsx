@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useMatch } from 'react-router-dom';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -15,9 +15,10 @@ import LinkRouter from '../utils/LinkRouter';
 
 function Layout({ children }) {
   const location = useLocation();
+  const match = useMatch('/agent/dashboard/companies/:id');
 
   const noBreads = ['/agent/dashboard', '/agent/dashboard/mytickets/'];
-  const noBreadCrumbs = noBreads.includes(location.pathname);
+  const noBreadCrumbs = noBreads.includes(location.pathname) || match;
 
   const { tabStatuses, setCurrentTab } = useContext(TixDashTabContext);
   const handleOnClick = (i) => {

@@ -32,8 +32,12 @@ const appRouter = createBrowserRouter(
         <Route path="/agent/dashboard/ticket/:id" element={<Ticket />} />
         <Route path="/agent/dashboard/companies" element={<Companies />} />
         <Route path="/agent/dashboard/companies/:id" element={<Company />} />
+        <Route
+          path="/agent/dashboard/companies/:id/:userId"
+          element={<User />}
+        />
         <Route path="/agent/dashboard/users" element={<Users />} />
-        <Route path="/agent/dashboard/users/:id" element={<User />} />
+        <Route path="/agent/dashboard/users/:userId" element={<User />} />
       </Route>
       <Route element={<ProtectedRoute />}>
         <Route path="/customer" element={<CustomerHome />} />
