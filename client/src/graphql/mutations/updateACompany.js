@@ -1,12 +1,12 @@
 import { gql } from '@apollo/client';
 
-const getACompany = gql`
-  query Company($companyId: ID!) {
-    company(id: $companyId) {
+const updateACompany = gql`
+  mutation Mutation($updateCompanyId: ID!, $updateCompany: updateCompany!) {
+    updateCompany(id: $updateCompanyId, updateCompany: $updateCompany) {
+      domain
       id
       level
       name
-      domain
       notes
       users {
         company {
@@ -23,4 +23,4 @@ const getACompany = gql`
   }
 `;
 
-export default getACompany;
+export default updateACompany;

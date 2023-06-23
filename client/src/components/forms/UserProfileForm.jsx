@@ -81,7 +81,11 @@ function ProfileForm({ handleSubmit, user, agentRole }) {
               }}
               aria-label="avatar"
             >
-              {userInfo.name[0].toUpperCase()}
+              {`${userInfo.name[0].toUpperCase()}${
+                userInfo.name?.split(' ')[1]
+                  ? userInfo.name?.split(' ')[1][0]
+                  : ''
+              }`}
             </Avatar>
           </Box>
           <Box sx={{ width: '75%', padding: '2rem 1rem 1rem 0' }}>

@@ -35,7 +35,7 @@ const updateACompany = async (_, args) => {
 
   let company;
 
-  if (updateCompany?.users.length > 0) {
+  if (updateCompany?.users && updateCompany.users.length > 0) {
     const userArry = [...updateCompany.users];
 
     await Promise.all(

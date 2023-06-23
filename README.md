@@ -20,6 +20,12 @@ Fake company website - and ticketing system
 - ~~Fix Customer Bulk Ticket Update~~
 - Fix Padding in Arrow in Status Selection List
 - Dashboard Open Context?
+- handle error
+  - bad id
+    - user
+    - company
+    - profile
+    - ticket
 
 ## Feature Ideas
 

@@ -116,6 +116,7 @@ const typeDefs = `#graphQL
   type company {
     id: ID!
     name: String!
+    domain: String
     users: [userInfo]
     notes: String
     level: ServiceLevelType
@@ -139,6 +140,7 @@ const typeDefs = `#graphQL
   input updateCompany {
     name: String
     users: [ID]
+    domain: String
     notes: String
     level: ServiceLevelType
   }

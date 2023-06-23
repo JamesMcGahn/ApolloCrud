@@ -6,18 +6,34 @@ import { Button } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import Avatar from '@mui/material/Avatar';
 import Card from '@mui/material/Card';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import { green, blue } from '@mui/material/colors';
+import InputLabel from '@mui/material/InputLabel';
+import { green, blue, orange, purple } from '@mui/material/colors';
+import UserSelectionList from '../ui/UserSelectionList';
 
-function ProfileForm({ handleSubmit, user }) {
-  const [userInfo, setUserInfo] = useState(user);
+function CompanyForm({ handleSubmit, company }) {
+  const [companyInfo, setCompanyInfo] = useState(company);
   const handleChange = (e) => {
-    setUserInfo((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    setCompanyInfo((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleRole = (level) => {
+    setCompanyInfo((prev) => ({ ...prev, level: level.name }));
   };
 
   const onSubmit = () => {
-    handleSubmit(userInfo);
+    handleSubmit(companyInfo);
+  };
+
+  const levels = ['Small', 'Medium', 'Large', 'Enterprise'].map((n) => ({
+    id: n,
+    name: n,
+  }));
+
+  const companyColor = {
+    Small: green[500],
+    Medium: blue[500],
+    Large: orange[500],
+    Enterprise: purple[500],
   };
 
   return (
@@ -51,39 +67,38 @@ function ProfileForm({ handleSubmit, user }) {
           >
             <Avatar
               sx={{
-                bgcolor: userInfo.role === 'user' ? green[500] : blue[500],
+                bgcolor: companyColor[`${companyInfo?.level || 'Small'}`],
                 width: 85,
                 height: 85,
               }}
               aria-label="avatar"
             >
-              {`${userInfo.name[0].toUpperCase()}${
-                userInfo.name?.split(' ')[1]
-                  ? userInfo.name?.split(' ')[1][0]
+              {`${company.name[0].toUpperCase()}${
+                company.name?.split(' ')[1]
+                  ? company.name?.split(' ')[1][0]
                   : ''
               }`}
             </Avatar>
           </Box>
-          <Box sx={{ width: '75%', padding: '2rem 1rem 1rem 0' }}>
+          <Box sx={{ width: '75%', padding: '2rem 1rem 0rem 0' }}>
             <FormControl fullWidth>
               <TextField
-                id="user-name"
+                id="company-name"
                 label="Name:"
                 name="name"
-                value={userInfo?.name}
+                value={companyInfo?.name}
                 onChange={handleChange}
                 sx={{ mb: '1rem' }}
               />
             </FormControl>
             <FormControl fullWidth>
               <TextField
-                id="user-company"
-                label="Company:"
-                name="company"
-                defaultValue={userInfo?.company?.name || 'No Company Assigned'}
-                InputProps={{
-                  readOnly: true,
-                }}
+                id="company-domain"
+                label="Domain:"
+                name="domain"
+                value={companyInfo?.domain || ''}
+                onChange={handleChange}
+                sx={{ mb: '1rem' }}
               />
             </FormControl>
           </Box>
@@ -93,38 +108,30 @@ function ProfileForm({ handleSubmit, user }) {
           <Box sx={{ width: '75%', padding: '.5rem 1rem 1rem 0' }}>
             <FormControl fullWidth>
               <TextField
-                id="user-email"
-                label="Email:"
-                value={userInfo.email}
+                id="user-notes"
+                label="Notes:"
+                name="notes"
                 onChange={handleChange}
-                sx={{ mb: '1rem' }}
+                multiline
+                rows={4}
+                defaultValue={companyInfo.notes}
               />
             </FormControl>
-            <FormControl fullWidth>
-              <TextField
-                id="user-role"
-                label="Role:"
-                name="role"
-                defaultValue={userInfo.role}
-                InputProps={{
-                  readOnly: true,
-                }}
+            <Box sx={{ pt: '1rem' }}>
+              <InputLabel
+                htmlFor="Selection-List"
+                sx={{ fontSize: '.7rem', pl: '.8rem' }}
+              >
+                Company:
+              </InputLabel>
+              <UserSelectionList
+                selectionList={levels}
+                defaultValue={companyInfo.level}
+                valueBy="name"
+                sxStyles={{ width: '100%', mb: '1rem' }}
+                cb={handleRole}
               />
-            </FormControl>
-            <FormControl component="fieldset" variant="standard">
-              <FormControlLabel
-                sx={{ m: 0 }}
-                labelPlacement="start"
-                control={
-                  <Checkbox
-                    name="isActive"
-                    checked={userInfo.isActive}
-                    disabled
-                  />
-                }
-                label="User Active:"
-              />
-            </FormControl>
+            </Box>
           </Box>
         </Box>
         <Box
@@ -143,4 +150,4 @@ function ProfileForm({ handleSubmit, user }) {
     </Container>
   );
 }
-export default ProfileForm;
+export default CompanyForm;

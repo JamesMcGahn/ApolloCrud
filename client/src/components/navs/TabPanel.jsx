@@ -64,6 +64,7 @@ function TicketTabPanel({ tabHeaders, tabContent }) {
       >
         {tabContent.map((tabC, i) => (
           <TabPanel
+            // trunk-ignore(eslint/react/no-array-index-key)
             key={`${i}-display`}
             value={tabIndex}
             index={i}
