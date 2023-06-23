@@ -104,7 +104,7 @@ export default function EnhancedTable({
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - (rows?.length || 0)) : 0;
 
   const visibleRows = React.useMemo(
     () =>
@@ -113,7 +113,7 @@ export default function EnhancedTable({
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage,
       ),
-    [order, orderBy, page, rowsPerPage],
+    [order, orderBy, page, rowsPerPage, rows],
   );
   return (
     <Box sx={{ width: '100%' }}>
@@ -128,7 +128,7 @@ export default function EnhancedTable({
               order={order}
               orderBy={orderBy}
               onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+              rowCount={rows?.length || 0}
               headCells={heads}
             />
             <TableBody>
@@ -206,7 +206,7 @@ export default function EnhancedTable({
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows.length}
+          count={rows?.length || 0}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
