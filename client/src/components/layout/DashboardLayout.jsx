@@ -27,6 +27,7 @@ import signOutQ from '../../graphql/mutations/signOut';
 import client from '../../graphql/apollo';
 import LinkRouter from '../utils/LinkRouter';
 import { ReactComponent as ApolloLogo } from '../../assets/svgs/ApolloTicketsNameNLogo.svg';
+
 const drawerWidth = 240;
 
 const Search = styled('div')(({ theme }) => ({
@@ -123,6 +124,7 @@ export default function DashboardLayout({ children, list, dwrDefOpen }) {
   const [open, setOpen] = React.useState(dwrDefOpen);
   const [modalOpen, setModalOpen] = React.useState(false);
   const { data, loading: cULoading } = useQuery(loggedInUserQ);
+  const [searchWords, setSearchWords] = React.useState('');
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
@@ -150,6 +152,32 @@ export default function DashboardLayout({ children, list, dwrDefOpen }) {
   const handleSignOut = () => {
     handleCloseUserMenu();
     signOut();
+  };
+
+  const handleOnChange = (e) => {
+    setSearchWords(e.target.value);
+  };
+
+  const handleKeyUp = (e) => {
+    const baseUrl = '/agent/dashboard/ticket?';
+
+    if (e.key === 'Enter') {
+      if (/^\d+$/.test(e.target.value)) {
+        navigate(`${baseUrl}ticket=${e.target.value}`);
+        return;
+      }
+      const searchTarg = e.target.value.split(' ');
+      const search = searchTarg
+        .map((x) => x.split(':').map((y) => y.trim()))
+        .reduce((a, x) => {
+          a[x[0]] = x[1];
+          return a;
+        }, {});
+
+      const searchString = new URLSearchParams(search).toString();
+      setSearchWords('');
+      navigate(`${baseUrl}${searchString}`);
+    }
   };
 
   return (
@@ -191,6 +219,9 @@ export default function DashboardLayout({ children, list, dwrDefOpen }) {
                 <StyledInputBase
                   placeholder="Search…"
                   inputProps={{ 'aria-label': 'search' }}
+                  onKeyUp={handleKeyUp}
+                  value={searchWords}
+                  onChange={handleOnChange}
                 />
               </Search>
             </Box>

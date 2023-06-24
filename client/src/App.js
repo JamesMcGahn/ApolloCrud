@@ -9,6 +9,7 @@ import Ticket from './pages/Ticket';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import AgentHome from './pages/AgentHome';
+import AgentDashboard from './pages/AgentDashboard';
 import MyTickets from './pages/MyTickets';
 import Profile from './pages/Profile';
 import ProtectedRoute from './components/utils/ProtectedRoute';
@@ -18,6 +19,7 @@ import Companies from './pages/Companies';
 import Company from './pages/Company';
 import Users from './pages/Users';
 import User from './pages/User';
+import TicketSearch from './pages/TicketSearch';
 import RootLayout from './components/layout/RootLayout';
 
 const appRouter = createBrowserRouter(
@@ -25,10 +27,11 @@ const appRouter = createBrowserRouter(
     <Route element={<RootLayout />}>
       <Route path="/" element={<Home />} />
       <Route element={<ProtectedRoute allowedUser="agent" />}>
-        <Route path="/agent" element={<Home />} />
-        <Route path="/agent/dashboard/" element={<AgentHome />} />
+        <Route path="/agent" element={<AgentHome />} />
+        <Route path="/agent/dashboard/" element={<AgentDashboard />} />
         <Route path="/agent/profile" element={<Profile />} />
         <Route path="/agent/dashboard/mytickets" element={<MyTickets />} />
+        <Route path="/agent/dashboard/ticket" element={<TicketSearch />} />
         <Route path="/agent/dashboard/ticket/:id" element={<Ticket />} />
         <Route path="/agent/dashboard/companies" element={<Companies />} />
         <Route path="/agent/dashboard/companies/:id" element={<Company />} />

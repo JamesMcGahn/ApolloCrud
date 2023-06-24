@@ -17,7 +17,7 @@ function Layout({ children }) {
   const location = useLocation();
   const match = useMatch('/agent/dashboard/companies/:id');
 
-  const noBreads = ['/agent/dashboard', '/agent/dashboard/mytickets/'];
+  const noBreads = ['/agent/dashboard', '/agent/dashboard/mytickets'];
   const noBreadCrumbs = noBreads.includes(location.pathname) || match;
 
   const { tabStatuses, setCurrentTab } = useContext(TixDashTabContext);
@@ -50,7 +50,7 @@ function Layout({ children }) {
             {tabStatuses.map((status, i) => (
               <LinkRouter
                 underline="none"
-                to="/agent/dashboard/mytickets/"
+                to="/agent/dashboard/mytickets"
                 key={`${status}-nav-item`}
                 onClick={() => handleOnClick(i)}
               >

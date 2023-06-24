@@ -9,6 +9,10 @@ const getTickets = gql`
         id
         name
         role
+        company {
+          name
+          id
+        }
       }
       status
       priority
@@ -21,6 +25,10 @@ const getTickets = gql`
         id
         name
         role
+        company {
+          name
+          id
+        }
       }
     }
   }
