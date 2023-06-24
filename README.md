@@ -10,7 +10,7 @@ Fake company website - and ticketing system
   - Responsive Styling
 - User Create
 - ~~User Ticket Dashboard~~
-- Search Tickets
+- ~~Search Tickets~~
 - Add Ticket fields
   - ~~Priority~~
 - ~~BreadCrumbs~~

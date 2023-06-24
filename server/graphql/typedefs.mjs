@@ -156,7 +156,7 @@ const typeDefs = `#graphQL
   }
 
   type Query {
-    tickets(status: [StatusType]): [Ticket!]
+    tickets(status: [StatusType], companyId: ID): [Ticket!]
     ticket(id: ID!): Ticket!
     myTickets(userId: ID!, status: [StatusType]): [Ticket!]
     users: [userInfo!]

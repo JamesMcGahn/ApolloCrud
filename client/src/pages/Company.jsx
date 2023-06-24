@@ -7,11 +7,17 @@ import updateACompany from '../graphql/mutations/updateACompany';
 import Spinner from '../components/ui/LoadingSpinner';
 import TabPanel from '../components/navs/TabPanel';
 import InfoDisplayTable from '../components/tables/InfoDisplayTable';
+import TicketTable from '../components/tables/TicketTable/TicketTable';
 import CompanyForm from '../components/forms/CompanyForm';
+import getTickets from '../graphql/queries/getTickets';
 
 function Company() {
   const { id } = useParams();
   const { data, loading } = useQuery(getACompany, {
+    variables: { companyId: id },
+  });
+
+  const { data: ticketData, loading: ticketLoading } = useQuery(getTickets, {
     variables: { companyId: id },
   });
 
@@ -96,7 +102,7 @@ function Company() {
         <Spinner />
       ) : (
         <TabPanel
-          tabHeaders={['Company Info', 'Users']}
+          tabHeaders={['Company Info', 'Users', 'Tickets']}
           tabContent={[
             <CompanyForm
               handleSubmit={handleSubmit}
@@ -108,6 +114,11 @@ function Company() {
               numCellPerRow={5}
               cellLink={`/agent/dashboard/companies/${id}/`}
             />,
+            ticketLoading ? (
+              <Spinner />
+            ) : (
+              <TicketTable data={ticketData.tickets} />
+            ),
           ]}
         />
       )}
