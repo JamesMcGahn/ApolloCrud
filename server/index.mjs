@@ -12,6 +12,7 @@ import resolvers from './graphql/resolvers.mjs';
 import 'dotenv/config';
 import connectDB from './config/db.mjs';
 import protect from './middleware/protect.mjs';
+import formattedErrors from './graphql/formattedErrors.mjs';
 
 const PORT = process.env.PORT || 5000;
 
@@ -25,6 +26,7 @@ connectDB();
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  formatError: formattedErrors,
   plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 });
 await server.start();
