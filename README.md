@@ -28,7 +28,7 @@ Fake company website - and ticketing system
     - ticket
 - format mongo errors on server
 - forgot password/reset password
-  - request reset on FE
+  - ~~request reset on FE~~
   - ~~send token to email in link on BE~~
   - send token from fe with updated password
   - verify token and update password

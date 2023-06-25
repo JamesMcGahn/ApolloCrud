@@ -8,6 +8,7 @@ import CustomerHome from './pages/CustomerHome';
 import Ticket from './pages/Ticket';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import ForgotPassword from './pages/ForgotPassword';
 import AgentHome from './pages/AgentHome';
 import AgentDashboard from './pages/AgentDashboard';
 import MyTickets from './pages/MyTickets';
@@ -51,6 +52,7 @@ const appRouter = createBrowserRouter(
 
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="forgotpassword" element={<ForgotPassword />} />
       <Route path="*" element={<>notfound</>} />
     </Route>,
   ),
