@@ -65,7 +65,19 @@ function ForgotPassword() {
             }}
             autoComplete="off"
           >
-            {loading && <Spinner />}
+            {loading && (
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  minWidth: '30vh',
+                  minHeight: '20vh',
+                }}
+              >
+                <Spinner />
+              </Box>
+            )}
             {!loading && data?.forgotPassword === true && (
               <Box>
                 <Box

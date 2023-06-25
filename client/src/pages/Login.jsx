@@ -4,18 +4,18 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useMutation } from '@apollo/client';
-import loginAUser from '../graphql/mutations/loginAUser';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import { toast } from 'react-toastify';
 import CustomerLayout from '../components/layout/CustomerLayout';
+import loginAUser from '../graphql/mutations/loginAUser';
 
 function Login() {
   const navigate = useNavigate();
 
   const [loginUser, setLoginUser] = useState({ password: '', email: '' });
 
-  const [loggedIn, { data, loading, error }] = useMutation(loginAUser, {
+  const [loggedIn] = useMutation(loginAUser, {
     variables: { loginUser },
     onCompleted: () => {
       navigate('/agent/dashboard');
@@ -38,6 +38,7 @@ function Login() {
     } else {
       toast.error(
         `Fill in your ${
+          // trunk-ignore(eslint/no-nested-ternary)
           !loginUser.email && !loginUser.password
             ? 'email and password.'
             : !loginUser.email

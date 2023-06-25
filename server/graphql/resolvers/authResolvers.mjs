@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import { GraphQLError } from 'graphql';
 import User from '../../models/User.mjs';
 import signToken from '../../utils/signToken.mjs';
@@ -80,8 +81,8 @@ const forgotPassword = async (_, args, context) => {
   const resetURL = `${context.req.protocol}://${
     process.env.NODE_ENV === 'production'
       ? context.req.get('host')
-      : 'localhost:4000'
-  }/resetPassword/${resetToken}`;
+      : 'localhost:3000'
+  }/resetpassword?token=${resetToken}`;
 
   const html = `<h1 style="color:#1976d2;font-size:1.2rem;">Forgot your password?</h1>
   <p style="color:black;font-size:1rem;"> Click the link to reset your password: <a href="${resetURL}" target=”_blank”>Reset Password</a></p>
@@ -111,4 +112,39 @@ const forgotPassword = async (_, args, context) => {
   return true;
 };
 
-export { loginUser, signOut, currentUser, forgotPassword };
+const resetPassword = async (_, args) => {
+  const { token, password, passwordConfirm } = args.resetPassword;
+
+  const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+
+  const user = await User.findOne({
+    passwordResetToken: hashedToken,
+    passwordResetExpires: { $gt: Date.now() },
+  });
+
+  if (!user) {
+    throw new GraphQLError('Reset Token is invalid or expired.', {
+      extensions: {
+        code: 'BAD_USER_INPUT',
+      },
+    });
+  }
+
+  try {
+    user.password = password;
+    user.passwordConfirm = passwordConfirm;
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    await user.save();
+  } catch (e) {
+    throw new GraphQLError('Something went wrong...', {
+      extensions: {
+        code: 'BAD_USER_INPUT',
+      },
+    });
+  }
+
+  return true;
+};
+
+export { loginUser, signOut, currentUser, forgotPassword, resetPassword };

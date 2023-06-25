@@ -156,6 +156,12 @@ const typeDefs = `#graphQL
     level: ServiceLevelType
   }
 
+  input resetPassword {
+    password: String!
+    passwordConfirm: String!
+    token: String!
+  }
+
   type Query {
     tickets(status: [StatusType], companyId: ID): [Ticket!]
     ticket(id: ID!): Ticket!
@@ -179,6 +185,7 @@ const typeDefs = `#graphQL
     deleteCompany(id: ID!): company!
     loginUser(loginUser: loginUser!): user!
     forgotPassword(email: String!): Boolean!
+    resetPassword(resetPassword: resetPassword!): Boolean!
     signOut: Boolean!
   }
 `;

@@ -15,6 +15,7 @@ import {
   signOut,
   currentUser,
   forgotPassword,
+  resetPassword,
 } from './resolvers/authResolvers.mjs';
 import {
   createAUser,
@@ -53,6 +54,7 @@ const resolvers = {
     deleteCompany: deleteACompany,
     loginUser: loginUser,
     forgotPassword: forgotPassword,
+    resetPassword: resetPassword,
     signOut: signOut,
   },
   Date: dateScalar,
