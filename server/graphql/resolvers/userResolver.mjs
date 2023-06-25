@@ -61,7 +61,7 @@ const updateAUser = async (_, args, context) => {
   const { id, updateUser } = args;
   const { user } = context;
 
-  if (user.id !== id && user.role === 'user') {
+  if (user?.id !== id && user.role === 'user') {
     throw new GraphQLError('You dont have permission to view', {
       extensions: {
         code: 'FORBIDDEN',
@@ -84,17 +84,24 @@ const updateAUser = async (_, args, context) => {
       },
     });
   }
-  if (updateUser.company) {
-    await User.findByIdAndUpdate(id, updateUser, { runValidators: true }).then(
-      async (data) => {
+  if (updateUser.company !== undefined) {
+    await User.findByIdAndUpdate(id, updateUser, {
+      runValidators: true,
+    }).then(async (data) => {
+      if (data.company?.id) {
         await Company.findByIdAndUpdate(data.company.id, {
           $pull: { users: data._id },
         });
+      }
+
+      if (updateUser.company !== null) {
         await Company.findByIdAndUpdate(updateUser.company, {
           $addToSet: { users: id },
         });
-      },
-    );
+      } else {
+        updateUser.company = undefined;
+      }
+    });
   } else await User.findByIdAndUpdate(id, updateUser, { runValidators: true });
   return await User.findById(id);
 };

@@ -14,7 +14,12 @@ const CompanySchema = new mongoose.Schema(
     ],
     domain: {
       type: String,
-      unique: true,
+      trim: true,
+      index: {
+        unique: true,
+        partialFilterExpression: { domain: { $type: 'string' } },
+      },
+      default: null,
     },
     notes: {
       type: String,

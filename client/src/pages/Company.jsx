@@ -1,18 +1,22 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { toast } from 'react-toastify';
 import AgentLayout from '../components/layout/AgentLayout';
 import getACompany from '../graphql/queries/getACompany';
 import updateACompany from '../graphql/mutations/updateACompany';
+import deleteACompany from '../graphql/mutations/deleteACompany';
 import Spinner from '../components/ui/LoadingSpinner';
 import TabPanel from '../components/navs/TabPanel';
 import InfoDisplayTable from '../components/tables/InfoDisplayTable';
 import TicketTable from '../components/tables/TicketTable/TicketTable';
 import CompanyForm from '../components/forms/CompanyForm';
 import getTickets from '../graphql/queries/getTickets';
+import getAllUsers from '../graphql/queries/getAllUser';
+import getAllCompanies from '../graphql/queries/getAllCompanies';
 
 function Company() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { data, loading } = useQuery(getACompany, {
     variables: { companyId: id },
   });
@@ -35,6 +39,28 @@ function Company() {
       },
     });
 
+  const [deleteCompany] = useMutation(deleteACompany, {
+    onCompleted: () => {
+      toast.success(`Company ${data.company.name} Deleted`, {
+        theme: 'colored',
+      });
+      navigate('/agent/dashboard/companies');
+    },
+    onError(err) {
+      toast.error(err.message, {
+        theme: 'colored',
+      });
+    },
+    refetchQueries: [{ query: getAllUsers }],
+    update(cache) {
+      const { companies } = cache.readQuery({ query: getAllCompanies });
+      cache.writeQuery({
+        query: getAllCompanies,
+        data: { companies: companies.filter((cmp) => cmp.id !== id) },
+      });
+    },
+  });
+
   const handleSubmit = (company) => {
     const companyChange = {
       name: company?.name,
@@ -48,6 +74,10 @@ function Company() {
     });
   };
 
+  const handleDelete = () => {
+    deleteCompany({ variables: { deleteCompanyId: id } });
+  };
+
   const rows = data?.company?.users
     ? data?.company?.users.map((user) => ({
         id: user.id,
@@ -55,7 +85,7 @@ function Company() {
         cell2: {
           link: true,
           display: user?.company?.name,
-          path: `/agent/dashboard/companies/${user.company.id}`,
+          path: `/agent/dashboard/companies/${user?.company?.id}`,
         },
         cell3: user.role,
         cell4: user.email,
@@ -107,6 +137,7 @@ function Company() {
             <CompanyForm
               handleSubmit={handleSubmit}
               company={updateData?.company || data?.company}
+              handleDelete={handleDelete}
             />,
             <InfoDisplayTable
               rows={rows}

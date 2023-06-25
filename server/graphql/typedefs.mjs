@@ -145,6 +145,7 @@ const typeDefs = `#graphQL
     users: [ID]
     notes: String
     level: ServiceLevelType
+    domain: String
   }
 
   input updateCompany {
@@ -175,6 +176,7 @@ const typeDefs = `#graphQL
     updateUser(id: ID!, updateUser: updateUser!):user!
     createCompany(newCompany: newCompany!): company!
     updateCompany(id: ID!, updateCompany: updateCompany!): company!
+    deleteCompany(id: ID!): company!
     loginUser(loginUser: loginUser!): user!
     signOut: Boolean!
   }

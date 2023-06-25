@@ -21,6 +21,7 @@ import {
   getCompany,
   createCompany,
   updateACompany,
+  deleteACompany,
 } from './resolvers/companyResolvers.mjs';
 import { getAllCompanies } from './resolvers/companiesResolvers.mjs';
 
@@ -44,6 +45,7 @@ const resolvers = {
     updateUser: updateAUser,
     createCompany: createCompany,
     updateCompany: updateACompany,
+    deleteCompany: deleteACompany,
     loginUser: loginUser,
     signOut: signOut,
   },

@@ -68,4 +68,22 @@ const updateACompany = async (_, args) => {
   ).populate('users');
 };
 
-export { createCompany, updateACompany, getCompany };
+const deleteACompany = async (_, args) => {
+  const { id } = args;
+
+  const company = await Company.findById(id).populate('users');
+  if (company.users && company?.users?.length > 0) {
+    const delCompUsers = company.users;
+
+    await Promise.all(
+      delCompUsers.map((user) => {
+        return User.findByIdAndUpdate(user.id, {
+          company: null,
+        });
+      }),
+    );
+  }
+
+  return await Company.findByIdAndRemove(id).populate('users');
+};
+export { createCompany, updateACompany, getCompany, deleteACompany };

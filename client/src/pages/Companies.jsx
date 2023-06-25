@@ -1,23 +1,70 @@
-import * as React from 'react';
-import { useQuery } from '@apollo/client';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
+import { useQuery, useMutation } from '@apollo/client';
 import Container from '@mui/material/Container';
 import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
+import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import getAllCompanies from '../graphql/queries/getAllCompanies';
 import InfoDisplayTable from '../components/tables/InfoDisplayTable';
 import Spinner from '../components/ui/LoadingSpinner';
 import AgentLayout from '../components/layout/AgentLayout';
+import PopModal from '../components/ui/PopModal';
+import CompanyForm from '../components/forms/CompanyForm';
+import createACompany from '../graphql/mutations/createACompany';
 
 const Companies = () => {
   const { data, loading } = useQuery(getAllCompanies);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [company, setCompany] = useState({
+    name: '',
+    level: '',
+    notes: '',
+  });
+
+  const [createNewCompany] = useMutation(createACompany, {
+    onCompleted: (udata) => {
+      toast.success(`Company - ${udata.createCompany.name} Created`, {
+        theme: 'colored',
+      });
+      setModalOpen(false);
+      setCompany({
+        name: '',
+        level: '',
+        notes: '',
+      });
+    },
+    onError(err) {
+      toast.error(err.message, {
+        theme: 'colored',
+      });
+    },
+    refetchQueries: [{ query: getAllCompanies }],
+  });
+
+  const handleSubmit = (info) => {
+    if (!info.name) {
+      toast.error('Provide a Company Name.', {
+        theme: 'colored',
+      });
+      return;
+    }
+    const cmpySubmit = {
+      name: info.name,
+      notes: info.notes,
+      domain: info.domain === '' ? null : info.domain,
+      level: info.level === '' ? undefined : info.level,
+    };
+
+    createNewCompany({ variables: { newCompany: cmpySubmit } });
+  };
 
   const rows = data?.companies
-    ? data.companies.map((company) => ({
-        id: company.id,
-        cell1: company.name,
-        cell2: company.level,
-        cell3: company.id,
+    ? data.companies.map((cmpy) => ({
+        id: cmpy.id,
+        cell1: cmpy.name,
+        cell2: cmpy.level,
+        cell3: cmpy.id,
       }))
     : [];
 
@@ -56,14 +103,35 @@ const Companies = () => {
             flexDirection: 'column',
           }}
         >
-          <CardHeader
-            title={
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              width: '100%',
+              mb: '1rem',
+            }}
+          >
+            <Box>
               <Typography variant="h4" component="h1">
                 Companies
               </Typography>
-            }
-            sx={{ display: 'flex', justifyContent: 'left', width: '100%' }}
-          />
+            </Box>
+            <Box>
+              <PopModal
+                buttonText="Add Company"
+                open={modalOpen}
+                setOpen={setModalOpen}
+                sx={{ width: '500px' }}
+              >
+                <CompanyForm
+                  company={company}
+                  createForm
+                  handleSubmit={handleSubmit}
+                />
+              </PopModal>
+            </Box>
+          </Box>
+
           {loading ? (
             <Spinner />
           ) : (

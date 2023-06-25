@@ -7,6 +7,7 @@ import updateAUser from '../graphql/mutations/updateAUser';
 import loggedInUserQ from '../graphql/queries/loggedInUser';
 import UserProfileForm from '../components/forms/UserProfileForm';
 import Spinner from '../components/ui/LoadingSpinner';
+import getACompany from '../graphql/queries/getACompany';
 
 function User() {
   const { userId } = useParams();
@@ -18,7 +19,6 @@ function User() {
 
   const [updateUser, { loading: updateLoading, data: updateData }] =
     useMutation(updateAUser, {
-      refetchQueries: [{ query: getUser, variables: { userId: userId } }],
       onCompleted: (udata) => {
         toast.success(`User ${udata.updateUser.name} Updated`, {
           theme: 'colored',
@@ -35,12 +35,26 @@ function User() {
     const userChange = {
       name: user?.name,
       email: user?.email,
-      company: user?.company?.id,
+      company: user?.company?.id === 'Remove' ? null : user?.company?.id,
       role: currUser?.currentUser.role === 'admin' ? user?.role : undefined,
     };
-
     updateUser({
-      variables: { updateUserId: user.id, updateUser: userChange },
+      variables: { updateUserId: userId, updateUser: userChange },
+      refetchQueries: [
+        { query: getUser, variables: { userId: userId } },
+        {
+          query: getACompany,
+          variables: {
+            companyId: data?.user?.company?.id,
+          },
+        },
+        {
+          query: getACompany,
+          variables: {
+            companyId: user?.company?.id,
+          },
+        },
+      ],
     });
   };
 

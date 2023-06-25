@@ -14,6 +14,11 @@ const cache = new InMemoryCache({
             return incoming;
           },
         },
+        companies: {
+          merge(existing, incoming) {
+            return incoming;
+          },
+        },
       },
     },
   },

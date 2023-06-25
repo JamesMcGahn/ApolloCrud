@@ -126,7 +126,10 @@ function ProfileForm({ handleSubmit, user, agentRole }) {
                 </InputLabel>
 
                 <UserSelectionList
-                  selectionList={dataCom?.companies}
+                  selectionList={[
+                    { name: 'Assign No Company', id: 'Remove' },
+                    ...dataCom.companies,
+                  ]}
                   valueBy="name"
                   cb={handleSelect}
                   defaultValue={userInfo.company?.name}
