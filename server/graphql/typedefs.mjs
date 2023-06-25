@@ -178,6 +178,7 @@ const typeDefs = `#graphQL
     updateCompany(id: ID!, updateCompany: updateCompany!): company!
     deleteCompany(id: ID!): company!
     loginUser(loginUser: loginUser!): user!
+    forgotPassword(email: String!): Boolean!
     signOut: Boolean!
   }
 `;

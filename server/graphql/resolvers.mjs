@@ -10,7 +10,12 @@ import {
   updateATicket,
   deleteTicket,
 } from './resolvers/ticketResolvers.mjs';
-import { loginUser, signOut, currentUser } from './resolvers/authResolvers.mjs';
+import {
+  loginUser,
+  signOut,
+  currentUser,
+  forgotPassword,
+} from './resolvers/authResolvers.mjs';
 import {
   createAUser,
   updateAUser,
@@ -47,6 +52,7 @@ const resolvers = {
     updateCompany: updateACompany,
     deleteCompany: deleteACompany,
     loginUser: loginUser,
+    forgotPassword: forgotPassword,
     signOut: signOut,
   },
   Date: dateScalar,

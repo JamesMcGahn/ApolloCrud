@@ -20,6 +20,14 @@ const protect = async (req, res) => {
 
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
   const user = await User.findById(decoded.id);
+
+  if (user?.passwordChangedAt) {
+    const changedTime = parseInt(user.passwordChangedAt.getTime() / 1000, 10);
+    if (decoded.iat < changedTime) {
+      return false;
+    }
+  }
+
   if (!user.isActive) {
     return false;
   }

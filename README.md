@@ -26,11 +26,17 @@ Fake company website - and ticketing system
     - company
     - profile
     - ticket
+- format mongo errors on server
+- forgot password/reset password
+  - request reset on FE
+  - ~~send token to email in link on BE~~
+  - send token from fe with updated password
+  - verify token and update password
 
 ## Feature Ideas
 
-- Add User Company Model
-  - CRUD
+- ~~Add User Company Model~~
+  - ~~CRUD~~
 - Public Homepage
   - Products, Sales, Services etc Page
   - Public-facing blog
