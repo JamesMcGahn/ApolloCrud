@@ -8,7 +8,7 @@ Fake company website - and ticketing system
 
 - App Styling
   - Responsive Styling
-- User Create
+- ~~User Create (Agent Created User)~~
 - ~~User Ticket Dashboard~~
 - ~~Search Tickets~~
 - Add Ticket fields
@@ -26,7 +26,7 @@ Fake company website - and ticketing system
     - company
     - profile
     - ticket
-- ~~format mongo dup errors on server
+- ~~format mongo dup errors on server~~
 - ~~forgot password/reset password~~
   - ~~request reset on FE~~
   - ~~send token to email in link on BE~~

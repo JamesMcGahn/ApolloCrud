@@ -4,10 +4,10 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useMutation } from '@apollo/client';
-import registerAUser from '../graphql/mutations/registerAUser';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import { toast } from 'react-toastify';
+import registerAUser from '../graphql/mutations/registerAUser';
 import CustomerLayout from '../components/layout/CustomerLayout';
 
 function Register() {
@@ -20,8 +20,8 @@ function Register() {
     passwordConfirm: '',
   });
 
-  const [registered, { data, loading, error }] = useMutation(registerAUser, {
-    variables: { createUser: registerUser },
+  const [registered] = useMutation(registerAUser, {
+    variables: { createUser: registerUser, agentCreated: false },
     onCompleted: () => {
       navigate('/agent/dashboard');
     },
@@ -43,6 +43,7 @@ function Register() {
     } else {
       toast.error(
         `Fill in your ${
+          // trunk-ignore(eslint/no-nested-ternary)
           !registerUser.email && !registerUser.password
             ? 'email and password.'
             : !registerUser.email

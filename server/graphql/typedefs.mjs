@@ -178,7 +178,7 @@ const typeDefs = `#graphQL
     updateTicket(id: ID!, updateTicket: updateTicket): Ticket!
     updateTickets(ids: [ID!], updateTickets: updateTicket): [Ticket!]
     deleteTicket(id: ID!): Ticket!
-    createUser(createUser: createUser!): user!
+    createUser(createUser: createUser!, agentCreated: Boolean!): user!
     updateUser(id: ID!, updateUser: updateUser!):user!
     createCompany(newCompany: newCompany!): company!
     updateCompany(id: ID!, updateCompany: updateCompany!): company!

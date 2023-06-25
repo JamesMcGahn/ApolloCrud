@@ -2,6 +2,7 @@ import { GraphQLError } from 'graphql';
 import User from '../../models/User.mjs';
 import signToken from '../../utils/signToken.mjs';
 import Company from '../../models/Company.mjs';
+import sendEmail from '../../utils/sendEmail.mjs';
 
 const getUser = async (_, args, context) => {
   const { id } = args;
@@ -26,8 +27,8 @@ const getUser = async (_, args, context) => {
   return foundUser;
 };
 
-const createAUser = async (_, args) => {
-  const { createUser } = args;
+const createAUser = async (_, args, context) => {
+  const { createUser, agentCreated } = args;
 
   const cusDomain = createUser.email.split('@')[1];
 
@@ -48,6 +49,30 @@ const createAUser = async (_, args) => {
     role: newUser.role,
     email: newUser.email,
   };
+
+  if (agentCreated) {
+    const resetToken = await newUser.createPasswordResetToken();
+    await newUser.save({ validateBeforeSave: false });
+
+    const resetURL = `${context.req.protocol}://${
+      process.env.NODE_ENV === 'production'
+        ? context.req.get('host')
+        : 'localhost:3000'
+    }/resetpassword?token=${resetToken}`;
+
+    const html = `<h1 style="color:#1976d2;font-size:1.2rem;">An account was Created on Your Behalf.</h1>
+  <p style="color:black;font-size:1rem;"> Click the link to reset your password: <a href="${resetURL}" target=”_blank”>Reset Password</a></p>
+  `;
+    try {
+      await sendEmail({
+        email: newUser.email,
+        subject: 'An Apollo Tickets Account Was Created For You...',
+        html,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   const token = signToken(createdUser);
 
