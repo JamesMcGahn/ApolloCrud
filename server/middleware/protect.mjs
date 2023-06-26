@@ -17,8 +17,12 @@ const protect = async (req, res) => {
   if (!token) {
     return false;
   }
-
-  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+  let decoded;
+  try {
+    decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+  } catch (e) {
+    return false;
+  }
   const user = await User.findById(decoded.id);
 
   if (user?.passwordChangedAt) {

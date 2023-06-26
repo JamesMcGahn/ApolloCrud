@@ -30,8 +30,8 @@ const emailReader = () => {
             return;
           }
 
-          const f = imap.fetch(results, { bodies: '' });
-          f.on('message', (msg) => {
+          const mailboxRead = imap.fetch(results, { bodies: '' });
+          mailboxRead.on('message', (msg) => {
             msg.on('body', (stream) => {
               simpleParser(stream, async (error, parsed) => {
                 const { from, subject, text } = parsed;
@@ -98,10 +98,10 @@ const emailReader = () => {
               });
             });
           });
-          f.once('erroror', (ex) => {
+          mailboxRead.once('error', (ex) => {
             return Promise.reject(ex);
           });
-          f.once('end', () => {
+          mailboxRead.once('end', () => {
             console.log('Done fetching all messages!');
             imap.end();
           });

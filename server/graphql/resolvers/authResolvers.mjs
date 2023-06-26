@@ -3,6 +3,7 @@ import { GraphQLError } from 'graphql';
 import User from '../../models/User.mjs';
 import signToken from '../../utils/signToken.mjs';
 import sendEmail from '../../utils/sendEmail.mjs';
+import emailNoFeedback from '../../templates/emails/emailNoFeedback.mjs';
 
 const loginUser = async (_, args, context) => {
   const { password, email } = args.loginUser;
@@ -84,9 +85,15 @@ const forgotPassword = async (_, args, context) => {
       : 'localhost:3000'
   }/resetpassword?token=${resetToken}`;
 
-  const html = `<h1 style="color:#1976d2;font-size:1.2rem;">Forgot your password?</h1>
-  <p style="color:black;font-size:1rem;"> Click the link to reset your password: <a href="${resetURL}" target=”_blank”>Reset Password</a></p>
-  `;
+  const html = emailNoFeedback(
+    `Hi ${user.name},`,
+    [
+      'Forgot your password?',
+      `Click the link to reset your password: <a href="${resetURL}" target=”_blank”>Reset Password</a>`,
+      'If you did not request a password reset, please ignore this message.',
+    ],
+    `resetpassword?token=${resetToken}`,
+  );
 
   try {
     await sendEmail({

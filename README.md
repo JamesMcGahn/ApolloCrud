@@ -54,8 +54,10 @@ Fake company website - and ticketing system
   - Delete Tickets
   - CRUD Users
 - ~~ingest email tickets?~~
-  - ~~ingest new email tickets
+  - ~~ingest new email tickets~~
   - ~~allow for ticket code in subject comment on ticket~~
 - Send email on ticket update to requester
   - allow for user to reply to the email
     - ingest only the user's reply (reply above line or something)
+- Merge Tickets
+- Ticket Feedback
