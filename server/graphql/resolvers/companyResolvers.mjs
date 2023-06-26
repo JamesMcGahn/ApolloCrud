@@ -13,15 +13,7 @@ const getCompany = async (_, args, context) => {
     });
   }
 
-  const foundCompany = await Company.findById(id).populate('users');
-  if (!foundCompany) {
-    throw new GraphQLError('We cant find that company.', {
-      extensions: {
-        code: 'BAD_USER_INPUT',
-      },
-    });
-  }
-  return foundCompany;
+  return await Company.findById(id).populate('users');
 };
 
 const createCompany = async (_, args) => {

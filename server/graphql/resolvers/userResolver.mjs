@@ -16,16 +16,8 @@ const getUser = async (_, args, context) => {
       },
     });
   }
-  const foundUser = await User.findById(args.id);
-  if (!foundUser) {
-    throw new GraphQLError('Cant Find That ID', {
-      extenstions: {
-        code: 'BAD_USER_INPUT',
-      },
-    });
-  }
 
-  return foundUser;
+  return await User.findById(args.id);
 };
 
 const createAUser = async (_, args, context) => {

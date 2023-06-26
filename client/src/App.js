@@ -23,6 +23,7 @@ import Users from './pages/Users';
 import User from './pages/User';
 import TicketSearch from './pages/TicketSearch';
 import RootLayout from './components/layout/RootLayout';
+import NotFound from './pages/NotFound';
 
 const appRouter = createBrowserRouter(
   createRoutesFromElements(
@@ -55,7 +56,7 @@ const appRouter = createBrowserRouter(
       <Route path="/register" element={<Register />} />
       <Route path="/forgotpassword" element={<ForgotPassword />} />
       <Route path="/resetpassword" element={<ResetPassword />} />
-      <Route path="*" element={<>notfound</>} />
+      <Route path="*" element={<NotFound />} />
     </Route>,
   ),
 );

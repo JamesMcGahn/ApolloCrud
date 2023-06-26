@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 import { useQuery, useMutation } from '@apollo/client';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import AgentLayout from '../components/layout/AgentLayout';
 import getUser from '../graphql/queries/getUser';
 import updateAUser from '../graphql/mutations/updateAUser';
@@ -12,9 +12,26 @@ import getACompany from '../graphql/queries/getACompany';
 function User() {
   const { userId } = useParams();
   const { data: currUser } = useQuery(loggedInUserQ);
-
+  const navigate = useNavigate();
   const { data, loading } = useQuery(getUser, {
     variables: { userId: userId },
+    onError: (error) => {
+      if (error?.graphQLErrors) {
+        if (error?.graphQLErrors[0]?.extensions.code === 'CASTE_ERROR') {
+          navigate('/404', {
+            state: {
+              title: 'We Cannot Find That User.',
+              message: `We cannot find the User with the ID of ${userId}. Please make sure you have the right link.`,
+            },
+          });
+          return;
+        }
+      }
+
+      toast.error(error.message, {
+        theme: 'colored',
+      });
+    },
   });
 
   const [updateUser, { loading: updateLoading, data: updateData }] =
@@ -24,7 +41,7 @@ function User() {
           theme: 'colored',
         });
       },
-      onError(err) {
+      onError: (err) => {
         toast.error(err.message, {
           theme: 'colored',
         });

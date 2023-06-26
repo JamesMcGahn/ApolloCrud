@@ -19,6 +19,23 @@ function Company() {
   const navigate = useNavigate();
   const { data, loading } = useQuery(getACompany, {
     variables: { companyId: id },
+    onError: (error) => {
+      if (error?.graphQLErrors) {
+        if (error?.graphQLErrors[0]?.extensions.code === 'CASTE_ERROR') {
+          navigate('/404', {
+            state: {
+              title: 'We Cannot Find That Company.',
+              message: `We cannot find the Company with the ID of ${id}. Please make sure you have the right link.`,
+            },
+          });
+          return;
+        }
+      }
+
+      toast.error(error.message, {
+        theme: 'colored',
+      });
+    },
   });
 
   const { data: ticketData, loading: ticketLoading } = useQuery(getTickets, {

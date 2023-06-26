@@ -1,9 +1,14 @@
 const formattedErrors = (formattedError, error) => {
   // Return a different error message
-  console.log(error);
+  // console.log(error);
 
-  const pattern = /E11000.*?(\{.*?\})/;
-  const dupKeyMatch = error.message.match(pattern);
+  const patternE11000 = /E11000.*?(\{.*?\})/;
+  const patternCastError =
+    /^Cast to ObjectId failed for value "([^"]+)" \(type [^)]+\) at path "([^"]+)" for model "([^"]+)"/;
+
+  const dupKeyMatch = error.message.match(patternE11000);
+  const casteErrorMatch = error.message.match(patternCastError);
+
   if (dupKeyMatch) {
     const keyObject = dupKeyMatch[1];
     const keyObjParse = JSON.parse(
@@ -14,6 +19,21 @@ const formattedErrors = (formattedError, error) => {
     return {
       ...formattedError,
       message: `Theres already a record with that ${keyName[0]}`,
+    };
+  }
+
+  if (casteErrorMatch) {
+    const objectIdValue = casteErrorMatch[1]; // ObjectId value
+    const path = casteErrorMatch[2]; // Path value
+    const modelName = casteErrorMatch[3]; // Model name
+
+    return {
+      ...formattedError,
+      message: `We cannot find the ${path}: ${objectIdValue} for that ${modelName}`,
+      extensions: {
+        code: 'CASTE_ERROR',
+        stacktrace: formattedError.extensions?.stacktrace,
+      },
     };
   }
   // if (

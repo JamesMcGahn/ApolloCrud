@@ -15,7 +15,7 @@ const userBread = ({ match }) => {
 const comanyBread = ({ match }) => {
   const { id } = match.params;
   const { data } = useQuery(getACompany, { variables: { companyId: id } });
-  return data?.company.name;
+  return data?.company.name || 'Not Found';
 };
 
 function BreadCrumbs() {

@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import AgentLayout from '../components/layout/AgentLayout';
 import getTicket from '../graphql/queries/getTicket';
@@ -13,12 +13,23 @@ import TicketHistoryNav from '../components/navs/TicketHistoryNav';
 
 function Ticket() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { addHistory } = useContext(TixHistoryContext);
   const { data: custData } = useQuery(loggedInUserQ);
   const { loading, data } = useQuery(getTicket, {
     variables: { ticketId: id },
     onCompleted: () => {
       addHistory(id);
+    },
+    onError: (err) => {
+      if (err.message === 'We cannot find that Ticket Id') {
+        navigate('/404', {
+          state: {
+            title: 'We Cannot Find That Ticket.',
+            message: `We cannot find the Ticket: ${id}. Please make sure you have the right ticket number.`,
+          },
+        });
+      }
     },
   });
 
