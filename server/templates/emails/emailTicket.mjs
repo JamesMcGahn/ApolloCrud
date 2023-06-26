@@ -533,7 +533,7 @@ const emailTicket = (ticket, comments) => {
                                 <div align="center">
                                   <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://www.unlayer.com" style="height:37px; v-text-anchor:middle; width:264px;" arcsize="54%"  stroke="f" fillcolor="#000000"><w:anchorlock/><center style="color:#FFFFFF;font-family:arial,helvetica,sans-serif;"><![endif]-->
                                   <a
-                                    href="https://www.unlayer.com"
+                                    href="${process.env.FE_DOMAIN}/ticket/${id}/feedback"
                                     target="_blank"
                                     class="v-button"
                                     style="
@@ -565,9 +565,8 @@ const emailTicket = (ticket, comments) => {
                                         line-height: 120%;
                                       "
                                       >
-                                      <a href="${process.env.FE_DOMAIN}/ticket/${id}/feedback"><span style="line-height: 16.8px"
-                                        >Give us feedback</span
-                                      ></a></span
+                                      <span style="line-height: 16.8px">Give us feedback</span
+                                      ></span
                                     >
                                   </a>
                                   <!--[if mso]></center></v:roundrect><![endif]-->
