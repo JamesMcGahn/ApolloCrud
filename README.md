@@ -28,10 +28,15 @@ Fake company website - and ticketing system
     - ticket
 - ~~format mongo dup errors on server~~
 - ~~forgot password/reset password~~
+
   - ~~request reset on FE~~
   - ~~send token to email in link on BE~~
   - ~~send token from fe with updated password~~
   - ~~verify token and update password~~
+
+- store comments in markdown
+  - update ticket pages with markdown editor
+  - update email ingester to convert text to markdown
 
 ## Feature Ideas
 
@@ -48,4 +53,9 @@ Fake company website - and ticketing system
 - Agent Admin Dashboard
   - Delete Tickets
   - CRUD Users
-- ingest email tickets?
+- ~~ingest email tickets?~~
+  - ~~ingest new email tickets
+  - ~~allow for ticket code in subject comment on ticket~~
+- Send email on ticket update to requester
+  - allow for user to reply to the email
+    - ingest only the user's reply (reply above line or something)

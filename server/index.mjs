@@ -7,12 +7,14 @@ import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHt
 import http from 'http';
 import cors from 'cors';
 import bodyParser from 'body-parser';
+import schedule from 'node-schedule';
 import typeDefs from './graphql/typedefs.mjs';
 import resolvers from './graphql/resolvers.mjs';
 import 'dotenv/config';
 import connectDB from './config/db.mjs';
 import protect from './middleware/protect.mjs';
 import formattedErrors from './graphql/formattedErrors.mjs';
+import emailReader from './utils/emailReader.mjs';
 
 const PORT = process.env.PORT || 5000;
 
@@ -21,6 +23,12 @@ const httpServer = http.createServer(app);
 
 // connect DB
 connectDB();
+
+//Emailer Reader Scheduler - current every 1 min in dev -
+// const job = schedule.scheduleJob('*/1 * * * *', function () {
+//   emailReader();
+//   console.log('Running Email Reader Scheduler!');
+// });
 
 // Set up Apollo Server
 const server = new ApolloServer({
