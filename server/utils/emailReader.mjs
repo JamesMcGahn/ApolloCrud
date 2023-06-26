@@ -1,6 +1,8 @@
 import Imap from 'imap';
 import { simpleParser } from 'mailparser';
 import { GeneratePassword } from 'js-generate-password';
+import EmailReplyParser from 'email-reply-parser';
+
 import User from '../models/User.mjs';
 import Ticket from '../models/Ticket.mjs';
 import Comment from '../models/Comment.mjs';
@@ -57,9 +59,12 @@ const emailReader = () => {
                   });
                 }
 
+                const cleaningText = new EmailReplyParser().read(text);
+                const cleanComment = cleaningText.getVisibleText();
+
                 const comment = await Comment.create({
                   author: user.id,
-                  content: text,
+                  content: cleanComment,
                   private: false,
                 });
 
@@ -86,6 +91,7 @@ const emailReader = () => {
                     description: subject,
                     requester: user.id,
                     comments: [comment._id],
+                    channel: 'email',
                   });
                 }
               });
