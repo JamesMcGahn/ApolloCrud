@@ -2,6 +2,8 @@ import { GraphQLError } from 'graphql';
 import Ticket from '../../models/Ticket.mjs';
 import Comment from '../../models/Comment.mjs';
 import Counter from '../../models/Counter.mjs';
+import sendEmail from '../../utils/sendEmail.mjs';
+import emailTicket from '../../templates/emails/emailTicket.mjs';
 
 const getTicket = async (parent, args) => {
   const { id } = args;
@@ -55,6 +57,23 @@ const updateATicket = async (_, args) => {
         runValidators: true,
       },
     );
+
+    if (comment.private === false && ticket.channel === 'email') {
+      try {
+        const tix = await ticket.populate('comments');
+        const tixComments = tix.comments.filter((c) => c.private === false);
+
+        const html = emailTicket(tix, tixComments);
+
+        await sendEmail({
+          email: tix.requester.email,
+          subject: `${tix.title} [Ticket:${tix.id}]`,
+          html,
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    }
   } else {
     ticket = await Ticket.findByIdAndUpdate(id, updateTicket, {
       new: true,

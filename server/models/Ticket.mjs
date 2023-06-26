@@ -31,6 +31,11 @@ const TicketSchema = new mongoose.Schema(
       enum: ['Low', 'Normal', 'High', 'Urgent'],
       default: 'Normal',
     },
+    channel: {
+      type: String,
+      enum: ['email', 'app'],
+      default: 'app',
+    },
     comments: [
       {
         type: mongoose.Schema.ObjectId,
