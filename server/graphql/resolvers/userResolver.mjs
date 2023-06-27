@@ -9,7 +9,7 @@ const getUser = async (_, args, context) => {
   const { id } = args;
   const { user } = context;
 
-  if (user.role === 'user' && id !== user.id) {
+  if (!user || (user.role === 'user' && id !== user.id)) {
     throw new GraphQLError('You dont have permission to view', {
       extensions: {
         code: 'FORBIDDEN',

@@ -48,7 +48,11 @@ app.use(
   cors(corsOptions),
   bodyParser.json(),
   expressMiddleware(server, {
-    context: async ({ req, res }) => ({ user: await protect(req), req, res }),
+    context: async ({ req, res }) => ({
+      user: await protect(req, res),
+      req,
+      res,
+    }),
   }),
 );
 
