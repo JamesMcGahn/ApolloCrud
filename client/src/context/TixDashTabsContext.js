@@ -9,7 +9,7 @@ export function TixDashTabsProvider({ children }) {
     'Open',
     'Pending',
     'Blocked',
-    'Closed',
+    'Solved',
   ]);
   const [currentTab, setCurrentTab] = useState(0);
   const value = useMemo(

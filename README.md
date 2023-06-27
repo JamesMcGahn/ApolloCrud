@@ -11,14 +11,15 @@ Fake company website - and ticketing system
 - ~~User Create (Agent Created User)~~
 - ~~User Ticket Dashboard~~
 - ~~Search Tickets~~
-- Add Ticket fields
+- ~~Add Ticket fields~~
   - ~~Priority~~
+  - ~~Solved Status Type~~
 - ~~BreadCrumbs~~
 - ~~Ticket page Customer / Agent~~
 - ~~Status chip for ticket table~~
 - Protect ticket graphlql q/m
 - ~~Fix Customer Bulk Ticket Update~~
-- Fix Padding in Arrow in Status Selection List
+- ~~Fix Padding in Arrow in Status Selection List~~
 - Dashboard Open Context?
 - ~~handle error~~
   - ~~bad id caste error~~
@@ -28,15 +29,11 @@ Fake company website - and ticketing system
     - ~~ticket~~
 - ~~format mongo dup errors on server~~
 - ~~forgot password/reset password~~
-
   - ~~request reset on FE~~
   - ~~send token to email in link on BE~~
   - ~~send token from fe with updated password~~
   - ~~verify token and update password~~
-
-- store comments in markdown
-  - update ticket pages with markdown editor
-  - update email ingester to convert text to markdown
+- Organize Schema Type File
 
 ## Feature Ideas
 
@@ -60,4 +57,13 @@ Fake company website - and ticketing system
   - allow for user to reply to the email
     - ingest only the user's reply (reply above line or something)
 - Merge Tickets
+- Close Tickets
+  - Run Scheduler to close solved tickets after x days
+  - Lock closed tickets from being updated
+    - BE
+    - FE
 - Ticket Feedback
+  - BE Create Review Type/Resolver
+  - BE Update Review Type/Resolver
+  - FE Submit Review
+  - FE Update Review if ticket isnt closed

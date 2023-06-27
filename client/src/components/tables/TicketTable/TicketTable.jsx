@@ -136,6 +136,7 @@ export default function TicketTable({ data, title }) {
     Open: 'warning',
     Pending: 'secondary',
     Blocked: 'error',
+    Solved: 'info',
     Closed: 'info',
   };
 
