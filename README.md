@@ -63,7 +63,8 @@ Fake company website - and ticketing system
     - BE
     - FE
 - Ticket Feedback
-  - BE Create Review Type/Resolver
-  - BE Update Review Type/Resolver
+  - ~~Ticket Review Model~~
+  - ~~BE Create Review Type/Resolver~~
+  - ~~BE Update Review Type/Resolver~~
   - FE Submit Review
   - FE Update Review if ticket isnt closed

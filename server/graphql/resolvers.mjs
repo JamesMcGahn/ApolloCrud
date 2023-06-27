@@ -30,6 +30,10 @@ import {
   deleteACompany,
 } from './resolvers/companyResolvers.mjs';
 import { getAllCompanies } from './resolvers/companiesResolvers.mjs';
+import {
+  createTicketReview,
+  getTicketReview,
+} from './resolvers/ticketReviewResolvers.mjs';
 
 const resolvers = {
   Query: {
@@ -41,6 +45,7 @@ const resolvers = {
     currentUser: currentUser,
     companies: getAllCompanies,
     company: getCompany,
+    ticketReview: getTicketReview,
   },
   Mutation: {
     createTicket: createTicket,
@@ -52,6 +57,7 @@ const resolvers = {
     createCompany: createCompany,
     updateCompany: updateACompany,
     deleteCompany: deleteACompany,
+    createTicketReview: createTicketReview,
     loginUser: loginUser,
     forgotPassword: forgotPassword,
     resetPassword: resetPassword,

@@ -26,6 +26,7 @@ const typeDefs = `#graphQL
     Open
     Pending
     Blocked
+    Solved
     Closed
   }
 
@@ -162,6 +163,20 @@ const typeDefs = `#graphQL
     token: String!
   }
 
+  type ticketReview {
+    ticket: ID!
+    rating: Int!
+    reviewer: userInfo!
+    agent: userInfo!
+  }
+
+  input newTicketReview {
+    ticket: ID!
+    rating: Int!
+    reviewer: ID!
+    agent: ID!
+  }
+
   type Query {
     tickets(status: [StatusType], companyId: ID): [Ticket!]
     ticket(id: ID!): Ticket!
@@ -170,6 +185,7 @@ const typeDefs = `#graphQL
     user(id: ID!): userInfo!
     companies: [companyInfo!]
     company(id: ID!): company!
+    ticketReview(ticket: ID!): ticketReview!
     currentUser: userInfo!
   }
 
@@ -183,6 +199,7 @@ const typeDefs = `#graphQL
     createCompany(newCompany: newCompany!): company!
     updateCompany(id: ID!, updateCompany: updateCompany!): company!
     deleteCompany(id: ID!): company!
+    createTicketReview(newTicketReview: newTicketReview!): ticketReview!
     loginUser(loginUser: loginUser!): user!
     forgotPassword(email: String!): Boolean!
     resetPassword(resetPassword: resetPassword!): Boolean!
