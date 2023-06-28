@@ -166,6 +166,7 @@ const typeDefs = `#graphQL
   type ticketReview {
     ticket: ID!
     rating: Int!
+    comment: String
     reviewer: userInfo!
     agent: userInfo!
   }
@@ -173,6 +174,7 @@ const typeDefs = `#graphQL
   input newTicketReview {
     ticket: ID!
     rating: Int!
+    comment: String
     reviewer: ID!
     agent: ID!
   }
@@ -199,7 +201,7 @@ const typeDefs = `#graphQL
     createCompany(newCompany: newCompany!): company!
     updateCompany(id: ID!, updateCompany: updateCompany!): company!
     deleteCompany(id: ID!): company!
-    createTicketReview(newTicketReview: newTicketReview!): ticketReview!
+    createTicketReview(newTicketReview: newTicketReview!): ticketReview
     loginUser(loginUser: loginUser!): user!
     forgotPassword(email: String!): Boolean!
     resetPassword(resetPassword: resetPassword!): Boolean!

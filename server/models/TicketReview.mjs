@@ -15,6 +15,9 @@ const TicketReviewSchema = new mongoose.Schema(
       type: mongoose.Schema.ObjectId,
       ref: 'User',
     },
+    comment: {
+      type: String,
+    },
     agent: {
       type: mongoose.Schema.ObjectId,
       ref: 'User',

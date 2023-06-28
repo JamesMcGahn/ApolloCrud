@@ -16,7 +16,6 @@ const createTicketReview = async (_, args, context) => {
   );
 
   const foundTicket = await Ticket.findById(ticket);
-
   if (!foundTicket) {
     throw new GraphQLError('We cannot find that Ticket Id', {
       extensions: {
@@ -32,9 +31,10 @@ const createTicketReview = async (_, args, context) => {
     'You dont have permission to create a Review',
   );
 
-  const review = await TicketReview.create(newTicketReview);
-
-  return await TicketReview.findById(review.id)
+  return await TicketReview.findOneAndUpdate({ ticket }, newTicketReview, {
+    upsert: true,
+    returnDocument: 'after',
+  })
     .populate('agent')
     .populate('reviewer');
 };
@@ -43,10 +43,8 @@ const getTicketReview = async (_, args, context) => {
   const { ticket } = args;
   const { user } = context;
 
-  const ticketReview = await TicketReview.findOne({ ticket: ticket })
-    .populate('agent')
-    .populate('reviewer');
-  if (!ticketReview) {
+  const foundTicket = await Ticket.findById(ticket);
+  if (!foundTicket) {
     throw new GraphQLError('We cannot find that Ticket Id', {
       extensions: {
         code: 'BAD_USER_INPUT',
@@ -54,10 +52,14 @@ const getTicketReview = async (_, args, context) => {
     });
   }
 
+  const ticketReview = await TicketReview.findOne({ ticket: ticket })
+    .populate('agent')
+    .populate('reviewer');
+
   protectRoute(
     context,
     [],
-    user.role === 'user' && user.id !== ticketReview.reviewer,
+    user.role === 'user' && user.id !== foundTicket.requester.id,
     'You dont have permission to view this Review',
   );
   return ticketReview;

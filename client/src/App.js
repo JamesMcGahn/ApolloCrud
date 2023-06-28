@@ -21,6 +21,7 @@ import Companies from './pages/Companies';
 import Company from './pages/Company';
 import Users from './pages/Users';
 import User from './pages/User';
+import TicketReview from './pages/TicketReview';
 import TicketSearch from './pages/TicketSearch';
 import RootLayout from './components/layout/RootLayout';
 import NotFound from './pages/NotFound';
@@ -50,6 +51,10 @@ const appRouter = createBrowserRouter(
         <Route path="/customer/profile" element={<Profile />} />
         <Route path="/customer/dashboard" element={<CustomerDashboard />} />
         <Route path="/customer/dashboard/ticket/:id" element={<Ticket />} />
+        <Route
+          path="/customer/dashboard/ticket/:id/feedback"
+          element={<TicketReview />}
+        />
       </Route>
 
       <Route path="/login" element={<Login />} />

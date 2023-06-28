@@ -533,7 +533,7 @@ const emailTicket = (ticket, comments) => {
                                 <div align="center">
                                   <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://www.unlayer.com" style="height:37px; v-text-anchor:middle; width:264px;" arcsize="54%"  stroke="f" fillcolor="#000000"><w:anchorlock/><center style="color:#FFFFFF;font-family:arial,helvetica,sans-serif;"><![endif]-->
                                   <a
-                                    href="${process.env.FE_DOMAIN}/ticket/${id}/feedback"
+                                    href="${process.env.FE_DOMAIN}/customer/dashboard/ticket/${id}/feedback"
                                     target="_blank"
                                     class="v-button"
                                     style="
