@@ -15,8 +15,10 @@ const getTicket = async (parent, args, context) => {
     const noPrivateComms = ticket.comments.filter(
       (comment) => comment.private !== true,
     );
+
     return {
-      ...ticket,
+      ...ticket._doc,
+      id: ticket._doc._id,
       comments: noPrivateComms,
     };
   }
@@ -60,7 +62,16 @@ const createTicket = async (_, args, context) => {
 
 const updateATicket = async (_, args, context) => {
   const { id, updateTicket } = args;
-  protectRoute(context, [], false);
+  const { user } = context;
+  protectRoute(
+    context,
+    [],
+    user.role === 'user' &&
+      (updateTicket?.assignee ||
+        updateTicket?.requester ||
+        updateTicket?.status),
+    "You don't have permission to update these fields.",
+  );
 
   let ticket;
   if (updateTicket.comment) {
@@ -102,7 +113,8 @@ const updateATicket = async (_, args, context) => {
       (comment) => comment.private !== true,
     );
     return {
-      ...ticket,
+      ...ticket._doc,
+      id: ticket._doc._id,
       comments: noPrivateComms,
     };
   }

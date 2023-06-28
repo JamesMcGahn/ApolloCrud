@@ -71,6 +71,9 @@ Fake company website - and ticketing system
   - FE Update Review if ticket isnt closed
 
 - Improve Search / Tickets
+
   - handle search on BE
   - ~~remove closed tickets from mytickets unless directly queried for~~
   - paginate tickets all tickets requests?
+
+- Ticket Create/Update history
