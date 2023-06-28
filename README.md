@@ -72,7 +72,9 @@ Fake company website - and ticketing system
 
 - Improve Search / Tickets
 
-  - handle search on BE
+  - ~~handle search on BE~~
+  - update FE search to use BE search
+    - add FE search for customers
   - ~~remove closed tickets from mytickets unless directly queried for~~
   - paginate tickets all tickets requests?
 

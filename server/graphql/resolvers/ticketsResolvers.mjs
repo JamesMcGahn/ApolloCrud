@@ -2,6 +2,7 @@ import { GraphQLError } from 'graphql';
 import Ticket from '../../models/Ticket.mjs';
 import Comment from '../../models/Comment.mjs';
 import Company from '../../models/Company.mjs';
+import User from '../../models/User.mjs';
 import protectRoute from '../../middleware/protectRoute.mjs';
 
 const filterPrivate = async (query) => {
@@ -15,6 +16,99 @@ const filterPrivate = async (query) => {
     };
   });
   return filtPrivTickets;
+};
+
+const ticketsSearch = async (parent, args, context) => {
+  const { search } = args;
+  protectRoute(context);
+  const pattern = /\s(?=(?:[^']*'[^']*')*[^']*$)/;
+  const searchString = search.split(pattern);
+  const searchObj = searchString
+    .map((x) => x.split(':').map((y) => y.trim()))
+    .reduce((a, x) => {
+      a[x[0]] = x[1];
+      return a;
+    }, {});
+
+  const query = {};
+  query.$and = [];
+
+  if (context.user.role === 'user') {
+    query.$and.push({ requester: context.user.id });
+  }
+
+  if (searchObj.ticket) {
+    return Ticket.find({ _id: searchObj.ticket });
+  }
+
+  if (searchObj.title) {
+    query.$and.push({ title: new RegExp(searchObj.title, 'i') });
+  }
+
+  if (searchObj.priority) {
+    query.$and.push({ priority: searchObj.priority });
+  }
+  if (searchObj.assignee) {
+    const assignee = await User.findOne({
+      name: new RegExp(searchObj.assignee, 'i'),
+    });
+    if (assignee) {
+      query.$and.push({ assignee: assignee });
+    }
+  }
+
+  if (searchObj.name) {
+    const person = await User.findOne({
+      name: new RegExp(searchObj.name, 'i'),
+    });
+    if (person) {
+      query.$and.push({
+        $or: [{ assignee: person.id }, { requester: person.id }],
+      });
+    }
+  }
+  if (searchObj.requester) {
+    const requester = await User.findOne({
+      name: new RegExp(searchObj.requester, 'i'),
+    });
+    if (requester) {
+      query.$and.push({ requester: requester });
+    }
+  }
+
+  if (searchObj.email) {
+    const person = await User.findOne({
+      email: new RegExp(searchObj.email, 'i'),
+    });
+    if (person) {
+      query.$and.push({
+        $or: [{ assignee: person.id }, { requester: person.id }],
+      });
+    }
+  }
+
+  if (searchObj.company) {
+    const company = await Company.findOne({
+      name: new RegExp(searchObj.company, 'i'),
+    });
+    const usersIds = company?.users;
+
+    if (company && usersIds) {
+      query.$and.push({ requester: { $in: usersIds } });
+    }
+  }
+
+  if (searchObj.status) {
+    const statuses = searchObj.status.split(',');
+    query.$and.push({ status: { $in: statuses } });
+  }
+  if (
+    (context.user.role !== 'user' && query.$and.length > 0) ||
+    (context.user.role === 'user' && query.$and.length > 1)
+  ) {
+    return await Ticket.find(query);
+  }
+  return [];
 };
 
 const getTickets = async (parent, args, context) => {
@@ -132,4 +226,4 @@ const myTickets = async (_, args, context) => {
   return await tickets;
 };
 
-export { getTickets, bulkUpdateTickets, myTickets };
+export { getTickets, bulkUpdateTickets, myTickets, ticketsSearch };

@@ -182,6 +182,7 @@ const typeDefs = `#graphQL
   type Query {
     tickets(status: [StatusType], companyId: ID): [Ticket!]
     ticket(id: ID!): Ticket!
+    ticketsSearch(search: String!): [Ticket]
     myTickets(userId: ID!, status: [StatusType]): [Ticket!]
     users: [userInfo!]
     user(id: ID!): userInfo!

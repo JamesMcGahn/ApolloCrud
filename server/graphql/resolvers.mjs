@@ -3,6 +3,7 @@ import {
   getTickets,
   bulkUpdateTickets,
   myTickets,
+  ticketsSearch,
 } from './resolvers/ticketsResolvers.mjs';
 import {
   getTicket,
@@ -39,6 +40,7 @@ const resolvers = {
   Query: {
     tickets: getTickets,
     ticket: getTicket,
+    ticketsSearch: ticketsSearch,
     myTickets: myTickets,
     users: getUsers,
     user: getUser,
