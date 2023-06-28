@@ -1,28 +1,26 @@
-import { GraphQLError } from 'graphql';
 import User from '../../models/User.mjs';
 import signToken from '../../utils/signToken.mjs';
 import Company from '../../models/Company.mjs';
 import sendEmail from '../../utils/sendEmail.mjs';
 import emailNoFeedback from '../../templates/emails/emailNoFeedback.mjs';
+import protectRoute from '../../middleware/protectRoute.mjs';
 
 const getUser = async (_, args, context) => {
   const { id } = args;
   const { user } = context;
-
-  if (!user || (user.role === 'user' && id !== user.id)) {
-    throw new GraphQLError('You dont have permission to view', {
-      extensions: {
-        code: 'FORBIDDEN',
-      },
-    });
-  }
+  protectRoute(context, [], user.role === 'user' && id !== user.id);
 
   return await User.findById(args.id);
 };
 
 const createAUser = async (_, args, context) => {
   const { createUser, agentCreated } = args;
-
+  protectRoute(
+    context,
+    ['user'],
+    false,
+    'You do not have permission to create a new user',
+  );
   const cusDomain = createUser.email.split('@')[1];
 
   const company = await Company.findOne({ domain: cusDomain });
@@ -85,29 +83,25 @@ const updateAUser = async (_, args, context) => {
   const { id, updateUser } = args;
   const { user } = context;
 
-  if (user?.id !== id && user.role === 'user') {
-    throw new GraphQLError('You dont have permission to view', {
-      extensions: {
-        code: 'FORBIDDEN',
-      },
-    });
-  }
+  protectRoute(
+    context,
+    [],
+    user?.id !== id && user.role === 'user',
+    'You dont have permission to update other users.',
+  );
+  protectRoute(
+    context,
+    [],
+    updateUser?.role && user.role !== 'admin',
+    'You dont have permission to update roles.',
+  );
+  protectRoute(
+    context,
+    [],
+    updateUser.company && user.role === 'user',
+    'You dont have permission to update companies.',
+  );
 
-  if (updateUser?.role && user.role !== 'admin') {
-    throw new GraphQLError('You dont have permission to update roles.', {
-      extensions: {
-        code: 'FORBIDDEN',
-      },
-    });
-  }
-
-  if (updateUser.company && user.role === 'user') {
-    throw new GraphQLError('You dont have permission to update companies.', {
-      extensions: {
-        code: 'FORBIDDEN',
-      },
-    });
-  }
   if (updateUser.company !== undefined) {
     await User.findByIdAndUpdate(id, updateUser, {
       runValidators: true,

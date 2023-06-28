@@ -4,10 +4,23 @@ import Comment from '../../models/Comment.mjs';
 import Counter from '../../models/Counter.mjs';
 import sendEmail from '../../utils/sendEmail.mjs';
 import emailTicket from '../../templates/emails/emailTicket.mjs';
+import protectRoute from '../../middleware/protectRoute.mjs';
 
-const getTicket = async (parent, args) => {
+const getTicket = async (parent, args, context) => {
   const { id } = args;
+  protectRoute(context, [], false);
   const ticket = await Ticket.findById(id);
+
+  if (context.user.role === 'user') {
+    const noPrivateComms = ticket.comments.filter(
+      (comment) => comment.private !== true,
+    );
+    return {
+      ...ticket,
+      comments: noPrivateComms,
+    };
+  }
+
   if (!ticket) {
     throw new GraphQLError('We cannot find that Ticket Id', {
       extensions: {
@@ -18,8 +31,10 @@ const getTicket = async (parent, args) => {
   return ticket;
 };
 
-const createTicket = async (_, args) => {
+const createTicket = async (_, args, context) => {
   const { newTicket } = args;
+  protectRoute(context, [], false);
+
   const counter = await Counter.findOneAndUpdate(
     { id: 'ticketCounter' },
     { $inc: { count: 1 } },
@@ -43,8 +58,9 @@ const createTicket = async (_, args) => {
   return await Ticket.findById(ticket.id);
 };
 
-const updateATicket = async (_, args) => {
+const updateATicket = async (_, args, context) => {
   const { id, updateTicket } = args;
+  protectRoute(context, [], false);
 
   let ticket;
   if (updateTicket.comment) {
@@ -81,20 +97,28 @@ const updateATicket = async (_, args) => {
     });
   }
 
+  if (context.user.role === 'user') {
+    const noPrivateComms = ticket.comments.filter(
+      (comment) => comment.private !== true,
+    );
+    return {
+      ...ticket,
+      comments: noPrivateComms,
+    };
+  }
+
   return ticket;
 };
 
 const deleteTicket = async (_, args, context) => {
   const { id } = args;
-  const { user } = context;
-  if (!user || user.role === 'user') {
-    throw new GraphQLError('You dont have permission to delete', {
-      extensions: {
-        code: 'UNAUTHENTICATED',
-        http: { status: 401 },
-      },
-    });
-  }
+
+  protectRoute(
+    context,
+    ['user'],
+    false,
+    'You dont have permission to delete a ticket.',
+  );
 
   const ticket = Ticket.findByIdAndRemove(id);
   if (!ticket) {

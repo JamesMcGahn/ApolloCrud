@@ -1,16 +1,14 @@
-import { GraphQLError } from 'graphql';
 import User from '../../models/User.mjs';
+import protectRoute from '../../middleware/protectRoute.mjs';
 
 const getUsers = async (_, args, context) => {
-  const { user } = context;
-  if (!user || user.role === 'user') {
-    throw new GraphQLError('You dont have permission to view', {
-      extensions: {
-        code: 'UNAUTHENTICATED',
-        http: { status: 401 },
-      },
-    });
-  }
+  protectRoute(
+    context,
+    ['user'],
+    false,
+    'You dont have permission to view users.',
+  );
+
   return await User.find();
 };
 

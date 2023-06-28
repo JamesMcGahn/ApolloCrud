@@ -63,8 +63,14 @@ Fake company website - and ticketing system
     - BE
     - FE
 - Ticket Feedback
+
   - ~~Ticket Review Model~~
   - ~~BE Create Review Type/Resolver~~
   - ~~BE Update Review Type/Resolver~~
   - FE Submit Review
   - FE Update Review if ticket isnt closed
+
+- Improve Search / Tickets
+  - handle search on BE
+  - remove closed tickets from tickets routes
+  - paginate tickets all tickets requests?

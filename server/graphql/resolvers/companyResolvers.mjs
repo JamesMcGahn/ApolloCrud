@@ -1,30 +1,39 @@
-import { GraphQLError } from 'graphql';
 import Company from '../../models/Company.mjs';
 import User from '../../models/User.mjs';
+import protectRoute from '../../middleware/protectRoute.mjs';
 
 const getCompany = async (_, args, context) => {
-  const { user } = context;
   const { id } = args;
-  if (!user || user.role === 'user') {
-    throw new GraphQLError('You dont have permission to view', {
-      extensions: {
-        code: 'FORBIDDEN',
-      },
-    });
-  }
+  protectRoute(
+    context,
+    ['user'],
+    false,
+    'You dont have permission to view a company.',
+  );
 
   return await Company.findById(id).populate('users');
 };
 
-const createCompany = async (_, args) => {
+const createCompany = async (_, args, context) => {
   const { newCompany } = args;
+  protectRoute(
+    context,
+    ['user'],
+    false,
+    'You dont have permission to create a company.',
+  );
 
   return await Company.create(newCompany);
 };
 
-const updateACompany = async (_, args) => {
+const updateACompany = async (_, args, context) => {
   const { updateCompany, id } = args;
-
+  protectRoute(
+    context,
+    ['user'],
+    false,
+    'You dont have permission to update a company.',
+  );
   let company;
 
   if (updateCompany?.users && updateCompany.users.length > 0) {
@@ -60,8 +69,15 @@ const updateACompany = async (_, args) => {
   ).populate('users');
 };
 
-const deleteACompany = async (_, args) => {
+const deleteACompany = async (_, args, context) => {
   const { id } = args;
+
+  protectRoute(
+    context,
+    ['user'],
+    false,
+    'You dont have permission to delete a company.',
+  );
 
   const company = await Company.findById(id).populate('users');
   if (company.users && company?.users?.length > 0) {

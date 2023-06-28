@@ -1,15 +1,14 @@
-import { GraphQLError } from 'graphql';
 import Company from '../../models/Company.mjs';
+import protectRoute from '../../middleware/protectRoute.mjs';
 
 const getAllCompanies = async (_, args, context) => {
-  const { user } = context;
-  if (!user || user.role === 'user') {
-    throw new GraphQLError('You dont have permission to view', {
-      extensions: {
-        code: 'FORBIDDEN',
-      },
-    });
-  }
+  protectRoute(
+    context,
+    ['user'],
+    false,
+    'You dont have permission to view all companies.',
+  );
+
   return await Company.find();
 };
 
