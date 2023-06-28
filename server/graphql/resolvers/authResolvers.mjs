@@ -17,6 +17,17 @@ const loginUser = async (_, args, context) => {
     });
   }
 
+  if (!user.isActive) {
+    throw new GraphQLError(
+      'You account is inactive. Please reach out to support.',
+      {
+        extensions: {
+          code: 'UNAUTHENTICATED',
+        },
+      },
+    );
+  }
+
   const createdUser = {
     id: user._id,
     name: user.name,
