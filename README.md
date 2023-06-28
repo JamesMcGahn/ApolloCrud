@@ -72,5 +72,5 @@ Fake company website - and ticketing system
 
 - Improve Search / Tickets
   - handle search on BE
-  - remove closed tickets from tickets routes
+  - ~~remove closed tickets from mytickets unless directly queried for~~
   - paginate tickets all tickets requests?

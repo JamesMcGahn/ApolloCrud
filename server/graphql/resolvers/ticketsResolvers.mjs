@@ -4,6 +4,19 @@ import Comment from '../../models/Comment.mjs';
 import Company from '../../models/Company.mjs';
 import protectRoute from '../../middleware/protectRoute.mjs';
 
+const filterPrivate = async (query) => {
+  const tickets = await query;
+  const filtPrivTickets = tickets.map((tix) => {
+    const noPrivComms = tix.comments.filter((comm) => comm.private !== true);
+    return {
+      ...tix._doc,
+      comments: noPrivComms,
+      id: tix._doc._id,
+    };
+  });
+  return filtPrivTickets;
+};
+
 const getTickets = async (parent, args, context) => {
   const { status, companyId } = args;
   const { user } = context;
@@ -29,15 +42,7 @@ const getTickets = async (parent, args, context) => {
   }
 
   if (user.role === 'user') {
-    const tickets = await ticket;
-    const filtPrivTickets = tickets.map((tix) => {
-      const noPrivComms = tix.comments.filter((comm) => comm.private !== true);
-      return {
-        ...tix._doc,
-        comments: noPrivComms,
-      };
-    });
-    return filtPrivTickets;
+    return await filterPrivate(ticket);
   }
 
   return await ticket;
@@ -81,18 +86,7 @@ const bulkUpdateTickets = async (_, args, context) => {
   }
   if (ticket.acknowledged) {
     if (user.role === 'user') {
-      const tickets = await Ticket.find({ _id: { $in: ids } });
-      const filtPrivTickets = tickets.map((tix) => {
-        const noPrivComms = tix.comments.filter(
-          (comm) => comm.private !== true,
-        );
-        return {
-          ...tix._doc,
-          comments: noPrivComms,
-        };
-      });
-
-      return filtPrivTickets;
+      return filterPrivate(Ticket.find({ _id: { $in: ids } }));
     }
     return await Ticket.find({ _id: { $in: ids } });
   }
@@ -116,13 +110,24 @@ const myTickets = async (_, args, context) => {
     user.id !== userId,
     'You dont have permission to view other tickets.',
   );
+  let tickets;
 
-  const tickets = Ticket.find({
-    $or: [{ assignee: userId }, { requester: userId }],
-  });
+  if (!status || status.includes(null)) {
+    tickets = Ticket.find({
+      $or: [{ assignee: userId }, { requester: userId }],
+      status: { $ne: 'Closed' },
+    });
+  }
 
   if (status && !status.includes(null)) {
-    return await tickets.find({ status: { $in: status } });
+    tickets = Ticket.find({
+      $or: [{ assignee: userId }, { requester: userId }],
+      status: { $in: status },
+    });
+  }
+
+  if (user.role === 'user') {
+    return await filterPrivate(tickets);
   }
   return await tickets;
 };
