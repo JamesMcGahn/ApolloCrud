@@ -54,7 +54,11 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function TicketTable({ data, title }) {
+export default function TicketTable({
+  data,
+  title,
+  noTicketsMsg = 'No Tickets Available.',
+}) {
   const [tickets] = React.useState(data);
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
@@ -69,7 +73,7 @@ export default function TicketTable({ data, title }) {
     return (
       <Container sx={{ display: 'flex', justifyContent: 'center' }}>
         <Card>
-          <CardContent>No Tickets Available.</CardContent>
+          <CardContent>{noTicketsMsg}</CardContent>
         </Card>
       </Container>
     );

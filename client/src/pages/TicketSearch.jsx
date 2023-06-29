@@ -1,92 +1,44 @@
-import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import Container from '@mui/material/Container';
-import getTickets from '../graphql/queries/getTickets';
+import getTicketSearch from '../graphql/queries/getTicketSearch';
 import TicketTable from '../components/tables/TicketTable/TicketTable';
 import AgentLayout from '../components/layout/AgentLayout';
 
 function TicketSearch() {
   const [searchParams] = useSearchParams();
-  const [aTickets, setATickets] = useState([]);
-  const [params, setParams] = useState();
 
-  const filterTixs = (tixData) => {
-    let tickets = tixData;
+  const searchObj = JSON.stringify(Object.fromEntries([...searchParams]));
 
-    if (params?.title) {
-      tickets = tickets?.filter((tix) => {
-        const { title } = tix;
-        return title.toLowerCase().search(params.title.toLowerCase()) !== -1;
-      });
+  const result = searchObj.replace(/[{}"]/g, '');
+  const inputString = result;
+
+  const splitParts = [];
+  let part = '';
+  let withinSingleQuotes = false;
+
+  for (let i = 0; i < inputString.length; i += 1) {
+    const char = inputString[i];
+
+    if (char === "'") {
+      withinSingleQuotes = !withinSingleQuotes;
     }
 
-    if (params?.ticket) {
-      tickets = tickets.filter((tix) => tix.id === params.ticket);
+    if (char === ',' && !withinSingleQuotes) {
+      splitParts.push(part.trim());
+      part = '';
+    } else {
+      part += char;
     }
+  }
 
-    if (params?.status) {
-      tickets = tickets?.filter(
-        (tix) => tix.status.toLowerCase() === params.status.toLowerCase(),
-      );
-    }
+  splitParts.push(part.trim());
 
-    if (params?.priority) {
-      tickets = tickets?.filter(
-        (tix) => tix.priority.toLowerCase() === params.priority.toLowerCase(),
-      );
-    }
+  const cleanedResult = splitParts.join(' ');
 
-    if (params?.requester) {
-      tickets = tickets?.filter((tix) => {
-        return (
-          tix.requester?.name
-            .toLowerCase()
-            .search(params.requester.toLowerCase()) !== -1 ||
-          tix.requester?.email.toLowerCase() === params.requester.toLowerCase()
-        );
-      });
-    }
-
-    if (params?.assignee) {
-      tickets = tickets?.filter((tix) => {
-        return (
-          tix.assignee?.name
-            .toLowerCase()
-            .search(params.assignee.toLowerCase()) !== -1 ||
-          tix.assignee?.email.toLowerCase() === params.assignee.toLowerCase()
-        );
-      });
-    }
-
-    if (params?.company) {
-      tickets = tickets?.filter((tix) => {
-        return (
-          tix?.assignee?.company?.name.toLowerCase() ===
-            params.company.toLowerCase() ||
-          tix?.requester?.company?.name.toLowerCase() ===
-            params.company.toLowerCase()
-        );
-      });
-    }
-    return tickets;
-  };
-
-  const { loading, data } = useQuery(getTickets, {
-    onCompleted: (tData) => {
-      setATickets(filterTixs(tData.tickets));
-    },
+  const { loading, data } = useQuery(getTicketSearch, {
+    variables: { search: cleanedResult },
   });
-
-  useEffect(() => {
-    setParams(Object.fromEntries([...searchParams]));
-  }, [searchParams]);
-
-  useEffect(() => {
-    if (params && data) {
-      setATickets(filterTixs(data.tickets));
-    }
-  }, [params]);
 
   return (
     <AgentLayout>
@@ -95,11 +47,9 @@ function TicketSearch() {
           'loading'
         ) : (
           <TicketTable
-            data={aTickets}
-            key={`${aTickets[0]?.id || 'no-tickets'}${JSON.stringify(
-              aTickets,
-            )}`}
+            data={data?.ticketsSearch}
             title="Search"
+            noTicketsMsg="No Tickets Available. Try Searching again."
           />
         )}
       </Container>

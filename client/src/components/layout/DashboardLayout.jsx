@@ -166,7 +166,9 @@ export default function DashboardLayout({ children, list, dwrDefOpen }) {
         navigate(`${baseUrl}ticket=${e.target.value}`);
         return;
       }
-      const searchTarg = e.target.value.split(' ');
+      const pattern = /\s(?=(?:[^']*'[^']*')*[^']*$)/;
+      const searchStr = e.target.value.split(pattern);
+      const searchTarg = searchStr;
       const search = searchTarg
         .map((x) => x.split(':').map((y) => y.trim()))
         .reduce((a, x) => {

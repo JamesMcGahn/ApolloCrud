@@ -26,7 +26,7 @@ const ticketsSearch = async (parent, args, context) => {
   const searchObj = searchString
     .map((x) => x.split(':').map((y) => y.trim()))
     .reduce((a, x) => {
-      a[x[0]] = x[1];
+      a[x[0]] = x[1].replace(/"|'/g, '');
       return a;
     }, {});
 
@@ -99,7 +99,8 @@ const ticketsSearch = async (parent, args, context) => {
   }
 
   if (searchObj.status) {
-    const statuses = searchObj.status.split(',');
+    const statuses = searchObj.status.replace(/"|'/g, '').split(',');
+
     query.$and.push({ status: { $in: statuses } });
   }
   if (
