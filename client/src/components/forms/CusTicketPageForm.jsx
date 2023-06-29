@@ -14,6 +14,8 @@ import PopMenuButton from '../ui/PopMenuButton';
 import Comment from '../cards/Comment';
 import ScrollDrawer from '../ui/ScrollDrawer';
 import convert2FullDateTime from '../../utils/convert2FullDateTime';
+import LinkRouter from '../utils/LinkRouter';
+import BreadCrumbs from '../navs/BreadCrumbs';
 
 function CusTicketPageForm({ data }) {
   const [ticket, setTicket] = useState(data.ticket);
@@ -29,6 +31,18 @@ function CusTicketPageForm({ data }) {
       toast.success('Ticket Updated', {
         theme: 'colored',
       });
+      if (datas.updateTicket.status === 'Solved') {
+        toast.info(
+          <LinkRouter
+            to={`/customer/dashboard/ticket/${datas.updateTicket.id}/feedback`}
+          >
+            Leave Feedback On Your Ticket!
+          </LinkRouter>,
+          {
+            theme: 'colored',
+          },
+        );
+      }
     },
     onError(err) {
       toast.error(err.message, {
@@ -47,8 +61,6 @@ function CusTicketPageForm({ data }) {
     };
 
     const updatedTicket = {
-      assignee: ticket.assignee?.id,
-      requester: ticket.requester?.id,
       comment: addComment.content ? addComment : null,
       description: ticket.description,
       status,
@@ -63,166 +75,178 @@ function CusTicketPageForm({ data }) {
   };
 
   return (
-    <Container sx={{ paddingBottom: '5rem', display: 'flex' }}>
-      <Container
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          maxWidth: '325px !important',
-          paddingLeft: '0px !important',
-        }}
-      >
-        <FormControl sx={{ m: 1, width: '300px', mt: 3 }}>
-          <TextField
-            id="requester"
-            label="Requester:"
-            value={ticket?.requester?.email}
-          />
-        </FormControl>
-        <FormControl sx={{ m: 1, width: '300px', mt: 3 }}>
-          <TextField
-            id="Assignee"
-            label="Assignee:"
-            value={ticket?.assignee?.email}
-          />
-        </FormControl>
-
-        <FormControl sx={{ m: 1, width: '300px', mt: 3 }}>
-          <TextField
-            id="created-date"
-            label="Created At:"
-            value={ticket?.updatedAt && convert2FullDateTime(ticket?.createdAt)}
-          />
-        </FormControl>
-        <FormControl sx={{ m: 1, width: '300px', mt: 3 }}>
-          <TextField
-            id="updated-date"
-            label="Updated At:"
-            value={ticket?.updatedAt && convert2FullDateTime(ticket?.updatedAt)}
-          />
-        </FormControl>
-      </Container>
-      <Container
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          padding: '0px !important',
-        }}
-      >
-        <ScrollDrawer>
-          <Container sx={{ marginBottom: '.5rem' }}>
-            <Card
-              sx={{ display: 'flex', padding: '1rem', flexWrap: 'wrap', mb: 1 }}
-            >
-              <Box
-                sx={{
-                  padding: '.2rem 0 0 0',
-                  maxWidth: '2rem',
-                  mr: '10px',
-                }}
-              >
-                <Typography variant="h6" sx={{ fontSize: '1.5rem' }}>
-                  Title:
-                </Typography>
-              </Box>
-              <Box sx={{ padding: '.5rem 0 0 1rem', width: '75%' }}>
-                <Typography variant="h2" sx={{ fontSize: '1.5rem' }}>
-                  {ticket?.title}
-                </Typography>
-              </Box>
-            </Card>
-          </Container>
-
-          <Container>
-            <Card
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                padding: '1rem',
-                flexWrap: 'wrap',
-                mb: 1,
-              }}
-            >
-              <Box>
-                <Typography variant="h6" sx={{ fontSize: '1.2rem' }}>
-                  Description:
-                </Typography>
-              </Box>
-              <Box sx={{ pt: '.5rem' }}>
-                <Typography variant="body2" color="text.secondary">
-                  {ticket?.description}
-                </Typography>
-              </Box>
-            </Card>
-            <Card
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                padding: '1rem',
-                flexWrap: 'wrap',
-                mb: 1,
-              }}
-            >
-              <Box>
-                <Typography variant="h6" sx={{ fontSize: '1.2rem' }}>
-                  Comments:
-                </Typography>
-              </Box>
-              <Box sx={{ display: 'flex', flexDirection: 'column', mb: 1 }}>
-                <TextField
-                  sx={{
-                    mt: 1,
-                  }}
-                  id="newComment"
-                  label="New Comment"
-                  placeholder="Enter a New Comment."
-                  multiline
-                  rows={4}
-                  onChange={handleCommentChange}
-                  value={newComment}
-                />
-              </Box>
-              <Box sx={{ maxHeight: '80vh', overflowY: 'auto' }}>
-                {ticket?.comments.toReversed().map((comment) => {
-                  if (comment.private) return;
-
-                  return (
-                    <Box sx={{ mb: '.8rem', p: '0 .5rem' }} key={comment.id}>
-                      <Comment comment={comment} />
-                    </Box>
-                  );
-                })}
-              </Box>
-            </Card>
-          </Container>
-        </ScrollDrawer>
-      </Container>
-      <Paper
-        sx={{
-          position: 'fixed',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          minHeight: '8vh',
-          display: 'flex',
-          justifyContent: 'right',
-          alignItems: 'center',
-        }}
-        elevation={10}
-      >
+    <Container sx={{ display: 'flex', flexDirection: 'column' }}>
+      <BreadCrumbs />
+      <Container sx={{ paddingBottom: '5rem', display: 'flex' }}>
         <Container
           sx={{
             display: 'flex',
-            justifyContent: 'right',
-            maxHeight: '50px',
+            flexDirection: 'column',
+            maxWidth: '325px !important',
+            paddingLeft: '0px !important',
           }}
         >
-          <PopMenuButton
-            handleSubmit={handleSubmit}
-            defaultSelection={ticket?.status}
-          />
+          <FormControl sx={{ m: 1, width: '300px', mt: 3 }}>
+            <TextField
+              id="requester"
+              label="Requester:"
+              value={ticket?.requester?.email}
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1, width: '300px', mt: 3 }}>
+            <TextField
+              id="Assignee"
+              label="Assignee:"
+              value={ticket?.assignee?.email}
+            />
+          </FormControl>
+
+          <FormControl sx={{ m: 1, width: '300px', mt: 3 }}>
+            <TextField
+              id="created-date"
+              label="Created At:"
+              value={
+                ticket?.updatedAt && convert2FullDateTime(ticket?.createdAt)
+              }
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1, width: '300px', mt: 3 }}>
+            <TextField
+              id="updated-date"
+              label="Updated At:"
+              value={
+                ticket?.updatedAt && convert2FullDateTime(ticket?.updatedAt)
+              }
+            />
+          </FormControl>
         </Container>
-      </Paper>
+        <Container
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            padding: '0px !important',
+          }}
+        >
+          <ScrollDrawer>
+            <Container sx={{ marginBottom: '.5rem' }}>
+              <Card
+                sx={{
+                  display: 'flex',
+                  padding: '1rem',
+                  flexWrap: 'wrap',
+                  mb: 1,
+                }}
+              >
+                <Box
+                  sx={{
+                    padding: '.2rem 0 0 0',
+                    maxWidth: '2rem',
+                    mr: '10px',
+                  }}
+                >
+                  <Typography variant="h6" sx={{ fontSize: '1.5rem' }}>
+                    Title:
+                  </Typography>
+                </Box>
+                <Box sx={{ padding: '.5rem 0 0 1rem', width: '75%' }}>
+                  <Typography variant="h2" sx={{ fontSize: '1.5rem' }}>
+                    {ticket?.title}
+                  </Typography>
+                </Box>
+              </Card>
+            </Container>
+
+            <Container>
+              <Card
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  padding: '1rem',
+                  flexWrap: 'wrap',
+                  mb: 1,
+                }}
+              >
+                <Box>
+                  <Typography variant="h6" sx={{ fontSize: '1.2rem' }}>
+                    Description:
+                  </Typography>
+                </Box>
+                <Box sx={{ pt: '.5rem' }}>
+                  <Typography variant="body2" color="text.secondary">
+                    {ticket?.description}
+                  </Typography>
+                </Box>
+              </Card>
+              <Card
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  padding: '1rem',
+                  flexWrap: 'wrap',
+                  mb: 1,
+                }}
+              >
+                <Box>
+                  <Typography variant="h6" sx={{ fontSize: '1.2rem' }}>
+                    Comments:
+                  </Typography>
+                </Box>
+                <Box sx={{ display: 'flex', flexDirection: 'column', mb: 1 }}>
+                  <TextField
+                    sx={{
+                      mt: 1,
+                    }}
+                    id="newComment"
+                    label="New Comment"
+                    placeholder="Enter a New Comment."
+                    multiline
+                    rows={4}
+                    onChange={handleCommentChange}
+                    value={newComment}
+                  />
+                </Box>
+                <Box sx={{ maxHeight: '80vh', overflowY: 'auto' }}>
+                  {ticket?.comments.toReversed().map((comment) => {
+                    if (comment.private) return;
+
+                    return (
+                      <Box sx={{ mb: '.8rem', p: '0 .5rem' }} key={comment.id}>
+                        <Comment comment={comment} />
+                      </Box>
+                    );
+                  })}
+                </Box>
+              </Card>
+            </Container>
+          </ScrollDrawer>
+        </Container>
+        <Paper
+          sx={{
+            position: 'fixed',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            minHeight: '8vh',
+            display: 'flex',
+            justifyContent: 'right',
+            alignItems: 'center',
+          }}
+          elevation={10}
+        >
+          <Container
+            sx={{
+              display: 'flex',
+              justifyContent: 'right',
+              maxHeight: '50px',
+            }}
+          >
+            <PopMenuButton
+              handleSubmit={handleSubmit}
+              defaultSelection={ticket?.status}
+            />
+          </Container>
+        </Paper>
+      </Container>
     </Container>
   );
 }

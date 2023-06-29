@@ -66,10 +66,7 @@ const updateATicket = async (_, args, context) => {
   protectRoute(
     context,
     [],
-    user.role === 'user' &&
-      (updateTicket?.assignee ||
-        updateTicket?.requester ||
-        updateTicket?.status),
+    user.role === 'user' && (updateTicket?.assignee || updateTicket?.requester),
     "You don't have permission to update these fields.",
   );
 
