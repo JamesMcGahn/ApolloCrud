@@ -45,6 +45,14 @@ Fake company website - and ticketing system
 - Developer Portal?
 - ~~Agent Private Comments~~
 - Agent Groups
+  - ~~BE CRU resolvers
+  - ~~FE/BE update Ticket to use Groups
+  - Assign/Update Agents group(s)
+    - ~~BE update Agents group(s)~~
+    - FE update agents groups(s)
+      - profile display groups
+      - admin edit groups
+  - Admin Update Group
 - Knowledge base for users
 - Knowledge base for agents
 - Agent Admin Dashboard

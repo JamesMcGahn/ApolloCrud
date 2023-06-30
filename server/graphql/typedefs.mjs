@@ -188,6 +188,11 @@ const typeDefs = `#graphQL
     users: [userInfo]
   }
 
+  type groupInfo {
+    id: ID!
+    name: String!
+  }
+
   input addGroup {
     name: String!
   }
@@ -198,6 +203,16 @@ const typeDefs = `#graphQL
     users: [ID]
   }
 
+  input updateUserGroups {
+    userId: ID!,
+    groups: [ID!]
+  }
+
+  type userGroupInfo {
+    id: ID!
+    name: String
+    groups: [groupInfo]
+  }
 
   type Query {
     tickets(status: [StatusType], companyId: ID): [Ticket!]
@@ -221,6 +236,7 @@ const typeDefs = `#graphQL
     deleteTicket(id: ID!): Ticket!
     createUser(createUser: createUser!, agentCreated: Boolean!): user!
     updateUser(id: ID!, updateUser: updateUser!):user!
+    updateUserGroups(updateUserGroups: updateUserGroups!): userGroupInfo!
     createCompany(newCompany: newCompany!): company!
     updateCompany(id: ID!, updateCompany: updateCompany!): company!
     deleteCompany(id: ID!): company!

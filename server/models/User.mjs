@@ -12,6 +12,12 @@ const UserSchema = new mongoose.Schema(
       type: mongoose.Schema.ObjectId,
       ref: 'Company',
     },
+    groups: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Group',
+      },
+    ],
     email: {
       type: String,
       required: true,

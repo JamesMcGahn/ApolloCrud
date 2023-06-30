@@ -1,4 +1,5 @@
 import User from '../../models/User.mjs';
+import Group from '../../models/Group.mjs';
 import signToken from '../../utils/signToken.mjs';
 import Company from '../../models/Company.mjs';
 import sendEmail from '../../utils/sendEmail.mjs';
@@ -123,4 +124,40 @@ const updateAUser = async (_, args, context) => {
   } else await User.findByIdAndUpdate(id, updateUser, { runValidators: true });
   return await User.findById(id);
 };
-export { createAUser, updateAUser, getUser };
+
+const updateUserGroups = async (parent, args, context) => {
+  protectRoute(context);
+  const { groups, userId } = args.updateUserGroups;
+
+  const groupSet = new Set([...groups]);
+
+  await Promise.all(
+    [...groupSet].map((group) => {
+      return Group.findByIdAndUpdate(group, { $addToSet: { users: userId } });
+    }),
+  );
+
+  const updatedUser = await User.findByIdAndUpdate(
+    userId,
+    {
+      groups: [...groupSet],
+    },
+    { new: true },
+  ).populate('groups');
+
+  if (updatedUser.groups && updatedUser.groups.length > 0) {
+    const difference = updatedUser.groups.filter((x) => {
+      return !groups.includes(x.id);
+    });
+
+    await Promise.all(
+      difference.map((group) => {
+        return Group.findByIdAndUpdate(group.id, { $pull: { users: userId } });
+      }),
+    );
+  }
+
+  return await User.findById(userId).populate('groups');
+};
+
+export { createAUser, updateAUser, getUser, updateUserGroups };

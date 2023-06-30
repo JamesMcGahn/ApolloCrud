@@ -22,6 +22,7 @@ import {
   createAUser,
   updateAUser,
   getUser,
+  updateUserGroups,
 } from './resolvers/userResolver.mjs';
 import { getUsers } from './resolvers/usersResolvers.mjs';
 import {
@@ -64,6 +65,7 @@ const resolvers = {
     deleteTicket: deleteTicket,
     createUser: createAUser,
     updateUser: updateAUser,
+    updateUserGroups: updateUserGroups,
     createCompany: createCompany,
     updateCompany: updateACompany,
     deleteCompany: deleteACompany,
