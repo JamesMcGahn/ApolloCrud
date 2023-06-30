@@ -3,6 +3,10 @@ import { gql } from '@apollo/client';
 const createATicket = gql`
   mutation Mutation($newTicket: newTicket) {
     createTicket(newTicket: $newTicket) {
+      group {
+        id
+        name
+      }
       assignee {
         email
         name

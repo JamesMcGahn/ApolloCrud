@@ -3,6 +3,10 @@ import { gql } from '@apollo/client';
 const updateTicket = gql`
   mutation UpdateTicket($updateTicketId: ID!, $updateTicket: updateTicket) {
     updateTicket(id: $updateTicketId, updateTicket: $updateTicket) {
+      group {
+        id
+        name
+      }
       assignee {
         email
         name

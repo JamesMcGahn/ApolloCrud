@@ -3,6 +3,10 @@ import { gql } from '@apollo/client';
 const getTicket = gql`
   query Tickets($ticketId: ID!) {
     ticket(id: $ticketId) {
+      group {
+        id
+        name
+      }
       assignee {
         email
         name
