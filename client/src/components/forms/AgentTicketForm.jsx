@@ -10,11 +10,15 @@ import PopMenuButton from '../ui/PopMenuButton';
 import UserSelectionList from '../ui/UserSelectionList';
 import getAllUsers from '../../graphql/queries/getAllUser';
 import loggedInUserQ from '../../graphql/queries/loggedInUser';
+import GroupSelection from '../ui/GroupSelection';
 import Spinner from '../ui/LoadingSpinner';
 
 function AgentTicketForm({ formTitle, handleSubmitCb, createForm }) {
   const { data: usersData, loading: usersLoading } = useQuery(getAllUsers);
-  const [assignee, setAssignee] = useState();
+  const [groupAssign, setGroupAssign] = useState({
+    group: null,
+    assignee: null,
+  });
   const [requester, setRequester] = useState();
   const [ticket, setTicket] = useState({
     title: '',
@@ -23,6 +27,9 @@ function AgentTicketForm({ formTitle, handleSubmitCb, createForm }) {
     privateComment: false,
     priority: 'Normal',
   });
+  const handleGroupAssignee = (groupAssignChange) => {
+    setGroupAssign((prev) => ({ ...prev, ...groupAssignChange }));
+  };
 
   const handleOnChange = (e) => {
     if (e.target.name === 'privateComment') {
@@ -48,7 +55,8 @@ function AgentTicketForm({ formTitle, handleSubmitCb, createForm }) {
     };
 
     const ticketSubmit = {
-      assignee: assignee?.id,
+      assignee: groupAssign?.assignee,
+      group: groupAssign?.group,
       requester: requester?.id,
       comment: addComment.content ? addComment : null,
       status,
@@ -58,8 +66,10 @@ function AgentTicketForm({ formTitle, handleSubmitCb, createForm }) {
     };
 
     handleSubmitCb(ticketSubmit);
-    setAssignee('');
-    setRequester('');
+    setGroupAssign({
+      group: null,
+      assignee: null,
+    });
     setTicket({
       title: '',
       description: '',
@@ -109,13 +119,7 @@ function AgentTicketForm({ formTitle, handleSubmitCb, createForm }) {
                 cb={setRequester}
               />
 
-              <UserSelectionList
-                selectionList={usersData}
-                defaultValue=""
-                label="Assignee"
-                cb={setAssignee}
-                assignee
-              />
+              <GroupSelection cb={handleGroupAssignee} />
             </>
           )}
           <UserSelectionList

@@ -15,14 +15,18 @@ import updateATicket from '../../graphql/mutations/updateTicket';
 import Spinner from '../ui/LoadingSpinner';
 import PopMenuButton from '../ui/PopMenuButton';
 import UserSelectionList from '../ui/UserSelectionList';
+import GroupSelection from '../ui/GroupSelection';
 import getAllUsers from '../../graphql/queries/getAllUser';
 import Comment from '../cards/Comment';
 import ScrollDrawer from '../ui/ScrollDrawer';
 import convert2FullDateTime from '../../utils/convert2FullDateTime';
 
 function TicketPageForm({ data }) {
-  const [ticket, setTicket] = useState(data.ticket);
-  const [assignee, setAssignee] = useState();
+  const [ticket, setTicket] = useState(data?.ticket);
+  const [groupAssign, setGroupAssign] = useState({
+    group: null,
+    assignee: null,
+  });
   const [tixPriority, setTixPriority] = useState();
   const [title, setTitle] = useState(data?.ticket.title);
   const [requester, setRequester] = useState();
@@ -53,6 +57,9 @@ function TicketPageForm({ data }) {
   const handleCommentChange = (e) => setNewComment(e.target.value);
   const handlePrivateChecked = (e) => setPrivateChecked(e.target.checked);
   const handleTitleChange = (e) => setTitle(e.target.value);
+  const handleGroupAssignee = (groupAssignChange) => {
+    setGroupAssign((prev) => ({ ...prev, ...groupAssignChange }));
+  };
 
   const handleSubmit = (status) => {
     const addComment = {
@@ -62,7 +69,8 @@ function TicketPageForm({ data }) {
     };
 
     const updatedTicket = {
-      assignee: assignee?.id,
+      assignee: groupAssign?.assignee,
+      group: groupAssign?.group,
       requester: requester?.id,
       comment: addComment.content ? addComment : null,
       description: ticket.description,
@@ -104,12 +112,10 @@ function TicketPageForm({ data }) {
               cb={setRequester}
             />
 
-            <UserSelectionList
-              selectionList={userData}
-              defaultValue={ticket?.assignee?.email}
-              label="Assignee"
-              cb={setAssignee}
-              assignee
+            <GroupSelection
+              groupDefaultVal={ticket?.group}
+              assigneeDefaultVal={ticket?.assignee}
+              cb={handleGroupAssignee}
             />
 
             <UserSelectionList
@@ -128,13 +134,6 @@ function TicketPageForm({ data }) {
             id="created-date"
             label="Created At:"
             value={ticket?.updatedAt && convert2FullDateTime(ticket?.createdAt)}
-          />
-        </FormControl>
-        <FormControl sx={{ m: 1, width: '300px', mt: 3 }}>
-          <TextField
-            id="updated-date"
-            label="Updated At:"
-            value={ticket?.updatedAt && convert2FullDateTime(ticket?.updatedAt)}
           />
         </FormControl>
       </Container>
@@ -263,6 +262,7 @@ function TicketPageForm({ data }) {
           display: 'flex',
           justifyContent: 'right',
           alignItems: 'center',
+          zIndex: 1000,
         }}
         elevation={10}
       >

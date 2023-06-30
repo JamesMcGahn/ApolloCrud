@@ -5,6 +5,11 @@ const TicketSchema = new mongoose.Schema(
     _id: {
       type: String,
     },
+    group: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Group',
+      default: '649db7e0a620e750895abe42',
+    },
     assignee: {
       type: mongoose.Schema.ObjectId,
       ref: 'User',
@@ -55,7 +60,8 @@ TicketSchema.pre(/^find/, function (next) {
     })
     .populate({
       path: 'requester',
-    });
+    })
+    .populate({ path: 'group' });
   next();
 });
 
