@@ -35,6 +35,12 @@ import {
   createTicketReview,
   getTicketReview,
 } from './resolvers/ticketReviewResolvers.mjs';
+import {
+  createGroup,
+  updateAGroup,
+  getGroup,
+} from './resolvers/groupResolvers.mjs';
+import { getAllGroups } from './resolvers/groupsResolvers.mjs';
 
 const resolvers = {
   Query: {
@@ -46,6 +52,8 @@ const resolvers = {
     user: getUser,
     currentUser: currentUser,
     companies: getAllCompanies,
+    group: getGroup,
+    groups: getAllGroups,
     company: getCompany,
     ticketReview: getTicketReview,
   },
@@ -59,6 +67,8 @@ const resolvers = {
     createCompany: createCompany,
     updateCompany: updateACompany,
     deleteCompany: deleteACompany,
+    createGroup: createGroup,
+    updateGroup: updateAGroup,
     createTicketReview: createTicketReview,
     loginUser: loginUser,
     forgotPassword: forgotPassword,

@@ -3,6 +3,7 @@ const typeDefs = `#graphQL
 
    type Ticket {
     id: ID!
+    group: AgentGroup
     assignee: userInfo
     requester: userInfo
     title: String!
@@ -63,6 +64,7 @@ const typeDefs = `#graphQL
 
   input newTicket {
     assignee: ID
+    group: ID
     requester: ID!
     title: String!
     description: String!
@@ -73,6 +75,7 @@ const typeDefs = `#graphQL
 
   input updateTicket {
     assignee: ID
+    group: ID
     requester: ID
     title: String
     description: String
@@ -179,6 +182,23 @@ const typeDefs = `#graphQL
     agent: ID!
   }
 
+  type AgentGroup {
+    id: ID!
+    name: String!
+    users: [userInfo]
+  }
+
+  input addGroup {
+    name: String!
+  }
+
+  input updateGroup {
+    id: ID!
+    name: String
+    users: [ID]
+  }
+
+
   type Query {
     tickets(status: [StatusType], companyId: ID): [Ticket!]
     ticket(id: ID!): Ticket!
@@ -186,6 +206,8 @@ const typeDefs = `#graphQL
     myTickets(userId: ID!, status: [StatusType]): [Ticket!]
     users: [userInfo!]
     user(id: ID!): userInfo!
+    group(id: ID!): AgentGroup!
+    groups:[AgentGroup!]
     companies: [companyInfo!]
     company(id: ID!): company!
     ticketReview(ticket: ID!): ticketReview!
@@ -202,6 +224,8 @@ const typeDefs = `#graphQL
     createCompany(newCompany: newCompany!): company!
     updateCompany(id: ID!, updateCompany: updateCompany!): company!
     deleteCompany(id: ID!): company!
+    createGroup(groupName: String): AgentGroup!
+    updateGroup(updateGroup: updateGroup): AgentGroup!
     createTicketReview(newTicketReview: newTicketReview!): ticketReview
     loginUser(loginUser: loginUser!): user!
     forgotPassword(email: String!): Boolean!
