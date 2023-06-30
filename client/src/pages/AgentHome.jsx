@@ -34,10 +34,7 @@ function AgentHome() {
                 <Typography gutterBottom variant="h5" component="div">
                   Tickets
                 </Typography>
-                <LinkRouter to="/agent/dashboard">All Tickets</LinkRouter>
-                <LinkRouter to="/agent/dashboard/mytickets">
-                  My Tickets
-                </LinkRouter>
+                <LinkRouter to="/agent/dashboard">Tickets</LinkRouter>
               </CardContent>
             </Card>
             <Card sx={cardSx}>

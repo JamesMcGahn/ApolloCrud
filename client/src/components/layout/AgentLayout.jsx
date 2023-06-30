@@ -7,6 +7,8 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
+import HolidayVillageIcon from '@mui/icons-material/HolidayVillage';
+import HouseIcon from '@mui/icons-material/House';
 import DashboardLayout from './DashboardLayout';
 import { TixDashTabContext } from '../../context/TixDashTabsContext';
 import TicketHistoryNav from '../navs/TicketHistoryNav';
@@ -31,13 +33,23 @@ function Layout({ children }) {
       list={
         <>
           <List>
-            <LinkRouter to="/agent/dashboard" underline="none">
+            <LinkRouter underline="none" to="/">
               <ListItem disablePadding>
                 <ListItemButton>
                   <ListItemIcon>
-                    <InboxIcon />
+                    <HouseIcon />
                   </ListItemIcon>
-                  <ListItemText primary="All Tickets" />
+                  <ListItemText primary="Home" />
+                </ListItemButton>
+              </ListItem>
+            </LinkRouter>
+            <LinkRouter underline="none" to="/agent/">
+              <ListItem disablePadding>
+                <ListItemButton>
+                  <ListItemIcon>
+                    <HolidayVillageIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Agent Home" />
                 </ListItemButton>
               </ListItem>
             </LinkRouter>
@@ -50,7 +62,7 @@ function Layout({ children }) {
             {tabStatuses.map((status, i) => (
               <LinkRouter
                 underline="none"
-                to="/agent/dashboard/mytickets"
+                to="/agent/dashboard"
                 key={`${status}-nav-item`}
                 onClick={() => handleOnClick(i)}
               >
@@ -65,6 +77,7 @@ function Layout({ children }) {
               </LinkRouter>
             ))}
           </List>
+          <Divider />
         </>
       }
     >

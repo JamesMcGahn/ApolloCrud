@@ -12,7 +12,6 @@ import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import AgentHome from './pages/AgentHome';
 import AgentDashboard from './pages/AgentDashboard';
-import MyTickets from './pages/MyTickets';
 import Profile from './pages/Profile';
 import ProtectedRoute from './components/utils/ProtectedRoute';
 import 'react-toastify/dist/ReactToastify.css';
@@ -32,9 +31,8 @@ const appRouter = createBrowserRouter(
       <Route path="/" element={<Home />} />
       <Route element={<ProtectedRoute allowedUser="agent" />}>
         <Route path="/agent" element={<AgentHome />} />
-        <Route path="/agent/dashboard/" element={<AgentDashboard />} />
         <Route path="/agent/profile" element={<Profile />} />
-        <Route path="/agent/dashboard/mytickets" element={<MyTickets />} />
+        <Route path="/agent/dashboard/" element={<AgentDashboard />} />
         <Route path="/agent/dashboard/ticket" element={<TicketSearch />} />
         <Route path="/agent/dashboard/ticket/:id" element={<Ticket />} />
         <Route path="/agent/dashboard/companies" element={<Companies />} />
