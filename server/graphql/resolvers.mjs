@@ -4,6 +4,7 @@ import {
   bulkUpdateTickets,
   myTickets,
   ticketsSearch,
+  bulkDeleteTickets,
 } from './resolvers/ticketsResolvers.mjs';
 import {
   getTicket,
@@ -64,6 +65,7 @@ const resolvers = {
     createTicket: createTicket,
     updateTicket: updateATicket,
     updateTickets: bulkUpdateTickets,
+    deleteTickets: bulkDeleteTickets,
     deleteTicket: deleteTicket,
     createUser: createAUser,
     updateUser: updateAUser,

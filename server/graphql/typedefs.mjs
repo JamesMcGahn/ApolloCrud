@@ -235,6 +235,7 @@ const typeDefs = `#graphQL
     updateTicket(id: ID!, updateTicket: updateTicket): Ticket!
     updateTickets(ids: [ID!], updateTickets: updateTicket): [Ticket!]
     deleteTicket(id: ID!): Ticket!
+    deleteTickets(id: [ID!]): [ID]
     createUser(createUser: createUser!, agentCreated: Boolean!): user!
     updateUser(id: ID!, updateUser: updateUser!):user!
     updateUserGroups(updateUserGroups: updateUserGroups!): userGroupInfo!

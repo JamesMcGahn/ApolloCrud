@@ -227,4 +227,34 @@ const myTickets = async (_, args, context) => {
   return await tickets;
 };
 
-export { getTickets, bulkUpdateTickets, myTickets, ticketsSearch };
+const bulkDeleteTickets = async (parent, args, context) => {
+  protectRoute(context, ['user']);
+  const { id } = args;
+
+  const tickets = await Ticket.find({ _id: { $in: id } });
+  const delComms = tickets.flatMap((tix) => tix.comments);
+  const comIds = delComms.map((com) => com.id);
+
+  try {
+    await Ticket.deleteMany({ _id: { $in: id } });
+    await Comment.deleteMany({ _id: { $in: comIds } });
+    return id;
+  } catch (err) {
+    throw new GraphQLError(
+      "Something went wrong we couldn't delete the Tickets.",
+      {
+        extensions: {
+          code: 'BAD_USER_INPUT',
+        },
+      },
+    );
+  }
+};
+
+export {
+  getTickets,
+  bulkUpdateTickets,
+  myTickets,
+  ticketsSearch,
+  bulkDeleteTickets,
+};
