@@ -1,9 +1,12 @@
+import UserInfo from './typeDefs/UserInfo.mjs';
+import Tickets from './typeDefs/Tickets.mjs';
+
 const typeDefs = `#graphQL
   scalar Date
 
    type Ticket {
     id: ID!
-    group: AgentGroup
+    group: groupInfo
     assignee: userInfo
     requester: userInfo
     title: String!
@@ -38,14 +41,7 @@ const typeDefs = `#graphQL
     admin
   }
 
-  type userInfo {
-    id: ID!
-    company: userCompany
-    name: String!
-    email: String!
-    role: RolesType!
-    isActive: Boolean!
-  }
+  ${UserInfo}
 
   type Comment {
     id: ID!
@@ -215,7 +211,7 @@ const typeDefs = `#graphQL
   }
 
   type Query {
-    tickets(status: [StatusType], companyId: ID): [Ticket!]
+    ${Tickets}
     ticket(id: ID!): Ticket!
     ticketsSearch(search: String!): [Ticket]
     myTickets(userId: ID!, status: [StatusType]): [Ticket!]
