@@ -56,8 +56,14 @@ Fake company website - and ticketing system
 - Knowledge base for users
 - Knowledge base for agents
 - Agent Admin Dashboard
-  - Delete Tickets
+
   - CRUD Users
+
+- Delete Tickets
+
+  - ~~Single Ticket~~
+  - Bulk Delete
+
 - ~~ingest email tickets?~~
   - ~~ingest new email tickets~~
   - ~~allow for ticket code in subject comment on ticket~~
@@ -77,6 +83,7 @@ Fake company website - and ticketing system
   - ~~BE Update Review Type/Resolver~~
   - ~~FE Submit Review~~
   - FE on ticket solve - ask user to rate ticket
+  - send email?
 
 - Improve Search / Tickets
 

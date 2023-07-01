@@ -19,6 +19,11 @@ const cache = new InMemoryCache({
             return incoming;
           },
         },
+        myTickets: {
+          merge(existing, incoming) {
+            return incoming;
+          },
+        },
       },
     },
   },

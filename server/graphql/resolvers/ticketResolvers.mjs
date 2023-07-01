@@ -129,13 +129,21 @@ const deleteTicket = async (_, args, context) => {
     'You dont have permission to delete a ticket.',
   );
 
-  const ticket = Ticket.findByIdAndRemove(id);
+  const ticket = await Ticket.findByIdAndRemove(id);
   if (!ticket) {
     throw new GraphQLError('We cannot find that Ticket Id', {
       extensions: {
         code: 'BAD_USER_INPUT',
       },
     });
+  }
+
+  if (ticket.comments && ticket.comments.length > 0) {
+    await Promise.all(
+      ticket.comments.map((comment) => {
+        return Comment.findByIdAndRemove(comment.id);
+      }),
+    );
   }
   return ticket;
 };
