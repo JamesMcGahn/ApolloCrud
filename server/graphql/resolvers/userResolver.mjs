@@ -160,4 +160,9 @@ const updateUserGroups = async (parent, args, context) => {
   return await User.findById(userId).populate('groups');
 };
 
-export { createAUser, updateAUser, getUser, updateUserGroups };
+const getUserGroup = async (parent, args, context) => {
+  const { id } = args;
+  return await User.findById(id).populate('groups');
+};
+
+export { createAUser, updateAUser, getUser, updateUserGroups, getUserGroup };

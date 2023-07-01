@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useQuery } from '@apollo/client';
 import UserSelectionList from './UserSelectionList';
 import getAllGroups from '../../graphql/queries/getAllGroups';

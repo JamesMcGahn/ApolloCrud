@@ -29,6 +29,7 @@ function Profile() {
       name: user?.name,
       email: user?.email,
     };
+
     updateUser({
       variables: { updateUserId: user.id, updateUser: userChange },
     });

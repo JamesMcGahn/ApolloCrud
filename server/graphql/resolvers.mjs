@@ -23,6 +23,7 @@ import {
   updateAUser,
   getUser,
   updateUserGroups,
+  getUserGroup,
 } from './resolvers/userResolver.mjs';
 import { getUsers } from './resolvers/usersResolvers.mjs';
 import {
@@ -51,6 +52,7 @@ const resolvers = {
     myTickets: myTickets,
     users: getUsers,
     user: getUser,
+    userGroups: getUserGroup,
     currentUser: currentUser,
     companies: getAllCompanies,
     group: getGroup,

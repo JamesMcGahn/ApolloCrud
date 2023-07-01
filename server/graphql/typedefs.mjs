@@ -221,6 +221,7 @@ const typeDefs = `#graphQL
     myTickets(userId: ID!, status: [StatusType]): [Ticket!]
     users: [userInfo!]
     user(id: ID!): userInfo!
+    userGroups(id: ID!): userGroupInfo
     group(id: ID!): AgentGroup!
     groups:[AgentGroup!]
     companies: [companyInfo!]
