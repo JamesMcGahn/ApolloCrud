@@ -61,7 +61,7 @@ function Company() {
       toast.success(`Company ${data.company.name} Deleted`, {
         theme: 'colored',
       });
-      navigate('/agent/dashboard/companies');
+      navigate('/agent/companies');
     },
     onError(err) {
       toast.error(err.message, {
@@ -102,7 +102,7 @@ function Company() {
         cell2: {
           link: true,
           display: user?.company?.name,
-          path: `/agent/dashboard/companies/${user?.company?.id}`,
+          path: `/agent/companies/${user?.company?.id}`,
         },
         cell3: user.role,
         cell4: user.email,
@@ -160,7 +160,7 @@ function Company() {
               rows={rows}
               heads={headCells}
               numCellPerRow={5}
-              cellLink={`/agent/dashboard/companies/${id}/`}
+              cellLink={`/agent/companies/${id}/`}
             />,
             ticketLoading ? (
               <Spinner />

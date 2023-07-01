@@ -219,7 +219,7 @@ const typeDefs = `#graphQL
     ticket(id: ID!): Ticket!
     ticketsSearch(search: String!): [Ticket]
     myTickets(userId: ID!, status: [StatusType]): [Ticket!]
-    users: [userInfo!]
+    users(roles: [RolesType]): [userInfo!]
     user(id: ID!): userInfo!
     userGroups(id: ID!): userGroupInfo
     group(id: ID!): AgentGroup!

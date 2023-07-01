@@ -107,8 +107,8 @@ const Users = () => {
         link: true,
         display: user?.company?.name || 'No Company Assigned',
         path: user?.company
-          ? `/agent/dashboard/companies/${user.company.id}`
-          : `/agent/dashboard/users/${user.id}`,
+          ? `/agent/companies/${user.company.id}`
+          : `/agent/users/${user.id}`,
       },
       cell3: user.role,
       cell4: user.email,
@@ -119,6 +119,7 @@ const Users = () => {
   };
 
   const { data, loading } = useQuery(getAllUsers, {
+    variables: { roles: ['user'] },
     onCompleted: (uData) => {
       searchBy(uData.users);
     },
@@ -288,7 +289,7 @@ const Users = () => {
                 rows={rows}
                 heads={headCells}
                 numCellPerRow={5}
-                cellLink="/agent/dashboard/users/"
+                cellLink="/agent/users/"
               />
             </>
           )}

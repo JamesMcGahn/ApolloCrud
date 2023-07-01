@@ -17,9 +17,9 @@ import LinkRouter from '../utils/LinkRouter';
 
 function Layout({ children }) {
   const location = useLocation();
-  const match = useMatch('/agent/dashboard/companies/:id');
+  const match = useMatch('/agent/companies/:id');
 
-  const noBreads = ['/agent/dashboard', '/agent/dashboard/mytickets'];
+  const noBreads = ['/agent/dashboard'];
   const noBreadCrumbs = noBreads.includes(location.pathname) || match;
 
   const { tabStatuses, setCurrentTab } = useContext(TixDashTabContext);

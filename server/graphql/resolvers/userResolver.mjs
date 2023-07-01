@@ -126,7 +126,7 @@ const updateAUser = async (_, args, context) => {
 };
 
 const updateUserGroups = async (parent, args, context) => {
-  protectRoute(context);
+  protectRoute(context, ['user', 'agent']);
   const { groups, userId } = args.updateUserGroups;
 
   const groupSet = new Set([...groups]);
@@ -161,6 +161,7 @@ const updateUserGroups = async (parent, args, context) => {
 };
 
 const getUserGroup = async (parent, args, context) => {
+  protectRoute(context, ['user', 'agent']);
   const { id } = args;
   return await User.findById(id).populate('groups');
 };

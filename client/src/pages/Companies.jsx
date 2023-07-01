@@ -139,7 +139,7 @@ const Companies = () => {
               rows={rows}
               heads={headCells}
               numCellPerRow={3}
-              cellLink="/agent/dashboard/companies/"
+              cellLink="/agent/companies/"
             />
           )}
         </Card>

@@ -21,15 +21,11 @@ const comanyBread = ({ match }) => {
 function BreadCrumbs() {
   const routes = [
     { path: '/agent', breadcrumb: 'Agent Home' },
-    { path: '/agent/dashboard/mytickets', breadcrumb: 'My Tickets' },
     { path: '/agent/dashboard/ticket/', breadcrumb: 'Tickets' },
     { path: '/customer/dashboard/ticket/', breadcrumb: null },
-    { path: '/agent/dashboard/users/:userId', breadcrumb: userBread },
-    { path: '/agent/dashboard/companies/:id', breadcrumb: comanyBread },
-    {
-      path: '/agent/dashboard/companies/:id/:userId',
-      breadcrumb: userBread,
-    },
+    { path: '/agent/users/:userId', breadcrumb: userBread },
+    { path: '/agent/companies/:id', breadcrumb: comanyBread },
+    { path: '/agent/companies/:id/:userId', breadcrumb: userBread },
   ];
   const breadcrumbs = useBreadcrumbs(routes);
   const last = breadcrumbs.length - 1;
