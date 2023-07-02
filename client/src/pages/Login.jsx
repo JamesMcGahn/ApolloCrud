@@ -21,6 +21,7 @@ function Login() {
       navigate('/agent/dashboard');
     },
     onError(err) {
+      console.log(err);
       toast.error(err.message, {
         theme: 'colored',
       });

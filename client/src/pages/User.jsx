@@ -54,6 +54,7 @@ function User() {
       email: user?.email,
       company: user?.company?.id === 'Remove' ? null : user?.company?.id,
       role: currUser?.currentUser.role === 'admin' ? user?.role : undefined,
+      isActive: user?.isActive,
     };
     updateUser({
       variables: { updateUserId: userId, updateUser: userChange },

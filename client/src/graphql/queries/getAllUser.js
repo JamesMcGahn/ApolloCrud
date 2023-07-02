@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
 const getAllUsers = gql`
-  query Users($roles: [RolesType]) {
+  query Users($roles: [rolesType]) {
     users(roles: $roles) {
       email
       id

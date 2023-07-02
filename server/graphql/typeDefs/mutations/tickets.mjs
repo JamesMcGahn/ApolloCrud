@@ -1,10 +1,10 @@
-import QMSchemaGenerator from './QMSchemaGenerator.mjs';
+import QMSchemaGenerator from '../QMSchemaGenerator.mjs';
 
 const ticketsSchema = new QMSchemaGenerator(
   'tickets',
   {
     status: {
-      type: '[StatusType]',
+      type: '[statusType]',
       description: 'The status of the tickets',
     },
     companyId: {
@@ -13,12 +13,11 @@ const ticketsSchema = new QMSchemaGenerator(
     },
   },
   {
-    type: '[Ticket!]',
+    type: '[ticket!]',
     description: 'The list of tickets',
   },
 );
 
 const tickets = ticketsSchema.getSchemaString();
-console.log(tickets);
 
 export default tickets;

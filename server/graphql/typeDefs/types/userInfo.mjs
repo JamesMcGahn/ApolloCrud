@@ -1,9 +1,13 @@
-import TEISchemaGenerator from './TEISchemaGenerator.mjs';
+import TEISchemaGenerator from '../TEISchemaGenerator.mjs';
 
-const userSchema = {
+const userInfoSchema = new TEISchemaGenerator('userInfo', 'type', {
   id: {
     type: 'ID!',
     description: 'The ID of the User',
+  },
+  company: {
+    type: 'userCompany',
+    description: 'The company information for the User.',
   },
   name: {
     type: 'String!',
@@ -14,15 +18,14 @@ const userSchema = {
     description: 'The email name of the User',
   },
   role: {
-    type: 'RolesType!',
-    description: 'RolesType enum',
+    type: 'rolesType!',
+    description: 'rolesType enum',
   },
   isActive: {
     type: 'Boolean!',
     description: 'The active status of the User',
   },
-};
+});
 
-const user = new TEISchemaGenerator('userInfo', 'type', userSchema);
-const userInfo = user.getSchemaString();
+const userInfo = userInfoSchema.getSchemaString();
 export default userInfo;

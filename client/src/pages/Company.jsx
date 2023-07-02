@@ -165,7 +165,7 @@ function Company() {
             ticketLoading ? (
               <Spinner />
             ) : (
-              <TicketTable data={ticketData.tickets} />
+              <TicketTable data={ticketData?.tickets} />
             ),
           ]}
         />
