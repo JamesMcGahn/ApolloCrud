@@ -1,6 +1,7 @@
 import enums from './typeDefs/enum/index.mjs';
 import types from './typeDefs/types/index.mjs';
 import inputs from './typeDefs/inputs/index.mjs';
+import queries from './typeDefs/queries/index.mjs';
 
 const typeDefs = `#graphQL
   scalar Date
@@ -8,24 +9,7 @@ const typeDefs = `#graphQL
   ${enums}
   ${types}
   ${inputs}
-
-
-
-  type Query {
-    tickets(status: [statusType], companyId: ID): [ticket!]
-    ticket(id: ID!): ticket!
-    ticketsSearch(search: String!): [ticket]
-    myTickets(userId: ID!, status: [statusType]): [ticket!]
-    users(roles: [rolesType]): [userInfo!]
-    user(id: ID!): userInfo!
-    userGroups(id: ID!): userGroupInfo
-    group(id: ID!): agentGroup!
-    groups:[agentGroup!]
-    companies: [companyInfo!]
-    company(id: ID!): company!
-    ticketReview(ticket: ID!): ticketReview!
-    currentUser: userInfo!
-  }
+  ${queries}
 
   type Mutation {
     createTicket(newTicket: newTicket): ticket!
