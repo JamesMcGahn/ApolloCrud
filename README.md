@@ -17,7 +17,7 @@ Fake company website - and ticketing system
 - ~~BreadCrumbs~~
 - ~~Ticket page Customer / Agent~~
 - ~~Status chip for ticket table~~
-- Protect ticket graphlql q/m
+- ~~Protect ticket graphlql q/m~~
 - ~~Fix Customer Bulk Ticket Update~~
 - ~~Fix Padding in Arrow in Status Selection List~~
 - Dashboard Open Context?
@@ -33,7 +33,7 @@ Fake company website - and ticketing system
   - ~~send token to email in link on BE~~
   - ~~send token from fe with updated password~~
   - ~~verify token and update password~~
-- Organize Schema Type File
+- ~~Organize Schema Type File~~
 
 ## Feature Ideas
 

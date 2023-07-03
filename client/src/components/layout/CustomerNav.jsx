@@ -12,7 +12,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import { green, blue } from '@mui/material/colors';
 import { useQuery, useMutation } from '@apollo/client';
 import loggedInUserQ from '../../graphql/queries/loggedInUser';
@@ -60,7 +59,27 @@ function CustomerNav() {
 
   return (
     <AppBar position="static">
-      <Container maxWidth="xl">
+      <Container
+        maxWidth="xl"
+        sx={{
+          '& a::before': {
+            content: '""',
+            position: 'absolute',
+            display: 'block',
+            width: '100%',
+            height: '2px',
+            bottom: 0,
+            left: 0,
+            backgroundColor: '#FFF',
+            transform: 'scaleX(0)',
+            transformOrigin: 'top left',
+            transition: 'transform 0.3s ease',
+          },
+          '& a:hover::before': {
+            transform: 'scaleX(1)',
+          },
+        }}
+      >
         <Toolbar disableGutters>
           <Box
             sx={{

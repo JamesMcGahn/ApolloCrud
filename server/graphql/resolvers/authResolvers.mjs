@@ -6,7 +6,6 @@ import sendEmail from '../../utils/sendEmail.mjs';
 import emailNoFeedback from '../../templates/emails/emailNoFeedback.mjs';
 
 const loginUser = async (_, args, context) => {
-  console.log(args);
   const { password, email } = args.loginUser;
   const user = await User.findOne({ email }).select('+password');
 
@@ -48,10 +47,6 @@ const loginUser = async (_, args, context) => {
   };
 
   context.res.cookie('jwt', token, cookieOptions);
-  console.log({
-    ...createdUser,
-    token,
-  });
 
   return {
     ...createdUser,
