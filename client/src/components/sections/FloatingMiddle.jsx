@@ -21,9 +21,9 @@ function FloatingMiddle({
         style={{
           position: 'absolute',
           top: '5vh',
-          left: '20%',
+          left: '10%',
           height: '25vh',
-          width: '60%',
+          width: '80%',
           background: floatDivColor,
           zIndex: 15,
           borderRadius: '.5rem',
