@@ -44,6 +44,9 @@ function CallToActionHeader({
               display: 'flex',
               justifyContent: 'center',
               mt: '2rem',
+              '& a': {
+                width: '30%',
+              },
             }}
           >
             <FlipTextButton link={buttonLink} btnText={buttonText} />

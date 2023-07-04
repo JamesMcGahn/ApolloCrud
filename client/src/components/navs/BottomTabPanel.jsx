@@ -1,10 +1,26 @@
 import { useState } from 'react';
 import { styled } from '@mui/material/styles';
+import SwipeableViews from 'react-swipeable-views-react-18-fix';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import TabContext from '@mui/lab/TabContext';
-import TabPanel from '@mui/lab/TabPanel';
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      style={{ margin: '3rem 0', minHeight: '40vh' }}
+      role="tabpanel"
+      hidden={value !== index}
+      id={`full-width-tabpanel-${index}`}
+      aria-labelledby={`full-width-tab-${index}`}
+      {...other}
+    >
+      {value === index && children}
+    </div>
+  );
+}
 
 const StyledTabs = styled((props) => (
   <Tabs
@@ -57,10 +73,14 @@ const StyledTab = styled((props) => <Tab disableRipple {...props} />)(
 );
 
 function BottomTabPanel({ labels, tabs }) {
-  const [value, setValue] = useState('1');
+  const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const handleChangeIndex = (index) => {
+    setValue(index);
   };
 
   return (
@@ -70,25 +90,29 @@ function BottomTabPanel({ labels, tabs }) {
           display: 'flex',
           flexDirection: 'column-reverse',
           color: 'white',
+          '& .MuiTabPanel-root': {
+            minHeight: '50vh',
+            marginBottom: '1.5rem',
+          },
         }}
       >
-        <TabContext value={value}>
-          <StyledTabs
-            value={value}
-            onChange={handleChange}
-            aria-label="styled tabs example"
-          >
-            {labels.map((label, i) => (
-              <StyledTab label={label} value={`${i + 1}`} key={label} />
-            ))}
-          </StyledTabs>
+        <StyledTabs
+          value={value}
+          onChange={handleChange}
+          aria-label="styled tabs example"
+        >
+          {labels.map((label, i) => (
+            <StyledTab label={label} value={i} key={label} />
+          ))}
+        </StyledTabs>
+        <SwipeableViews index={value} onChangeIndex={handleChangeIndex}>
           {tabs.map((tab, i) => (
-            <TabPanel key={`tab-${labels[i]}`} value={`${i + 1}`}>
+            <TabPanel index={i} key={`tab-${labels[i]}`} value={i}>
               {tab}
             </TabPanel>
           ))}
           <Box sx={{ p: 3 }} />
-        </TabContext>
+        </SwipeableViews>
       </Box>
     </Box>
   );

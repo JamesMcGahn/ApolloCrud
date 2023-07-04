@@ -1,14 +1,44 @@
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import CustomerLayout from '../components/layout/CustomerLayout';
 import CallToActionHeader from '../components/sections/CallToActionHeader';
-import ScreenImg from '../assets/images/computerScreen.jpeg';
-import CodeImg from '../assets/images/codeScreen.jpeg';
 import FloatingMiddle from '../components/sections/FloatingMiddle';
 import FlipTextButton from '../components/ui/FlipTextButton';
 import FlatCard from '../components/ui/FlatCard';
-import BottomTabPanel from '../components/navs/BottomTabPanel';
+import TestimonialSection from '../components/sections/TestimonialSection';
+import ScreenImg from '../assets/images/computerScreen.jpeg';
+import CodeImg from '../assets/images/codeScreen.jpeg';
+import CustomerA from '../assets/images/customerA.jpg';
+import CustomerB from '../assets/images/customerB.jpg';
+import CustomerC from '../assets/images/customerC.jpg';
+import CustomerD from '../assets/images/customerD.jpg';
+
+const testimonials = [
+  {
+    name: 'CustomerA',
+    company: 'Company',
+    text: 'lorem ipsum dolor sit Lorem ipsum, dolor sit amet consectetur adipisicing elit. Architecto laborum repudiandae facilis voluptatum fugiat nesciunt, veritatis doloribus a obcaecati id assumenda accusamus sit quia reiciendis ipsum neque eius alias eveniet!',
+    image: CustomerA,
+  },
+  {
+    name: 'CustomerB',
+    company: 'Company',
+    text: 'lorem ipsum dolor sit Lorem ipsum, dolor sit amet consectetur adipisicing elit. Architecto laborum repudiandae facilis voluptatum fugiat nesciunt, veritatis doloribus a obcaecati id assumenda accusamus sit quia reiciendis ipsum neque eius alias eveniet!',
+    image: CustomerB,
+  },
+  {
+    name: 'CustomerC',
+    company: 'Company',
+    text: 'lorem ipsum dolor sit Lorem ipsum, dolor sit amet consectetur adipisicing elit. Architecto laborum repudiandae facilis voluptatum fugiat nesciunt, veritatis doloribus a obcaecati id assumenda accusamus sit quia reiciendis ipsum neque eius alias eveniet!',
+    image: CustomerC,
+  },
+  {
+    name: 'CustomerD',
+    company: 'Company',
+    text: 'lorem ipsum dolor sit Lorem ipsum, dolor sit amet consectetur adipisicing elit. Architecto laborum repudiandae facilis voluptatum fugiat nesciunt, veritatis doloribus a obcaecati id assumenda accusamus sit quia reiciendis ipsum neque eius alias eveniet!',
+    image: CustomerD,
+  },
+];
 
 function Home() {
   return (
@@ -20,6 +50,7 @@ function Home() {
           image={ScreenImg}
           buttonText="Find Out More"
         />
+
         <FloatingMiddle
           topDivColor="#64b5f6"
           bottomDivColor="#2c3e50"
@@ -151,33 +182,35 @@ function Home() {
             </Box>
           </Box>
         </Box>
+        <TestimonialSection
+          title="Lorem ipsum dolor sit amet,"
+          testimonials={testimonials}
+        />
+
         <Box
           sx={{
-            minHeight: '60vh',
-            width: '100%',
-            backgroundColor: '#2196F3',
             display: 'flex',
-            justifyContent: 'flex-start',
+            width: '100%',
             flexDirection: 'column',
             alignItems: 'center',
-            padding: '5rem 0 2rem 0',
+            justifyContent: 'center',
+            background: '#64b5f6',
+            padding: '2rem 0',
           }}
         >
           <Box
+            sx={{
+              borderTop: '1px solid rgba(255, 255, 255, 0.6)',
+              width: '80%',
+              height: '1vh',
+            }}
+          />
+          <Box
             sx={{ display: 'flex', justifyContent: 'flex-start', width: '80%' }}
           >
-            <Typography variant="h3">Lorem ipsum dolor sit amet,</Typography>
-          </Box>
-          <Box sx={{ display: 'flex', width: '80%' }}>
-            <BottomTabPanel
-              labels={['Customer A', 'Customer B', 'Customer C', 'Customer D']}
-              tabs={[
-                <div>ddss</div>,
-                <div>aaaa</div>,
-                <div>bbb</div>,
-                <div>cccc</div>,
-              ]}
-            />
+            <Typography variant="h5" sx={{ mb: 1 }}>
+              Lorem ipsum dolor sit amet consectetur
+            </Typography>
           </Box>
         </Box>
       </Box>
