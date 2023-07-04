@@ -10,6 +10,8 @@ import newTicketReview from './newTicketReview.mjs';
 import updateGroup from './updateGroup.mjs';
 import updateUserGroups from './updateUserGroups.mjs';
 import resetPassword from './resetPassword.mjs';
+import newPost from './newPost.mjs';
+import updatePost from './updatePost.mjs';
 
 const commentInputs = ''.concat(newComment);
 const ticketInputs = ''.concat(newTicket, updateTicket);
@@ -23,6 +25,7 @@ const userInputs = ''.concat(
 const companyInputs = ''.concat(newCompany, updateCompany);
 const ticketReviewInputs = ''.concat(newTicketReview);
 const groupInputs = ''.concat(updateGroup);
+const postInputs = ''.concat(newPost, updatePost);
 
 const inputs = ''.concat(
   commentInputs,
@@ -31,6 +34,7 @@ const inputs = ''.concat(
   companyInputs,
   ticketReviewInputs,
   groupInputs,
+  postInputs,
 );
 
 export default inputs;

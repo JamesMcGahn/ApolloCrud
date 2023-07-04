@@ -16,6 +16,9 @@ import loginUser from './loginUser.mjs';
 import forgotPassword from './forgotPassword.mjs';
 import resetPassword from './resetPassword.mjs';
 import signOut from './signOut.mjs';
+import createBlog from './createBlog.mjs';
+import updateBlog from './updateBlog.mjs';
+import deleteBlog from './deleteBlog.mjs';
 
 const ticketMutations = ''.concat(
   createTicket,
@@ -35,6 +38,7 @@ const authMutations = ''.concat(
   resetPassword,
   signOut,
 );
+const blogMutations = ''.concat(createBlog, updateBlog, deleteBlog);
 
 const mutations = 'type Mutation {'.concat(
   ticketMutations,
@@ -43,6 +47,7 @@ const mutations = 'type Mutation {'.concat(
   groupMutations,
   ticketReviewMutations,
   authMutations,
+  blogMutations,
   '}',
 );
 

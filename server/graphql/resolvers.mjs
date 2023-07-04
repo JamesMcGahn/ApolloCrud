@@ -44,6 +44,12 @@ import {
   getGroup,
 } from './resolvers/groupResolvers.mjs';
 import { getAllGroups } from './resolvers/groupsResolvers.mjs';
+import {
+  createBlog,
+  getBlog,
+  updateBlog,
+  deleteBlog,
+} from './resolvers/blogResolver.mjs';
 
 const resolvers = {
   Query: {
@@ -60,6 +66,7 @@ const resolvers = {
     groups: getAllGroups,
     company: getCompany,
     ticketReview: getTicketReview,
+    blog: getBlog,
   },
   Mutation: {
     createTicket: createTicket,
@@ -80,6 +87,9 @@ const resolvers = {
     forgotPassword: forgotPassword,
     resetPassword: resetPassword,
     signOut: signOut,
+    createBlog: createBlog,
+    updateBlog: updateBlog,
+    deleteBlog: deleteBlog,
   },
   Date: dateScalar,
 };

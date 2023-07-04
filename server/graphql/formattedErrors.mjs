@@ -19,6 +19,10 @@ const formattedErrors = (formattedError, error) => {
     return {
       ...formattedError,
       message: `Theres already a record with that ${keyName[0]}`,
+      extensions: {
+        code: 'DUPLICATE_KEY',
+        stacktrace: formattedError.extensions?.stacktrace,
+      },
     };
   }
 

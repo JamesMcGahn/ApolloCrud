@@ -11,12 +11,14 @@ import groups from './groups.mjs';
 import companies from './companies.mjs';
 import company from './company.mjs';
 import ticketReview from './ticketReview.mjs';
+import blog from './blog.mjs';
 
 const ticketQueries = ''.concat(tickets, ticket, ticketsSearch, myTickets);
 const userQueries = ''.concat(user, users, userGroups, currentUser);
 const groupQueries = ''.concat(group, groups);
 const companyQueries = ''.concat(companies, company);
 const ticketReviewQueries = ''.concat(ticketReview);
+const blogQueries = ''.concat(blog);
 
 const queries = 'type Query {'.concat(
   ticketQueries,
@@ -24,6 +26,7 @@ const queries = 'type Query {'.concat(
   groupQueries,
   companyQueries,
   ticketReviewQueries,
+  blogQueries,
   '}',
 );
 
