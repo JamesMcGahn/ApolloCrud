@@ -11,6 +11,14 @@ const ticketsSchema = new QMSchemaGenerator(
       type: 'ID',
       description: 'The ID of the company.',
     },
+    groupId: {
+      type: 'ID',
+      description: 'The ID of the group.',
+    },
+    unassigned: {
+      type: 'Boolean',
+      description: 'Ticket is not assigned',
+    },
   },
   {
     type: '[ticket!]',

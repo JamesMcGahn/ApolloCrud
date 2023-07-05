@@ -113,7 +113,7 @@ const ticketsSearch = async (parent, args, context) => {
 };
 
 const getTickets = async (parent, args, context) => {
-  const { status, companyId } = args;
+  const { status, companyId, groupId, unassigned } = args;
   const { user } = context;
 
   protectRoute(
@@ -136,6 +136,13 @@ const getTickets = async (parent, args, context) => {
     ticket.find({ status: { $in: status } });
   }
 
+  if (groupId) {
+    ticket.find({ group: groupId });
+  }
+
+  if (unassigned) {
+    ticket.find({ assignee: null });
+  }
   if (user.role === 'user') {
     return await filterPrivate(ticket);
   }
