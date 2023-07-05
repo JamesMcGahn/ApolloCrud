@@ -34,6 +34,8 @@ Fake company website - and ticketing system
   - ~~send token from fe with updated password~~
   - ~~verify token and update password~~
 - ~~Organize Schema Type File~~
+- unassigned Tickets
+- Group tickets
 
 ## Feature Ideas
 
@@ -45,6 +47,7 @@ Fake company website - and ticketing system
 - Developer Portal?
 - ~~Agent Private Comments~~
 - Agent Groups
+
   - ~~BE CRU resolvers~~
   - ~~FE/BE update Ticket to use Groups~~
   - Assign/Update Agents group(s)
@@ -53,11 +56,23 @@ Fake company website - and ticketing system
       - ~~profile display groups~~
       - admin edit groups
   - Admin Update Group
-- Knowledge base for users
-- Knowledge base for agents
-- Agent Admin Dashboard
 
-  - CRUD Users
+- Knownledge Base
+
+  - CRUD Knownledge Articles
+    - FE
+    - BE
+  - FE Knowledge base for users
+  - FEKnowledge base for agents
+
+- BLOG Posts
+
+  - CRUD Blog Posts
+    - FE
+    - ~~BE~~
+
+- Agent Admin Dashboard
+- CRUD Users
 
 - Delete Tickets
 

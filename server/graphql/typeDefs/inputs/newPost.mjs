@@ -29,6 +29,10 @@ const newPostSchema = new TEISchemaGenerator('newPost', 'input', {
     type: 'ID!',
     description: "The author's ID",
   },
+  status: {
+    type: 'postStatusType',
+    description: 'Post is a "draft" or "published".',
+  },
   isPrivate: {
     type: 'Boolean!',
     description: 'Is the post private or public facing.',

@@ -11,6 +11,10 @@ const blogsSchema = new QMSchemaGenerator(
       type: 'Int',
       description: 'The page number of blogs returned',
     },
+    status: {
+      type: 'postStatusType',
+      description: 'Draft or Published posts. Restricted to Agents.',
+    },
   },
   {
     type: 'posts',

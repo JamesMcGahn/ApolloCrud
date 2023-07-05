@@ -2,7 +2,7 @@ import Post from '../../models/Post.mjs';
 
 const getBlogs = async (parent, args, context) => {
   const { user } = context;
-  const { page, category } = args;
+  const { page, category, status } = args;
   let posts;
   const query = {};
   query.$and = [{ type: 'blog' }];
@@ -13,6 +13,7 @@ const getBlogs = async (parent, args, context) => {
 
   if (!user || user.role === 'user') {
     query.$and.push({ isPrivate: false });
+    query.$and.push({ status: 'published' });
     posts = await Post.paginate(query, {
       customLabels: { docs: 'posts' },
       limit: 5,
@@ -31,6 +32,10 @@ const getBlogs = async (parent, args, context) => {
       }));
       return { ...posts, posts: postsArr };
     }
+  }
+
+  if (status) {
+    query.$and.push({ status: status });
   }
 
   posts = await Post.paginate(query, {

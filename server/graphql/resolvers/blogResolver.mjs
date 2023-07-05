@@ -77,6 +77,7 @@ const getBlog = async (parent, args, context) => {
       $and: [
         { type: 'blog' },
         { isPrivate: false },
+        { status: 'published' },
         { $or: [{ slug: slug }, { _id: blogId }] },
       ],
     });

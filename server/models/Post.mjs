@@ -45,6 +45,11 @@ const PostSchema = new mongoose.Schema(
       enum: ['blog', 'article'],
       required: true,
     },
+    status: {
+      type: String,
+      enum: ['draft', 'published'],
+      default: 'draft',
+    },
     isPrivate: {
       type: Boolean,
       default: false,

@@ -41,6 +41,10 @@ const postSchema = new TEISchemaGenerator('post', 'type', {
     type: 'postType!',
     description: 'The type of post. Blog or knownledge.',
   },
+  status: {
+    type: 'postStatusType!',
+    description: 'Post is a "draft" or "published".',
+  },
   isPrivate: {
     type: 'Boolean!',
     description: 'Is the post private or public',
