@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import mongoosePaginate from 'mongoose-paginate-v2';
 
 const PostSchema = new mongoose.Schema(
   {
@@ -59,6 +60,8 @@ PostSchema.pre(/^find/, function (next) {
 
   next();
 });
+
+PostSchema.plugin(mongoosePaginate);
 
 const Post = mongoose.model('Post', PostSchema);
 

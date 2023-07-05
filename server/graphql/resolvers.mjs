@@ -50,6 +50,7 @@ import {
   updateBlog,
   deleteBlog,
 } from './resolvers/blogResolver.mjs';
+import { getBlogs } from './resolvers/blogsResolver.mjs';
 
 const resolvers = {
   Query: {
@@ -67,6 +68,7 @@ const resolvers = {
     company: getCompany,
     ticketReview: getTicketReview,
     blog: getBlog,
+    blogs: getBlogs,
   },
   Mutation: {
     createTicket: createTicket,

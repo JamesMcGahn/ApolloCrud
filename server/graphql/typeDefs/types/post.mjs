@@ -45,6 +45,16 @@ const postSchema = new TEISchemaGenerator('post', 'type', {
     type: 'Boolean!',
     description: 'Is the post private or public',
   },
+  updatedAt: {
+    type: 'Date',
+    description:
+      'The date time that the post was last updated. Unix timestamp in milliseconds',
+  },
+  createdAt: {
+    type: 'Date',
+    description:
+      'The date time that the post was created. Unix timestamp in milliseconds',
+  },
 });
 
 const post = postSchema.getSchemaString();
