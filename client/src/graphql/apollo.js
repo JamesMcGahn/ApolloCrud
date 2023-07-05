@@ -24,6 +24,12 @@ const cache = new InMemoryCache({
             return incoming;
           },
         },
+        blogs: {
+          keyArgs: false,
+          merge(existing, incoming) {
+            return incoming;
+          },
+        },
       },
     },
   },

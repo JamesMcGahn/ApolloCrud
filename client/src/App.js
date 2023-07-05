@@ -22,6 +22,7 @@ import Users from './pages/Users';
 import User from './pages/User';
 import TicketReview from './pages/TicketReview';
 import TicketSearch from './pages/TicketSearch';
+import AgentBlogs from './pages/AgentBlogs';
 import RootLayout from './components/layout/RootLayout';
 import NotFound from './pages/NotFound';
 
@@ -40,6 +41,7 @@ const appRouter = createBrowserRouter(
         <Route path="/agent/companies/:id/:userId" element={<User />} />
         <Route path="/agent/users" element={<Users />} />
         <Route path="/agent/users/:userId" element={<User />} />
+        <Route path="/agent/blogs" element={<AgentBlogs />} />
       </Route>
       <Route element={<ProtectedRoute />}>
         <Route path="/customer" element={<CustomerHome />} />
