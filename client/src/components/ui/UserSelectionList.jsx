@@ -1,27 +1,8 @@
 import * as React from 'react';
-import { useTheme } from '@mui/material/styles';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import FormHelperText from '@mui/material/FormHelperText';
-
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 300,
-    },
-  },
-};
-
-function getStyles(theme) {
-  return {
-    fontWeight: theme.typography.fontWeightRegular,
-  };
-}
+import TextField from '@mui/material/TextField';
 
 export default function UserSelectionList({
   selectionList,
@@ -29,10 +10,10 @@ export default function UserSelectionList({
   cb,
   label,
   assignee,
+  required,
   valueBy = 'email',
-  sxStyles = { m: 1, width: '300px', mt: 3 },
+  sxStyles = { m: 1, width: '100%', mt: 1 },
 }) {
-  const theme = useTheme();
   const [personName, setPersonName] = React.useState(defaultValue || '');
 
   const users = selectionList?.users || selectionList;
@@ -52,34 +33,25 @@ export default function UserSelectionList({
   return (
     <div>
       <FormControl sx={sxStyles}>
-        <Select
-          displayEmpty
+        <TextField
+          required={required}
+          select
+          label={label}
           value={personName}
           onChange={handleChange}
           input={<OutlinedInput />}
-          renderValue={(selected) => {
-            return selected;
-          }}
-          MenuProps={MenuProps}
           defaultValue={defaultValue}
-          inputProps={{ 'aria-label': 'Without label' }}
         >
           {users.map((name) => {
             if (assignee && name.role === 'user') return;
 
             return (
-              <MenuItem
-                key={name.id}
-                name={name.id}
-                value={name[valueBy]}
-                style={getStyles(theme)}
-              >
+              <MenuItem key={name.id} name={name.id} value={name[valueBy]}>
                 {name[valueBy]}
               </MenuItem>
             );
           })}
-        </Select>
-        <FormHelperText>{label}</FormHelperText>
+        </TextField>
       </FormControl>
     </div>
   );

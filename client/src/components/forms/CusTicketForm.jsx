@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import Container from '@mui/material/Container';
 import { useQuery } from '@apollo/client';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -64,7 +63,7 @@ function AgentTicketForm({ formTitle, handleSubmitCb, createForm }) {
   }));
 
   return (
-    <Container
+    <Box
       sx={{
         display: 'flex',
         justifyContent: 'center',
@@ -73,21 +72,20 @@ function AgentTicketForm({ formTitle, handleSubmitCb, createForm }) {
       }}
     >
       <Box
-        component="form"
         sx={{
-          '& .MuiTextField-root': { m: 1, width: '25ch' },
           display: 'flex',
           flexDirection: 'column',
+          width: '100%',
+          gap: '1rem',
         }}
-        autoComplete="off"
       >
-        <Container sx={{ display: 'flex', justifyContent: 'center' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
           <Typography variant="subtitle1" component="h2">
             {formTitle}
           </Typography>
-        </Container>
+        </Box>
 
-        <Container sx={{ width: '100%', padding: '0' }}>
+        <Box sx={{ width: '100%', padding: '0' }}>
           <TextField
             required={createForm}
             fullWidth
@@ -98,11 +96,10 @@ function AgentTicketForm({ formTitle, handleSubmitCb, createForm }) {
             name="title"
             value={ticket.title}
             onChange={handleOnChange}
-            sx={{ padding: '0', minWidth: '300px' }}
           />
-        </Container>
+        </Box>
         {createForm && (
-          <Container sx={{ width: '100%', padding: '0' }}>
+          <Box sx={{ width: '100%', padding: '0' }}>
             <TextField
               required={createForm}
               fullWidth
@@ -113,7 +110,7 @@ function AgentTicketForm({ formTitle, handleSubmitCb, createForm }) {
               name="description"
               value={ticket.description}
               onChange={handleOnChange}
-              sx={{ padding: '0', minWidth: '300px' }}
+              sx={{ mb: '1rem', width: '100%' }}
             />
 
             <UserSelectionList
@@ -121,12 +118,12 @@ function AgentTicketForm({ formTitle, handleSubmitCb, createForm }) {
               label="Priority"
               defaultValue="Normal"
               valueBy="name"
-              sxStyles={{ width: '310px', mb: '1rem', paddingLeft: '.5rem' }}
+              sxStyles={{ width: '100%' }}
               cb={handlePriorityChange}
             />
-          </Container>
+          </Box>
         )}
-        <Container sx={{ width: '100%', padding: '0' }}>
+        <Box sx={{ width: '100%', padding: '0' }}>
           <TextField
             fullWidth
             id="outlined-multiline-static"
@@ -140,13 +137,13 @@ function AgentTicketForm({ formTitle, handleSubmitCb, createForm }) {
             value={ticket.comment}
             sx={{ padding: '0', minWidth: '300px' }}
           />
-        </Container>
-        <Container
+        </Box>
+        <Box
           sx={{
-            maxWidth: '150px',
             marginTop: '1rem',
+            width: '100%',
             display: 'flex',
-            justifyContent: 'right',
+            justifyContent: 'flex-end',
           }}
         >
           {createForm ? (
@@ -160,9 +157,9 @@ function AgentTicketForm({ formTitle, handleSubmitCb, createForm }) {
           ) : (
             <PopMenuButton handleSubmit={handleSubmit} />
           )}
-        </Container>
+        </Box>
       </Box>
-    </Container>
+    </Box>
   );
 }
 export default AgentTicketForm;

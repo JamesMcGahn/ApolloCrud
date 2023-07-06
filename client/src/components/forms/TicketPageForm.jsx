@@ -155,12 +155,14 @@ function TicketPageForm({ data, handleDelete }) {
                 defaultValue={ticket?.requester?.email}
                 label="Requester"
                 cb={setRequester}
+                sxStyles={{ mb: '1rem', width: '100%', mt: 1 }}
               />
 
               <GroupSelection
                 groupDefaultVal={ticket?.group}
                 assigneeDefaultVal={ticket?.assignee}
                 cb={handleGroupAssignee}
+                sxStyles={{ mb: '1rem', width: '100%' }}
               />
 
               <UserSelectionList
@@ -168,13 +170,13 @@ function TicketPageForm({ data, handleDelete }) {
                 label="Priority"
                 defaultValue={ticket?.priority}
                 valueBy="name"
-                sxStyles={{ width: '310px', mb: '1rem', paddingLeft: '.5rem' }}
+                sxStyles={{ mb: '1rem', width: '100%' }}
                 cb={handlePriorityChange}
               />
             </FormControl>
           )}
 
-          <FormControl sx={{ m: 1, width: '300px', mt: 3 }}>
+          <FormControl sx={{ mb: '1rem', width: '100%' }}>
             <TextField
               id="created-date"
               label="Created At:"

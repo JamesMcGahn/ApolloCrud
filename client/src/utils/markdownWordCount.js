@@ -10,7 +10,9 @@ const markdownWordCount = (markdown) => {
     .replace(/~~(.*?)~~/g, '$1') // Remove strikethrough formatting
     .replace(/`{3}[\s\S]*?`{3}/g, '') // Remove code blocks
     .replace(/>/g, '') // Remove '>' characters
-    .replace(/-/g, ''); // Remove '-' characters
+    .replace(/-/g, '') // Remove '-' characters
+    .replace(/<!--[\s\S]*?-->/g, '') // Remove HTML comments
+    .replace(/\[[^\]]+\]/g, (match) => match.slice(1, -1)); // Remove square brackets from checked lists
 
   const words = text.split(/\s+/).filter((word) => word !== '');
 

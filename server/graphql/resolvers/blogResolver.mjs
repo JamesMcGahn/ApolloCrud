@@ -6,7 +6,7 @@ import protectRoute from '../../middleware/protectRoute.mjs';
 const createBlog = async (parent, args, context) => {
   protectRoute(context, ['user']);
   const { newPost } = args;
-
+  console.log(newPost);
   const post = await Post.create({
     ...newPost,
     type: 'blog',
