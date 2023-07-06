@@ -14,8 +14,25 @@ const PostSchema = new mongoose.Schema(
       unique: true,
     },
     featuredImage: {
-      type: String,
+      url: {
+        type: String,
+      },
+      filename: {
+        type: String,
+      },
     },
+    images: [
+      {
+        url: {
+          type: String,
+          required: true,
+        },
+        filename: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
     blurb: {
       type: String,
       required: true,

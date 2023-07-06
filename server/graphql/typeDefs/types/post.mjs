@@ -14,8 +14,12 @@ const postSchema = new TEISchemaGenerator('post', 'type', {
     description: 'The slug  of the post.',
   },
   featuredImage: {
-    type: 'String',
+    type: 'postImage',
     description: 'The featured image of the post.',
+  },
+  images: {
+    type: '[postImage]',
+    description: 'The images for the post.',
   },
   blurb: {
     type: 'String!',
