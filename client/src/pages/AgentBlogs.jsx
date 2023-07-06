@@ -1,5 +1,6 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Pagination from '@mui/material/Pagination';
 import Chip from '@mui/material/Chip';
@@ -10,7 +11,6 @@ import AgentLayout from '../components/layout/AgentLayout';
 import convert2FullDateTime from '../utils/convert2FullDateTime';
 import LinkRouter from '../components/utils/LinkRouter';
 import Spinner from '../components/ui/LoadingSpinner';
-import { Typography } from '@mui/material';
 
 function AgentBlogs() {
   const [qvars, setqVars] = useState(undefined);
@@ -31,6 +31,13 @@ function AgentBlogs() {
     setPage(1);
     fetchMore({ variables: { status: status, page: 1 } });
   };
+
+  function truncateString(str, num) {
+    if (str.length > num) {
+      return `${str.slice(0, num)}...`;
+    }
+    return str;
+  }
 
   return (
     <AgentLayout>
@@ -124,7 +131,7 @@ function AgentBlogs() {
                             <Box>
                               <strong>Title:</strong>
                             </Box>
-                            <Box>{post.title}</Box>
+                            <Box>{truncateString(post.title, 30)}</Box>
                           </Box>
                           <Box
                             sx={{
