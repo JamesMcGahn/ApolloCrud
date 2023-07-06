@@ -15,10 +15,12 @@ import connectDB from './config/db.mjs';
 import protect from './middleware/protect.mjs';
 import formattedErrors from './graphql/formattedErrors.mjs';
 import emailReader from './utils/emailReader.mjs';
+import imageRouter from './routes/imageRouter.mjs';
 
 const PORT = process.env.PORT || 5000;
 
 const app = express();
+
 const httpServer = http.createServer(app);
 
 // connect DB
@@ -44,6 +46,7 @@ const corsOptions = {
   credentials: true,
 };
 app.use(cookieParser());
+app.use('/api/v1/images', imageRouter);
 app.use(
   cors(corsOptions),
   bodyParser.json(),

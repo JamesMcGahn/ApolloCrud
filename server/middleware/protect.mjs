@@ -2,7 +2,7 @@ import { promisify } from 'util';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.mjs';
 
-const protect = async (req, res) => {
+const protect = async (req, res, next) => {
   const { authorization } = req.headers;
   let token;
   let isHeaderToken = false;
@@ -18,7 +18,7 @@ const protect = async (req, res) => {
     token = false;
   }
 
-  if (!token) {
+  if (!token && !next) {
     return false;
   }
 
@@ -26,18 +26,20 @@ const protect = async (req, res) => {
     decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
     user = await User.findById(decoded.id);
   } catch (e) {
+    if (!next) {
+      return false;
+    }
+  }
+
+  if (!user && !next) {
     return false;
   }
 
-  if (!user) {
+  if (user.role === 'user' && isHeaderToken && !next) {
     return false;
   }
 
-  if (user.role === 'user' && isHeaderToken) {
-    return false;
-  }
-
-  if (user?.passwordChangedAt) {
+  if (user?.passwordChangedAt && !next) {
     const changedTime = parseInt(user.passwordChangedAt.getTime() / 1000, 10);
     if (decoded.iat < changedTime) {
       res.cookie('jwt', 'expired', {
@@ -48,10 +50,17 @@ const protect = async (req, res) => {
     }
   }
 
-  if (!user.isActive) {
+  if (!user.isActive && !next) {
     return false;
   }
-  return user;
+  if (!next) {
+    return user;
+  }
+
+  if (next) {
+    req.user = user;
+    next();
+  }
 };
 
 export default protect;
