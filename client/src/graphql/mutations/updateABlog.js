@@ -6,6 +6,14 @@ const updateABlog = gql`
       id
       title
       slug
+      featuredImage {
+        url
+        filename
+      }
+      images {
+        url
+        filename
+      }
       blurb
       content
       category
@@ -22,7 +30,6 @@ const updateABlog = gql`
       isPrivate
       updatedAt
       createdAt
-      featuredImage
     }
   }
 `;

@@ -66,7 +66,7 @@ function BlogImages() {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async () => {
     setSubmitting(true);
     sendImageUpdate();
   };

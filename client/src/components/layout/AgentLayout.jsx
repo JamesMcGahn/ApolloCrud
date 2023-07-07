@@ -74,8 +74,8 @@ function Layout({ children }) {
           <Divider />
           <LinkRouter
             underline="none"
-            to={`/agent/dashboard/unassigned`}
-            key={`unassigned-nav-item`}
+            to="/agent/dashboard/unassigned"
+            key="unassigned-nav-item"
             onClick={() => handleOnClick(0)}
           >
             <ListItem disablePadding>

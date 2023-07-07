@@ -1,12 +1,19 @@
 import { GraphQLError } from 'graphql';
 import slugify from 'slugify';
+import { v2 as cloudinary } from 'cloudinary';
 import Post from '../../models/Post.mjs';
 import protectRoute from '../../middleware/protectRoute.mjs';
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_KEY,
+  api_secret: process.env.CLOUD_SECRET,
+});
 
 const createBlog = async (parent, args, context) => {
   protectRoute(context, ['user']);
   const { newPost } = args;
-  console.log(newPost);
+
   const post = await Post.create({
     ...newPost,
     type: 'blog',
@@ -14,6 +21,11 @@ const createBlog = async (parent, args, context) => {
       lower: true,
       trim: true,
     }),
+    images: [],
+    featuredImage: {
+      url: null,
+      filename: null,
+    },
   });
 
   return post.populate('author');
@@ -133,6 +145,17 @@ const deleteBlog = async (parent, args, context) => {
       },
     });
   }
+
+  if (post.images && post.images.length > 0) {
+    const delImages = [...post.images];
+
+    const results = delImages.map(async (pic) => {
+      return await cloudinary.uploader.destroy(pic.filename);
+    });
+
+    await Promise.all(results);
+  }
+
   return post;
 };
 

@@ -6,7 +6,14 @@ const createABlog = gql`
       id
       title
       slug
-      featuredImage
+      featuredImage {
+        url
+        filename
+      }
+      images {
+        url
+        filename
+      }
       blurb
       content
       category

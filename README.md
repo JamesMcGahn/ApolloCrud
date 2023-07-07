@@ -34,8 +34,8 @@ Fake company website - and ticketing system
   - ~~send token from fe with updated password~~
   - ~~verify token and update password~~
 - ~~Organize Schema Type File~~
-- unassigned Tickets
-- Group tickets
+- ~~unassigned Tickets~~
+- ~~Group tickets~~
 
 ## Feature Ideas
 
@@ -67,8 +67,9 @@ Fake company website - and ticketing system
 
 - BLOG Posts
 
-  - CRUD Blog Posts
-    - FE
+  - Public site display blog posts
+  - ~~CRUD Blog Posts~~
+    - ~~FE~~
     - ~~BE~~
 
 - Agent Admin Dashboard
@@ -100,12 +101,11 @@ Fake company website - and ticketing system
   - FE on ticket solve - ask user to rate ticket
   - send email?
 
-- Improve Search / Tickets
+- ~~Improve Search / Tickets~~
 
   - ~~handle search on BE~~
   - ~~update FE search to use BE search~~
     - add FE search for customers
   - ~~remove closed tickets from mytickets unless directly queried for~~
-  - paginate tickets all tickets requests?
 
 - Ticket Create/Update history

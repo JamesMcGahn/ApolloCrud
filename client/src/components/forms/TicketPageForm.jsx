@@ -60,6 +60,10 @@ function TicketPageForm({ data, handleDelete }) {
   });
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleDelClick = () => {
+    setAnchorEl(null);
     if (handleDelete) {
       handleDelete(ticket?.id);
     }
@@ -134,7 +138,7 @@ function TicketPageForm({ data, handleDelete }) {
             'aria-labelledby': 'basic-button',
           }}
         >
-          <MenuItem onClick={handleClose}>Delete</MenuItem>
+          <MenuItem onClick={handleDelClick}>Delete</MenuItem>
         </Menu>
       </Box>
       <Container sx={{ paddingBottom: '5rem', display: 'flex' }}>

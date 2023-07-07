@@ -1,6 +1,6 @@
 import pify from 'pify';
-import { v2 as cloudinary } from 'cloudinary';
 import multer from 'multer';
+import { v2 as cloudinary } from 'cloudinary';
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
 import Post from '../models/Post.mjs';
 
@@ -39,7 +39,7 @@ const updateImages = async (req, res, next) => {
 
   try {
     await upload(req, res);
-    console.log('hit');
+
     if (
       (!req.files || req.files.length === 0) &&
       (!req.body.delete || req.body.delete.length === 0) &&

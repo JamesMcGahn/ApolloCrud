@@ -9,6 +9,8 @@ import IconButton from '@mui/material/IconButton';
 import ImageListItem from '@mui/material/ImageListItem';
 import FormControl from '@mui/material/FormControl';
 import Button from '@mui/material/Button';
+import Menu from '@mui/material/Menu';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import MDEditor from '@uiw/react-md-editor';
 import Box from '@mui/material/Box';
 import { useQuery } from '@apollo/client';
@@ -19,13 +21,17 @@ import LinkRouter from '../utils/LinkRouter';
 import markdownWordCount from '../../utils/markdownWordCount';
 import Spinner from '../ui/LoadingSpinner';
 
-function BlogForm({ cb, create = true, blogData }) {
+function BlogForm({ cb, create = true, blogData, handleDelete }) {
   const [blog, setBlog] = useState(blogData);
   const [value, setValue] = useState(blogData?.content);
   const [assignee, setAssignee] = useState(blogData?.author);
   const [wordCount, setWordCount] = useState(
     markdownWordCount(blogData.content),
   );
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
   const { data, loading: userLoading } = useQuery(getAllUsers, {
     variables: { roles: ['agent', 'lead', 'admin'] },
   });
@@ -50,6 +56,21 @@ function BlogForm({ cb, create = true, blogData }) {
 
   const handleAssignee = (changeAssignee) => {
     setAssignee(changeAssignee);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleDelClick = () => {
+    setAnchorEl(null);
+    if (handleDelete) {
+      handleDelete(blog.slug);
+    }
   };
 
   const handleOnClick = () => {
@@ -189,6 +210,37 @@ function BlogForm({ cb, create = true, blogData }) {
       </Box>
 
       <Box sx={{ width: '55%', padding: '0 1rem' }}>
+        {!create && (
+          <Box
+            sx={{
+              display: 'flex',
+              width: '100%',
+              justifyContent: 'flex-end',
+              mb: 1,
+            }}
+          >
+            <IconButton
+              id="basic-button"
+              aria-controls={open ? 'basic-menu' : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? 'true' : undefined}
+              onClick={handleClick}
+            >
+              <MoreVertIcon />
+            </IconButton>
+            <Menu
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              MenuListProps={{
+                'aria-labelledby': 'basic-button',
+              }}
+            >
+              <MenuItem onClick={handleDelClick}>Delete</MenuItem>
+            </Menu>
+          </Box>
+        )}
         <Box
           sx={{
             display: 'flex',
@@ -220,78 +272,82 @@ function BlogForm({ cb, create = true, blogData }) {
           height={400}
         />
         {`Word Count: ${wordCount}`}
-        <Box
-          sx={{
-            display: 'flex',
-            width: '100%',
-            justifyContent: 'flex-end',
-          }}
-        >
-          <LinkRouter
-            to={`/agent/blogs/${blog.slug}/images`}
-            underline="underline"
-          >
-            Update Images
-          </LinkRouter>
-        </Box>
-        <ImageList sx={{ width: '100%', mt: 1 }} cols={4} rowHeight={150}>
-          {blog?.images.map((img) => (
-            <ImageListItem
-              key={img.filename}
+        {!create && (
+          <>
+            <Box
               sx={{
-                '& button': {
-                  fontSize: '.4rem',
-                  color: 'white',
-                  border: '1px white solid',
-                  background: 'rgba(0, 0, 0, 0.5)',
-                },
-                '& button:hover': {
-                  color: 'white',
-                  border: '1px white solid',
-                  background: 'rgba(0, 0, 0, 0.2)',
-                },
+                display: 'flex',
+                width: '100%',
+                justifyContent: 'flex-end',
               }}
             >
-              {blog?.featuredImage.url === img.url && (
-                <Button
-                  sx={{
-                    color: 'white !important',
-                    position: 'absolute',
-                    zIndex: 100,
-                    right: 10,
-                    top: 10,
-                    width: '50px',
-                  }}
-                  disabled
-                >
-                  Featured
-                </Button>
-              )}
-              <img src={img.url} alt={img.filename} />
-              <IconButton
-                // trunk-ignore(eslint/no-undef)
-                onClick={() => navigator.clipboard.writeText(img.url)}
-                sx={{
-                  border: 'none !important',
-                  position: 'absolute',
-                  zIndex: 100,
-                  right: 10,
-                  bottom: 10,
-                  width: '50px',
-                  padding: '2px ',
-                  borderRadius: 1,
-                }}
+              <LinkRouter
+                to={`/agent/blogs/${blog.slug}/images`}
+                underline="underline"
               >
-                <ContentPasteIcon
+                Update Images
+              </LinkRouter>
+            </Box>
+            <ImageList sx={{ width: '100%', mt: 1 }} cols={4} rowHeight={150}>
+              {blog?.images.map((img) => (
+                <ImageListItem
+                  key={img.filename}
                   sx={{
-                    color: 'white',
-                    fontSize: '1.5rem ',
+                    '& button': {
+                      fontSize: '.4rem',
+                      color: 'white',
+                      border: '1px white solid',
+                      background: 'rgba(0, 0, 0, 0.5)',
+                    },
+                    '& button:hover': {
+                      color: 'white',
+                      border: '1px white solid',
+                      background: 'rgba(0, 0, 0, 0.2)',
+                    },
                   }}
-                />
-              </IconButton>
-            </ImageListItem>
-          ))}
-        </ImageList>
+                >
+                  {blog?.featuredImage.url === img.url && (
+                    <Button
+                      sx={{
+                        color: 'white !important',
+                        position: 'absolute',
+                        zIndex: 100,
+                        right: 10,
+                        top: 10,
+                        width: '50px',
+                      }}
+                      disabled
+                    >
+                      Featured
+                    </Button>
+                  )}
+                  <img src={img.url} alt={img.filename} />
+                  <IconButton
+                    // trunk-ignore(eslint/no-undef)
+                    onClick={() => navigator.clipboard.writeText(img.url)}
+                    sx={{
+                      border: 'none !important',
+                      position: 'absolute',
+                      zIndex: 100,
+                      right: 10,
+                      bottom: 10,
+                      width: '50px',
+                      padding: '2px ',
+                      borderRadius: 1,
+                    }}
+                  >
+                    <ContentPasteIcon
+                      sx={{
+                        color: 'white',
+                        fontSize: '1.5rem ',
+                      }}
+                    />
+                  </IconButton>
+                </ImageListItem>
+              ))}
+            </ImageList>
+          </>
+        )}
 
         <Box
           sx={{

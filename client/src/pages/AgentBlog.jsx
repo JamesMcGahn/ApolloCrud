@@ -4,6 +4,7 @@ import { useQuery, useMutation } from '@apollo/client';
 import Box from '@mui/material/Box';
 import AgentLayout from '../components/layout/AgentLayout';
 import getABlog from '../graphql/queries/getABlog';
+import deleteABlog from '../graphql/mutations/deleteABlog';
 import updateABlog from '../graphql/mutations/updateABlog';
 import BlogForm from '../components/forms/BlogForm';
 import Spinner from '../components/ui/LoadingSpinner';
@@ -24,12 +25,28 @@ function AgentBlog() {
       },
     },
   );
+
+  const [deleteBlog] = useMutation(deleteABlog, {
+    variables: { slug: slug },
+    onCompleted: (dt) => {
+      toast.success(`Deleted Blog - ${dt.deleteBlog.title}`);
+      nagivate('/agent/blogs/');
+    },
+    onError: (err) => {
+      toast.error(err.message);
+    },
+  });
+
   const { data, loading } = useQuery(getABlog, {
     variables: { slug: slug },
   });
 
   const handleSubmit = (submitData) => {
     updateBlog({ variables: { updatePost: submitData, slug: slug } });
+  };
+
+  const handleDelete = () => {
+    deleteBlog();
   };
 
   return (
@@ -42,6 +59,7 @@ function AgentBlog() {
             create={false}
             blogData={uData?.updateBlog || data?.blog}
             cb={handleSubmit}
+            handleDelete={handleDelete}
           />
         )}
       </Box>
