@@ -3,6 +3,10 @@ import { toast } from 'react-toastify';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
+import ImageList from '@mui/material/ImageList';
+import ContentPasteIcon from '@mui/icons-material/ContentPaste';
+import IconButton from '@mui/material/IconButton';
+import ImageListItem from '@mui/material/ImageListItem';
 import FormControl from '@mui/material/FormControl';
 import Button from '@mui/material/Button';
 import MDEditor from '@uiw/react-md-editor';
@@ -11,6 +15,7 @@ import { useQuery } from '@apollo/client';
 import getAllUsers from '../../graphql/queries/getAllUser';
 import convert2FullDateTime from '../../utils/convert2FullDateTime';
 import UserSelectionList from '../ui/UserSelectionList';
+import LinkRouter from '../utils/LinkRouter';
 import markdownWordCount from '../../utils/markdownWordCount';
 import Spinner from '../ui/LoadingSpinner';
 
@@ -87,6 +92,7 @@ function BlogForm({ cb, create = true, blogData }) {
         gap: '1rem',
         justifyContent: 'center',
         flexWrap: 'wrap',
+        mt: '1rem',
       }}
     >
       <Box
@@ -217,9 +223,82 @@ function BlogForm({ cb, create = true, blogData }) {
         <Box
           sx={{
             display: 'flex',
+            width: '100%',
+            justifyContent: 'flex-end',
+          }}
+        >
+          <LinkRouter
+            to={`/agent/blogs/${blog.slug}/images`}
+            underline="underline"
+          >
+            Update Images
+          </LinkRouter>
+        </Box>
+        <ImageList sx={{ width: '100%', mt: 1 }} cols={4} rowHeight={150}>
+          {blog?.images.map((img) => (
+            <ImageListItem
+              key={img.filename}
+              sx={{
+                '& button': {
+                  fontSize: '.4rem',
+                  color: 'white',
+                  border: '1px white solid',
+                  background: 'rgba(0, 0, 0, 0.5)',
+                },
+                '& button:hover': {
+                  color: 'white',
+                  border: '1px white solid',
+                  background: 'rgba(0, 0, 0, 0.2)',
+                },
+              }}
+            >
+              {blog?.featuredImage.url === img.url && (
+                <Button
+                  sx={{
+                    color: 'white !important',
+                    position: 'absolute',
+                    zIndex: 100,
+                    right: 10,
+                    top: 10,
+                    width: '50px',
+                  }}
+                  disabled
+                >
+                  Featured
+                </Button>
+              )}
+              <img src={img.url} alt={img.filename} />
+              <IconButton
+                // trunk-ignore(eslint/no-undef)
+                onClick={() => navigator.clipboard.writeText(img.url)}
+                sx={{
+                  border: 'none !important',
+                  position: 'absolute',
+                  zIndex: 100,
+                  right: 10,
+                  bottom: 10,
+                  width: '50px',
+                  padding: '2px ',
+                  borderRadius: 1,
+                }}
+              >
+                <ContentPasteIcon
+                  sx={{
+                    color: 'white',
+                    fontSize: '1.5rem ',
+                  }}
+                />
+              </IconButton>
+            </ImageListItem>
+          ))}
+        </ImageList>
+
+        <Box
+          sx={{
+            display: 'flex',
             justifyContent: 'flex-end',
             width: '100%',
-            mt: '15%',
+            mt: '3rem',
           }}
         >
           <Button variant="contained" onClick={handleOnClick}>
