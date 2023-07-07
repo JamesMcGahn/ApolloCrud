@@ -1,17 +1,30 @@
 import { gql } from '@apollo/client';
 
 const getAllBlogs = gql`
-  query Blogs($page: Int, $category: String, $status: postStatusType) {
-    blogs(page: $page, category: $category, status: $status) {
+  query Blogs($category: String, $page: Int, $status: postStatusType) {
+    blogs(category: $category, page: $page, status: $status) {
+      hasNextPage
+      hasPrevPage
+      limit
+      nextPage
+      page
       posts {
-        id
+        updatedAt
         title
+        tags
+        id
         slug
-        featuredImage
+        featuredImage {
+          url
+          filename
+        }
+        images {
+          url
+          filename
+        }
         blurb
         content
         category
-        tags
         author {
           id
           name
@@ -22,16 +35,10 @@ const getAllBlogs = gql`
         type
         status
         isPrivate
-        updatedAt
         createdAt
       }
-      totalDocs
-      limit
-      page
-      hasPrevPage
-      hasNextPage
       prevPage
-      nextPage
+      totalDocs
     }
   }
 `;

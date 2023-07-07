@@ -1,12 +1,19 @@
 import { gql } from '@apollo/client';
 
 const getABlog = gql`
-  query Blog($slug: String, $blogId: ID) {
-    blog(slug: $slug, blogId: $blogId) {
+  query Query($blogId: ID, $slug: String) {
+    blog(blogId: $blogId, slug: $slug) {
       id
       title
       slug
-      featuredImage
+      featuredImage {
+        url
+        filename
+      }
+      images {
+        url
+        filename
+      }
       blurb
       content
       category

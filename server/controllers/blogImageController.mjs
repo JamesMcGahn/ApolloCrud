@@ -39,24 +39,37 @@ const updateImages = async (req, res, next) => {
 
   try {
     await upload(req, res);
-
+    console.log('hit');
     if (
       (!req.files || req.files.length === 0) &&
-      (!req.body.delete || req.body.delete.length === 0)
+      (!req.body.delete || req.body.delete.length === 0) &&
+      !req.body.featuredImage
     ) {
       res
         .status(400)
         .json({ success: false, message: 'Please provide atleast 1 Image.' });
       return;
     }
+
+    if (req.body.featuredImage) {
+      const feImage = JSON.parse(req.body.featuredImage);
+      post.featuredImage.url = feImage.url;
+      post.featuredImage.filename = feImage.filename;
+      await post.save();
+    }
+
     if (req.files && req.files.length > 0) {
       const newImages = req.files.map((image) => ({
         url: image.path,
         filename: image.filename,
       }));
       post.images.push(...newImages);
-      post.featuredImage.url = newImages[0].url;
-      post.featuredImage.filename = newImages[0].filename;
+
+      if (!req.body.featuredImage) {
+        post.featuredImage.url = newImages[0].url;
+        post.featuredImage.filename = newImages[0].filename;
+      }
+
       await post.save();
     }
     if (req.body.delete) {
@@ -79,8 +92,10 @@ const updateImages = async (req, res, next) => {
 
       await Promise.all(results);
     }
+
     return res.status(201).send({ success: true, message: 'Images uploaded.' });
   } catch (err) {
+    console.log(err);
     return res
       .status(400)
       .json({ success: false, message: 'Something went wrong. Try again.' });

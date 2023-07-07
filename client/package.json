@@ -15,6 +15,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@uiw/react-md-editor": "^3.23.3",
+    "axios": "^1.4.0",
     "graphql": "^16.6.0",
     "js-generate-password": "^0.1.9",
     "luxon": "^3.3.0",

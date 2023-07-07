@@ -46,9 +46,10 @@ const corsOptions = {
   credentials: true,
 };
 app.use(cookieParser());
+app.use(cors(corsOptions));
+
 app.use('/api/v1/images', imageRouter);
 app.use(
-  cors(corsOptions),
   bodyParser.json(),
   expressMiddleware(server, {
     context: async ({ req, res }) => ({
