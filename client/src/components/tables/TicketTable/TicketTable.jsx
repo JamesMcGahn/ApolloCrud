@@ -6,6 +6,7 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
+import Button from '@mui/material/Button';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
@@ -58,6 +59,8 @@ export default function TicketTable({
   data,
   title,
   noTicketsMsg = 'No Tickets Available.',
+  handleDelete,
+  agentTicketLink = '/agent/dashboard/ticket/',
 }) {
   const [tickets] = React.useState(data);
   const [order, setOrder] = React.useState('asc');
@@ -144,14 +147,23 @@ export default function TicketTable({
     Closed: 'info',
   };
 
+  const handleBulkDelete = () => {
+    handleDelete(selected);
+  };
+
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
         <TicketTableToolbar numSelected={selected.length} title={title}>
           {selected.length > 0 && (
-            <PopModal buttonText="Edit" open={open} setOpen={setOpen}>
-              <BulkTicketEdit ids={selected} closeModal={setOpen} />
-            </PopModal>
+            <Box sx={{ display: 'flex', gap: 1 }}>
+              <PopModal buttonText="Edit" open={open} setOpen={setOpen}>
+                <BulkTicketEdit ids={selected} closeModal={setOpen} />
+              </PopModal>
+              <Button variant="contained" onClick={handleBulkDelete}>
+                Delete
+              </Button>
+            </Box>
           )}
         </TicketTableToolbar>
         <TableContainer>
@@ -204,7 +216,7 @@ export default function TicketTable({
                         to={
                           userData.currentUser.role === 'user'
                             ? `/customer/dashboard/ticket/${row.id}`
-                            : `/agent/dashboard/ticket/${row.id}`
+                            : `${agentTicketLink}${row.id}`
                         }
                       >
                         {row.id}

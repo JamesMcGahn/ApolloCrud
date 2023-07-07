@@ -40,7 +40,7 @@ function Ticket() {
   const [deleteTicket] = useMutation(deleteATicket, {
     onCompleted: () => {
       toast.success(`Ticket ${id} Deleted`);
-      removeHistory(id);
+      removeHistory([id]);
       navigate('/agent/dashboard');
     },
     onError: (error) => {

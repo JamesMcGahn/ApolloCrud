@@ -30,7 +30,11 @@ function a11yProps(index) {
   };
 }
 
-function TicketTabPanel({ ticketData }) {
+function TicketTabPanel({
+  ticketData,
+  handleDelete,
+  agentTicketLink = '/agent/dashboard/ticket/',
+}) {
   const { tabStatuses, currentTab, setCurrentTab } =
     useContext(TixDashTabContext);
 
@@ -93,7 +97,12 @@ function TicketTabPanel({ ticketData }) {
               <BreadCrumbs />
             </Box>
 
-            <TicketTable data={ticketStatusData} title={`${tabP} Tickets`} />
+            <TicketTable
+              data={ticketStatusData}
+              title={`${tabP} Tickets`}
+              handleDelete={handleDelete}
+              agentTicketLink={agentTicketLink}
+            />
           </TabPanel>
         ))}
       </SwipeableViews>

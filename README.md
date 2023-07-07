@@ -75,10 +75,10 @@ Fake company website - and ticketing system
 - Agent Admin Dashboard
 - CRUD Users
 
-- Delete Tickets
+- ~~Delete Tickets~~
 
   - ~~Single Ticket~~
-  - Bulk Delete
+  - ~~Bulk Delete~~
 
 - ~~ingest email tickets?~~
   - ~~ingest new email tickets~~

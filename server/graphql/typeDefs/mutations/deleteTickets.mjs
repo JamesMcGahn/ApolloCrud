@@ -9,7 +9,7 @@ const deleteTicketsSchema = new QMSchemaGenerator(
     },
   },
   {
-    type: '[ID]',
+    type: '[ID!]',
     description: 'The IDs of the deleted tickets.',
   },
 );

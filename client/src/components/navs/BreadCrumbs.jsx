@@ -29,13 +29,15 @@ const groupBread = ({ match }) => {
 function BreadCrumbs() {
   const routes = [
     { path: '/agent', breadcrumb: 'Agent Home' },
-    { path: '/agent/dashboard/ticket/', breadcrumb: 'Tickets' },
+    { path: '/agent/dashboard/ticket/', breadcrumb: null },
     { path: '/customer/dashboard/ticket/', breadcrumb: null },
     { path: '/agent/users/:userId', breadcrumb: userBread },
     { path: '/agent/companies/:id', breadcrumb: comanyBread },
     { path: '/agent/companies/:id/:userId', breadcrumb: userBread },
     { path: '/agent/dashboard/groups/:id', breadcrumb: groupBread },
     { path: '/agent/dashboard/groups', breadcrumb: null },
+    { path: '/agent/dashboard/groups/:groupId/ticket/', breadcrumb: null },
+    { path: '/agent/dashboard/:id/ticket/', breadcrumb: null },
   ];
   const breadcrumbs = useBreadcrumbs(routes);
   const last = breadcrumbs.length - 1;

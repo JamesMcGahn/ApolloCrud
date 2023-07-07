@@ -42,7 +42,15 @@ const appRouter = createBrowserRouter(
         <Route path="/agent/dashboard/unassigned" element={<Unassigned />} />
         <Route path="/agent/dashboard/ticket" element={<TicketSearch />} />
         <Route path="/agent/dashboard/ticket/:id" element={<Ticket />} />
-        <Route path="/agent/dashboard/groups/:id" element={<GroupsTicket />} />
+        <Route
+          path="/agent/dashboard/groups/:groupId"
+          element={<GroupsTicket />}
+        />
+        <Route path="/agent/dashboard/:group/ticket/:id" element={<Ticket />} />
+        <Route
+          path="/agent/dashboard/:group/:groupId/ticket/:id"
+          element={<Ticket />}
+        />
         <Route path="/agent/companies" element={<Companies />} />
         <Route path="/agent/companies/:id" element={<Company />} />
         <Route path="/agent/companies/:id/:userId" element={<User />} />
