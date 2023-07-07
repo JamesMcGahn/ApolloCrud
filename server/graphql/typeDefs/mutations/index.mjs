@@ -3,6 +3,7 @@ import updateTicket from './updateTicket.mjs';
 import updateTickets from './updateTickets.mjs';
 import deleteTicket from './deleteTicket.mjs';
 import deleteTickets from './deleteTickets.mjs';
+import mergeTickets from './mergeTickets.mjs';
 import createUser from './createUser.mjs';
 import updateUser from './updateUser.mjs';
 import updateUserGroups from './updateUserGroups.mjs';
@@ -26,6 +27,7 @@ const ticketMutations = ''.concat(
   updateTickets,
   deleteTicket,
   deleteTickets,
+  mergeTickets,
 );
 
 const userMutations = ''.concat(createUser, updateUser, updateUserGroups);

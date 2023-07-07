@@ -258,10 +258,93 @@ const bulkDeleteTickets = async (parent, args, context) => {
   }
 };
 
+const mergeTickets = async (parent, args, context) => {
+  const { user } = context;
+  const { mergeTicket, ticket } = args;
+
+  protectRoute(
+    context,
+    ['user'],
+    false,
+    'You dont have permission to merge tickets.',
+  );
+  const mergeT = await Ticket.findById(mergeTicket);
+  const tix = await Ticket.findById(ticket);
+
+  if (!mergeT || !tix) {
+    throw new GraphQLError('Cannot find both of those tickets.', {
+      extensions: {
+        code: 'BAD_USER_INPUT',
+      },
+    });
+  }
+
+  let mergeIntoComm;
+
+  const comment = await Comment.create({
+    author: user.id,
+    content: `Ticket ${mergeT.id} has been merged into Ticket ${tix.id}`,
+    private: false,
+  });
+
+  function findFirstNonPrivateComment(arr) {
+    for (let i = arr.length - 1; i >= 0; i -= 1) {
+      if (!arr[i].private) {
+        return arr[i];
+      }
+    }
+    return null;
+  }
+
+  if (
+    mergeT.comments &&
+    mergeT.comments.length > 0 &&
+    findFirstNonPrivateComment(mergeT.comments)
+  ) {
+    const mergeCom = findFirstNonPrivateComment(mergeT.comments);
+
+    mergeIntoComm = await Comment.create({
+      author: user.id,
+      content: `Ticket ${mergeT.id} has been merged into Ticket ${tix.id}. Last comment: ${mergeCom.content}`,
+      private: false,
+    });
+  } else {
+    mergeIntoComm = await Comment.create({
+      author: user.id,
+      content: `Ticket ${mergeT.id} has been merged into Ticket ${tix.id}.`,
+      private: false,
+    });
+  }
+
+  const ticketOriginal = await Ticket.findByIdAndUpdate(
+    mergeTicket,
+    { $push: { comments: comment._id }, status: 'Closed' },
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
+
+  const ticketMergeInto = await Ticket.findByIdAndUpdate(
+    ticket,
+    { $push: { comments: mergeIntoComm._id } },
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
+
+  return {
+    mergeTicket: ticketOriginal,
+    mergedIntoTicket: ticketMergeInto,
+  };
+};
+
 export {
   getTickets,
   bulkUpdateTickets,
   myTickets,
   ticketsSearch,
   bulkDeleteTickets,
+  mergeTickets,
 };
