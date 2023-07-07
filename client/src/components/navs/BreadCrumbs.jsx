@@ -5,6 +5,7 @@ import { useQuery } from '@apollo/client';
 import useBreadcrumbs from 'use-react-router-breadcrumbs';
 import getUser from '../../graphql/queries/getUser';
 import getACompany from '../../graphql/queries/getACompany';
+import getAGroup from '../../graphql/queries/getAGroup';
 import LinkRouter from '../utils/LinkRouter';
 
 const userBread = ({ match }) => {
@@ -17,6 +18,13 @@ const comanyBread = ({ match }) => {
   const { data } = useQuery(getACompany, { variables: { companyId: id } });
   return data?.company.name || 'Not Found';
 };
+const groupBread = ({ match }) => {
+  const { id } = match.params;
+
+  const { data } = useQuery(getAGroup, { variables: { groupId: id } });
+
+  return data?.group.name || 'Not Found';
+};
 
 function BreadCrumbs() {
   const routes = [
@@ -26,6 +34,8 @@ function BreadCrumbs() {
     { path: '/agent/users/:userId', breadcrumb: userBread },
     { path: '/agent/companies/:id', breadcrumb: comanyBread },
     { path: '/agent/companies/:id/:userId', breadcrumb: userBread },
+    { path: '/agent/dashboard/groups/:id', breadcrumb: groupBread },
+    { path: '/agent/dashboard/groups', breadcrumb: null },
   ];
   const breadcrumbs = useBreadcrumbs(routes);
   const last = breadcrumbs.length - 1;

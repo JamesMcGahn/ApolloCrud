@@ -4,7 +4,7 @@ import protectRoute from '../../middleware/protectRoute.mjs';
 
 const getGroup = async (parent, args, context) => {
   protectRoute(context, ['users']);
-  return await Group.findById(args.id);
+  return await Group.findById(args.id).populate('users');
 };
 
 const createGroup = async (parent, args, context) => {

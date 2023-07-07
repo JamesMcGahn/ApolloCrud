@@ -1,5 +1,12 @@
 import { useContext } from 'react';
 import { useLocation, useMatch } from 'react-router-dom';
+import { useQuery } from '@apollo/client';
+import AssignmentLateIcon from '@mui/icons-material/AssignmentLate';
+import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead';
+import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
+import MarkEmailUnreadIcon from '@mui/icons-material/MarkEmailUnread';
+import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend';
+import DraftsIcon from '@mui/icons-material/Drafts';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -14,18 +21,28 @@ import { TixDashTabContext } from '../../context/TixDashTabsContext';
 import TicketHistoryNav from '../navs/TicketHistoryNav';
 import BreadCrumbs from '../navs/BreadCrumbs';
 import LinkRouter from '../utils/LinkRouter';
+import loggedInUserQ from '../../graphql/queries/loggedInUser';
+import getUserGroups from '../../graphql/queries/getUserGroups';
 
 function Layout({ children }) {
   const location = useLocation();
   const match = useMatch('/agent/companies/:id');
-
-  const noBreads = ['/agent/dashboard'];
-  const noBreadCrumbs = noBreads.includes(location.pathname) || match;
+  const groupMatch = useMatch('/agent/dashboard/groups/:id');
+  const noBreads = ['/agent/dashboard', '/agent/dashboard/unassigned'];
+  const noBreadCrumbs =
+    noBreads.includes(location.pathname) || match || groupMatch;
 
   const { tabStatuses, setCurrentTab } = useContext(TixDashTabContext);
   const handleOnClick = (i) => {
     setCurrentTab(i);
   };
+
+  const {
+    data: { currentUser },
+  } = useQuery(loggedInUserQ);
+  const { data, loading } = useQuery(getUserGroups, {
+    variables: { userGroupsId: currentUser.id },
+  });
 
   return (
     <DashboardLayout
@@ -55,6 +72,22 @@ function Layout({ children }) {
             </LinkRouter>
           </List>
           <Divider />
+          <LinkRouter
+            underline="none"
+            to={`/agent/dashboard/unassigned`}
+            key={`unassigned-nav-item`}
+            onClick={() => handleOnClick(0)}
+          >
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <AssignmentLateIcon />
+                </ListItemIcon>
+                <ListItemText primary="Unassigned" />
+              </ListItemButton>
+            </ListItem>
+          </LinkRouter>
+          <Divider />
           <List>
             <ListItem>
               <ListItemText primary="My Tickets" />
@@ -69,7 +102,12 @@ function Layout({ children }) {
                 <ListItem disablePadding>
                   <ListItemButton>
                     <ListItemIcon>
-                      <InboxIcon />
+                      {status === 'Solved' && <MarkEmailReadIcon />}
+                      {status === 'Open' && <MarkEmailUnreadIcon />}
+                      {status === 'New' && <DraftsIcon />}
+                      {status === 'Pending' && <ForwardToInboxIcon />}
+                      {status === 'Blocked' && <CancelScheduleSendIcon />}
+                      {status === 'All' && <InboxIcon />}
                     </ListItemIcon>
                     <ListItemText primary={status} />
                   </ListItemButton>
@@ -78,6 +116,30 @@ function Layout({ children }) {
             ))}
           </List>
           <Divider />
+
+          <ListItem>
+            <ListItemText primary="My Groups" />
+          </ListItem>
+          {!loading &&
+            data?.userGroups?.groups.map((grp) => {
+              return (
+                <LinkRouter
+                  underline="none"
+                  to={`/agent/dashboard/groups/${grp.id}`}
+                  key={`${grp.name}-nav-item`}
+                  onClick={() => handleOnClick(0)}
+                >
+                  <ListItem disablePadding>
+                    <ListItemButton>
+                      <ListItemIcon>
+                        <InboxIcon />
+                      </ListItemIcon>
+                      <ListItemText primary={`${grp.name}`} />
+                    </ListItemButton>
+                  </ListItem>
+                </LinkRouter>
+              );
+            })}
         </>
       }
     >

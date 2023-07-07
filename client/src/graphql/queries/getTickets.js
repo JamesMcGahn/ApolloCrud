@@ -1,34 +1,60 @@
 import { gql } from '@apollo/client';
 
 const getTickets = gql`
-  query Tickets($status: [StatusType], $companyId: ID) {
-    tickets(status: $status, companyId: $companyId) {
+  query Tickets(
+    $status: [statusType]
+    $companyId: ID
+    $groupId: ID
+    $unassigned: Boolean
+  ) {
+    tickets(
+      status: $status
+      companyId: $companyId
+      groupId: $groupId
+      unassigned: $unassigned
+    ) {
       id
-      requester {
-        email
+      group {
         id
         name
-        role
-        company {
-          name
-          id
-        }
       }
-      status
-      priority
-      title
-      updatedAt
-      description
-      createdAt
       assignee {
+        id
+        company {
+          id
+          name
+        }
+        name
         email
+        role
+        isActive
+      }
+      requester {
         id
         name
+        email
         role
-        company {
-          name
+        isActive
+      }
+      title
+      description
+      updatedAt
+      createdAt
+      priority
+      status
+      comments {
+        id
+        author {
           id
+          name
+          email
+          role
+          isActive
         }
+        content
+        private
+        updatedAt
+        createdAt
       }
     }
   }

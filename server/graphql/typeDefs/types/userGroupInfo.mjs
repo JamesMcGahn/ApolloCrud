@@ -9,7 +9,7 @@ const userGroupInfoSchema = new TEISchemaGenerator('userGroupInfo', 'type', {
     type: 'String',
     description: 'The name of the agent.',
   },
-  users: {
+  groups: {
     type: '[groupInfo]',
     description: 'Array of groups that an agent belongs to.',
   },

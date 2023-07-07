@@ -20,8 +20,10 @@ import Companies from './pages/Companies';
 import Company from './pages/Company';
 import Users from './pages/Users';
 import User from './pages/User';
+import Unassigned from './pages/Unassigned';
 import TicketReview from './pages/TicketReview';
 import TicketSearch from './pages/TicketSearch';
+import GroupsTicket from './pages/GroupsTicket';
 import AgentBlogs from './pages/AgentBlogs';
 import AgentBlog from './pages/AgentBlog';
 import AgentBlogImages from './pages/AgentBlogImages';
@@ -37,8 +39,10 @@ const appRouter = createBrowserRouter(
         <Route path="/agent" element={<AgentHome />} />
         <Route path="/agent/profile" element={<Profile />} />
         <Route path="/agent/dashboard/" element={<AgentDashboard />} />
+        <Route path="/agent/dashboard/unassigned" element={<Unassigned />} />
         <Route path="/agent/dashboard/ticket" element={<TicketSearch />} />
         <Route path="/agent/dashboard/ticket/:id" element={<Ticket />} />
+        <Route path="/agent/dashboard/groups/:id" element={<GroupsTicket />} />
         <Route path="/agent/companies" element={<Companies />} />
         <Route path="/agent/companies/:id" element={<Company />} />
         <Route path="/agent/companies/:id/:userId" element={<User />} />
