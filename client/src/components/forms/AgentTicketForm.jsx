@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import MDEditor from '@uiw/react-md-editor';
+import rehypeSanitize from 'rehype-sanitize';
 import Box from '@mui/material/Box';
 import { useQuery } from '@apollo/client';
 import Typography from '@mui/material/Typography';
@@ -46,6 +48,9 @@ function AgentTicketForm({ formTitle, handleSubmitCb, createForm }) {
     data: { currentUser },
   } = useQuery(loggedInUserQ);
 
+  const handleCommentChange = (val) => {
+    setTicket((prev) => ({ ...prev, comment: val }));
+  };
   const handleSubmit = (status) => {
     const addComment = {
       author: currentUser.id,
@@ -174,19 +179,17 @@ function AgentTicketForm({ formTitle, handleSubmitCb, createForm }) {
             }
             label="Private"
           />
-          <TextField
-            fullWidth
-            id="outlined-multiline-static"
-            label="Comment"
-            name="comment"
-            variant="outlined"
-            multiline
-            rows={4}
-            placeholder="Write a Comment"
-            onChange={handleOnChange}
-            value={ticket.comment}
-            sx={{ padding: '0', minWidth: '300px' }}
-          />
+
+          <div data-color-mode="light">
+            <MDEditor
+              value={ticket.comment}
+              onChange={handleCommentChange}
+              preview="edit"
+              previewOptions={{
+                rehypePlugins: [[rehypeSanitize]],
+              }}
+            />
+          </div>
         </Box>
         <Box
           sx={{

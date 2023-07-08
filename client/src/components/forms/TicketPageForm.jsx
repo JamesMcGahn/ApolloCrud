@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
+import MDEditor from '@uiw/react-md-editor';
+import rehypeSanitize from 'rehype-sanitize';
 import Card from '@mui/material/Card';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
@@ -83,7 +85,7 @@ function TicketPageForm({ data, handleDelete }) {
   const handlePriorityChange = (priority) => {
     setTixPriority(priority.name);
   };
-  const handleCommentChange = (e) => setNewComment(e.target.value);
+
   const handlePrivateChecked = (e) => setPrivateChecked(e.target.checked);
   const handleTitleChange = (e) => setTitle(e.target.value);
   const handleGroupAssignee = (groupAssignChange) => {
@@ -319,26 +321,17 @@ function TicketPageForm({ data, handleDelete }) {
                     }
                     label="Private"
                   />
-                  <TextField
-                    sx={{
-                      mt: 1,
-                      '& textarea': {
-                        background: privateChecked ? 'yellow' : 'white',
-                      },
-                    }}
-                    id="newComment"
-                    label={privateChecked ? 'Private Note' : 'New Comment'}
-                    placeholder={
-                      privateChecked
-                        ? 'Enter a Private Note'
-                        : 'Enter a New Comment.'
-                    }
-                    multiline
-                    rows={4}
-                    onChange={handleCommentChange}
-                    value={newComment}
-                    disabled={ticketClosed}
-                  />
+
+                  <div data-color-mode="light">
+                    <MDEditor
+                      value={newComment}
+                      onChange={setNewComment}
+                      preview="edit"
+                      previewOptions={{
+                        rehypePlugins: [[rehypeSanitize]],
+                      }}
+                    />
+                  </div>
                 </Box>
                 <Box sx={{ maxHeight: '80vh', overflowY: 'auto' }}>
                   {ticket?.comments.toReversed().map((comment) => (

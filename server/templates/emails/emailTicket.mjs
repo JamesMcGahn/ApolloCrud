@@ -1,3 +1,11 @@
+import { marked } from 'marked';
+import DOMPurify from 'isomorphic-dompurify';
+
+marked.use({
+  mangle: false,
+  headerIds: false,
+});
+
 const emailTicket = (ticket, comments) => {
   const { id } = ticket;
 
@@ -41,7 +49,9 @@ const emailTicket = (ticket, comments) => {
                                   "
                                 >
                                   <p style="line-height: 140%">
-                                   ${comment.content}
+                                   ${DOMPurify.sanitize(
+                                     marked.parse(comment.content),
+                                   )}
                                   </p>
                               
                                 </div>

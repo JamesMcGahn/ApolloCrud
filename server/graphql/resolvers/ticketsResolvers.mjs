@@ -288,7 +288,7 @@ const mergeTickets = async (parent, args, context) => {
 
   const comment = await Comment.create({
     author: user.id,
-    content: `Ticket ${mergeT.id} has been merged into Ticket ${tix.id}`,
+    content: `**Ticket ${mergeT.id} has been merged into Ticket ${tix.id}**`,
     private: false,
   });
 
@@ -310,13 +310,13 @@ const mergeTickets = async (parent, args, context) => {
 
     mergeIntoComm = await Comment.create({
       author: user.id,
-      content: `Ticket ${mergeT.id} has been merged into Ticket ${tix.id}. Last comment: ${mergeCom.content}`,
+      content: `**Ticket ${mergeT.id} has been merged into Ticket ${tix.id}.** <br /> **Last comment:** <br /> ${mergeCom.content}`,
       private: false,
     });
   } else {
     mergeIntoComm = await Comment.create({
       author: user.id,
-      content: `Ticket ${mergeT.id} has been merged into Ticket ${tix.id}.`,
+      content: `**Ticket ${mergeT.id} has been merged into Ticket ${tix.id}.**`,
       private: false,
     });
   }

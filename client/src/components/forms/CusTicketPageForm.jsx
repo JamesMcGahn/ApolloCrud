@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
+import MDEditor from '@uiw/react-md-editor';
+import rehypeSanitize from 'rehype-sanitize';
 import Card from '@mui/material/Card';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
@@ -50,8 +52,6 @@ function CusTicketPageForm({ data }) {
       });
     },
   });
-
-  const handleCommentChange = (e) => setNewComment(e.target.value);
 
   const handleSubmit = (status) => {
     const addComment = {
@@ -196,19 +196,16 @@ function CusTicketPageForm({ data }) {
                   </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'column', mb: 1 }}>
-                  <TextField
-                    sx={{
-                      mt: 1,
-                    }}
-                    id="newComment"
-                    label="New Comment"
-                    placeholder="Enter a New Comment."
-                    multiline
-                    rows={4}
-                    onChange={handleCommentChange}
-                    value={newComment}
-                    disabled={ticketClosed}
-                  />
+                  <div data-color-mode="light">
+                    <MDEditor
+                      value={newComment}
+                      onChange={setNewComment}
+                      preview="edit"
+                      previewOptions={{
+                        rehypePlugins: [[rehypeSanitize]],
+                      }}
+                    />
+                  </div>
                 </Box>
                 <Box sx={{ maxHeight: '80vh', overflowY: 'auto' }}>
                   {ticket?.comments.toReversed().map((comment) => {

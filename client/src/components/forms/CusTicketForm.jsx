@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { useQuery } from '@apollo/client';
+import MDEditor from '@uiw/react-md-editor';
+import rehypeSanitize from 'rehype-sanitize';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -20,6 +22,10 @@ function AgentTicketForm({ formTitle, handleSubmitCb, createForm }) {
 
   const handleOnChange = (e) => {
     setTicket((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleCommentChange = (val) => {
+    setTicket((prev) => ({ ...prev, comment: val }));
   };
 
   const handlePriorityChange = (priority) => {
@@ -124,19 +130,16 @@ function AgentTicketForm({ formTitle, handleSubmitCb, createForm }) {
           </Box>
         )}
         <Box sx={{ width: '100%', padding: '0' }}>
-          <TextField
-            fullWidth
-            id="outlined-multiline-static"
-            label="Comment"
-            name="comment"
-            variant="outlined"
-            multiline
-            rows={4}
-            placeholder="Write a Comment"
-            onChange={handleOnChange}
-            value={ticket.comment}
-            sx={{ padding: '0', minWidth: '300px' }}
-          />
+          <div data-color-mode="light">
+            <MDEditor
+              value={ticket.comment}
+              onChange={handleCommentChange}
+              preview="edit"
+              previewOptions={{
+                rehypePlugins: [[rehypeSanitize]],
+              }}
+            />
+          </div>
         </Box>
         <Box
           sx={{

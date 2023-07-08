@@ -1,3 +1,4 @@
+import Markdown from 'markdown-to-jsx';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
@@ -32,7 +33,7 @@ function Comment({ comment }) {
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          {comment.content}
+          <Markdown>{comment.content}</Markdown>
         </Typography>
       </CardContent>
     </Card>
