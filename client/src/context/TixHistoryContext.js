@@ -12,7 +12,6 @@ export function TixHistoryProvider({ children }) {
   };
 
   const removeHistory = (tix) => {
-    console.log(tix);
     const tixx = [...ticketHistory];
     const tickets = tixx.filter((ptixes) => !tix.includes(ptixes));
     setTicketHistory(tickets);

@@ -34,6 +34,7 @@ function TicketTabPanel({
   ticketData,
   handleDelete,
   agentTicketLink = '/agent/dashboard/ticket/',
+  customer = false,
 }) {
   const { tabStatuses, currentTab, setCurrentTab } =
     useContext(TixDashTabContext);
@@ -102,6 +103,7 @@ function TicketTabPanel({
               title={`${tabP} Tickets`}
               handleDelete={handleDelete}
               agentTicketLink={agentTicketLink}
+              customer={customer}
             />
           </TabPanel>
         ))}

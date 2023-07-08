@@ -4,6 +4,7 @@ const getTicketSearch = gql`
   query Tickets($search: String!) {
     ticketsSearch(search: $search) {
       id
+      channel
       requester {
         email
         id
@@ -20,6 +21,7 @@ const getTicketSearch = gql`
       updatedAt
       description
       createdAt
+
       assignee {
         email
         id

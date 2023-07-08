@@ -134,6 +134,8 @@ const getTickets = async (parent, args, context) => {
 
   if (status) {
     ticket.find({ status: { $in: status } });
+  } else {
+    ticket.find({ status: { $ne: 'Closed' } });
   }
 
   if (groupId) {
@@ -272,11 +274,14 @@ const mergeTickets = async (parent, args, context) => {
   const tix = await Ticket.findById(ticket);
 
   if (!mergeT || !tix) {
-    throw new GraphQLError('Cannot find both of those tickets.', {
-      extensions: {
-        code: 'BAD_USER_INPUT',
+    throw new GraphQLError(
+      `Cannot find ${!mergeT ? `Ticket ${mergeTicket}` : `Ticket ${ticket}`}`,
+      {
+        extensions: {
+          code: 'BAD_USER_INPUT',
+        },
       },
-    });
+    );
   }
 
   let mergeIntoComm;

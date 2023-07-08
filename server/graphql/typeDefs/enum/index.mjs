@@ -4,6 +4,7 @@ import rolesType from './rolesType.mjs';
 import serviceLevelType from './serviceLevelType.mjs';
 import postType from './postType.mjs';
 import postStatusType from './postStatusType.mjs';
+import channelType from './channelType.mjs';
 
 const enums = ''.concat(
   priorityType,
@@ -12,6 +13,7 @@ const enums = ''.concat(
   serviceLevelType,
   postType,
   postStatusType,
+  channelType,
 );
 
 export default enums;

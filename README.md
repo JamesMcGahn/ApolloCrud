@@ -83,15 +83,15 @@ Fake company website - and ticketing system
 - ~~ingest email tickets?~~
   - ~~ingest new email tickets~~
   - ~~allow for ticket code in subject comment on ticket~~
-- Send email on ticket update to requester
-  - allow for user to reply to the email
-    - ingest only the user's reply (reply above line or something)
-- Merge Tickets
+- ~~Send email on ticket update to requester~~
+  - ~~allow for user to reply to the email~~
+    - ~~ingest only the user's reply (reply above line or something)~~
+- ~~Merge Tickets~~
 - Close Tickets
   - Run Scheduler to close solved tickets after x days
   - Lock closed tickets from being updated
     - BE
-    - FE
+    - ~~FE~~
 - Ticket Feedback
 
   - ~~Ticket Review Model~~

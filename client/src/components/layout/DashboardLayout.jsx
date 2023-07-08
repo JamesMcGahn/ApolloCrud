@@ -272,6 +272,20 @@ export default function DashboardLayout({ children, list, dwrDefOpen }) {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <LinkRouter
+                    underline="none"
+                    to={`/${
+                      data?.currentUser.role === 'user' ? 'customer' : 'agent'
+                    }`}
+                  >
+                    <Typography textAlign="center">
+                      {`${
+                        data?.currentUser.role === 'user' ? 'Customer' : 'Agent'
+                      } Home`}
+                    </Typography>
+                  </LinkRouter>
+                </MenuItem>
                 <LinkRouter
                   underline="none"
                   to={`/${

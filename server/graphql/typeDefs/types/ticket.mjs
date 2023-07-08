@@ -47,6 +47,10 @@ const ticketSchema = new TEISchemaGenerator('ticket', 'type', {
     type: '[comment!]',
     description: 'Array of comments for the ticket',
   },
+  channel: {
+    type: 'channelType',
+    description: 'The ticket was created via this channel.',
+  },
 });
 
 const ticket = ticketSchema.getSchemaString();

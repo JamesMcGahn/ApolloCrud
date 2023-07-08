@@ -19,7 +19,7 @@ import BreadCrumbs from '../navs/BreadCrumbs';
 
 function CusTicketPageForm({ data }) {
   const [ticket, setTicket] = useState(data.ticket);
-
+  const ticketClosed = ticket.status === 'Closed';
   const [newComment, setNewComment] = useState();
   const {
     data: { currentUser },
@@ -91,6 +91,7 @@ function CusTicketPageForm({ data }) {
               id="requester"
               label="Requester:"
               value={ticket?.requester?.email}
+              disabled={ticketClosed}
             />
           </FormControl>
           <FormControl sx={{ m: 1, width: '300px', mt: 3 }}>
@@ -98,6 +99,7 @@ function CusTicketPageForm({ data }) {
               id="Assignee"
               label="Assignee:"
               value={ticket?.assignee?.email}
+              disabled={ticketClosed}
             />
           </FormControl>
 
@@ -108,6 +110,7 @@ function CusTicketPageForm({ data }) {
               value={
                 ticket?.updatedAt && convert2FullDateTime(ticket?.createdAt)
               }
+              disabled={ticketClosed}
             />
           </FormControl>
           <FormControl sx={{ m: 1, width: '300px', mt: 3 }}>
@@ -117,6 +120,7 @@ function CusTicketPageForm({ data }) {
               value={
                 ticket?.updatedAt && convert2FullDateTime(ticket?.updatedAt)
               }
+              disabled={ticketClosed}
             />
           </FormControl>
         </Container>
@@ -203,6 +207,7 @@ function CusTicketPageForm({ data }) {
                     rows={4}
                     onChange={handleCommentChange}
                     value={newComment}
+                    disabled={ticketClosed}
                   />
                 </Box>
                 <Box sx={{ maxHeight: '80vh', overflowY: 'auto' }}>

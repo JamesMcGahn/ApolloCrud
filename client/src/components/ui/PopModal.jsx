@@ -21,19 +21,22 @@ export default function PopModal({
   buttonText,
   buttonSx,
   buttonVariant,
+  noButton = false,
 }) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   return (
     <div>
-      <Button
-        variant={buttonVariant || 'contained'}
-        sx={buttonSx}
-        onClick={handleOpen}
-      >
-        {buttonText}
-      </Button>
+      {!noButton && (
+        <Button
+          variant={buttonVariant || 'contained'}
+          sx={buttonSx}
+          onClick={handleOpen}
+        >
+          {buttonText}
+        </Button>
+      )}
       <Modal
         open={open}
         onClose={handleClose}

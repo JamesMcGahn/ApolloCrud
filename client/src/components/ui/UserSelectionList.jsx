@@ -13,6 +13,7 @@ export default function UserSelectionList({
   required,
   valueBy = 'email',
   sxStyles = { m: 1, width: '100%', mt: 1 },
+  disabled = false,
 }) {
   const [personName, setPersonName] = React.useState(defaultValue || '');
 
@@ -41,6 +42,7 @@ export default function UserSelectionList({
           onChange={handleChange}
           input={<OutlinedInput />}
           defaultValue={defaultValue}
+          disabled={disabled}
         >
           {users.map((name) => {
             if (assignee && name.role === 'user') return;

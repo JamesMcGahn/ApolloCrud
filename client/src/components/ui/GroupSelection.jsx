@@ -3,7 +3,13 @@ import { useQuery } from '@apollo/client';
 import UserSelectionList from './UserSelectionList';
 import getAllGroups from '../../graphql/queries/getAllGroups';
 
-function GroupSelection({ groupDefaultVal, assigneeDefaultVal, cb, sxStyles }) {
+function GroupSelection({
+  groupDefaultVal,
+  assigneeDefaultVal,
+  cb,
+  sxStyles,
+  disabled = false,
+}) {
   const [group, setGroup] = useState();
   const [assignee, setAssignee] = useState();
   const { data, loading } = useQuery(getAllGroups, {
@@ -43,6 +49,7 @@ function GroupSelection({ groupDefaultVal, assigneeDefaultVal, cb, sxStyles }) {
           cb={handleGroupChange}
           label="Group"
           sxStyles={sxStyles}
+          disabled={disabled}
         />
       )}
 
@@ -54,6 +61,7 @@ function GroupSelection({ groupDefaultVal, assigneeDefaultVal, cb, sxStyles }) {
           cb={handleAssignee}
           label="Assignee"
           sxStyles={sxStyles}
+          disabled={disabled}
         />
       )}
     </>

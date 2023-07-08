@@ -21,6 +21,7 @@ import BulkTicketEdit from '../../forms/BulkTicketEdit';
 import convert2FullDateTime from '../../../utils/convert2FullDateTime';
 import loggedInUserQ from '../../../graphql/queries/loggedInUser';
 import LinkRouter from '../../utils/LinkRouter';
+import MergeTickets from '../../forms/MergeTickets';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -61,6 +62,7 @@ export default function TicketTable({
   noTicketsMsg = 'No Tickets Available.',
   handleDelete,
   agentTicketLink = '/agent/dashboard/ticket/',
+  customer,
 }) {
   const [tickets] = React.useState(data);
   const [order, setOrder] = React.useState('asc');
@@ -69,6 +71,7 @@ export default function TicketTable({
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [open, setOpen] = React.useState(false);
+  const [mOpen, setMOpen] = React.useState(false);
 
   const { data: userData } = useQuery(loggedInUserQ);
 
@@ -157,12 +160,23 @@ export default function TicketTable({
         <TicketTableToolbar numSelected={selected.length} title={title}>
           {selected.length > 0 && (
             <Box sx={{ display: 'flex', gap: 1 }}>
+              {selected.length === 2 && !customer && (
+                <PopModal buttonText="Merge" open={mOpen} setOpen={setMOpen}>
+                  <MergeTickets tickets={selected} closeModal={setMOpen} />
+                </PopModal>
+              )}
               <PopModal buttonText="Edit" open={open} setOpen={setOpen}>
                 <BulkTicketEdit ids={selected} closeModal={setOpen} />
               </PopModal>
-              <Button variant="contained" onClick={handleBulkDelete}>
-                Delete
-              </Button>
+              {!customer && (
+                <Button
+                  variant="contained"
+                  color="error"
+                  onClick={handleBulkDelete}
+                >
+                  Delete
+                </Button>
+              )}
             </Box>
           )}
         </TicketTableToolbar>

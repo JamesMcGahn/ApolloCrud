@@ -39,6 +39,7 @@ const getTicket = gql`
       priority
       title
       updatedAt
+      channel
     }
   }
 `;

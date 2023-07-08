@@ -20,7 +20,11 @@ function CustomerDashboard() {
   return (
     <CustomerLayout>
       <TicketHistoryNav />
-      {loading ? <Spinner /> : <TicketTabPanel ticketData={data?.myTickets} />}
+      {loading ? (
+        <Spinner />
+      ) : (
+        <TicketTabPanel ticketData={data?.myTickets} customer />
+      )}
     </CustomerLayout>
   );
 }

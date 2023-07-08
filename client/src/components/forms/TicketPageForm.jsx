@@ -24,9 +24,13 @@ import getAllUsers from '../../graphql/queries/getAllUser';
 import Comment from '../cards/Comment';
 import ScrollDrawer from '../ui/ScrollDrawer';
 import convert2FullDateTime from '../../utils/convert2FullDateTime';
+import MergeTickets from './MergeTickets';
+import PopModal from '../ui/PopModal';
 
 function TicketPageForm({ data, handleDelete }) {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [mOpen, setMOpen] = useState(false);
+
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -44,6 +48,7 @@ function TicketPageForm({ data, handleDelete }) {
   const {
     data: { currentUser },
   } = useQuery(loggedInUserQ);
+  const ticketClosed = ticket.status === 'Closed';
 
   const [updateTicket] = useMutation(updateATicket, {
     onCompleted: (datas) => {
@@ -67,6 +72,11 @@ function TicketPageForm({ data, handleDelete }) {
     if (handleDelete) {
       handleDelete(ticket?.id);
     }
+  };
+
+  const handleMergeClick = () => {
+    setAnchorEl(null);
+    setMOpen(true);
   };
 
   const { data: userData, loading: usersLoading } = useQuery(getAllUsers);
@@ -112,6 +122,9 @@ function TicketPageForm({ data, handleDelete }) {
 
   return (
     <>
+      <PopModal noButton open={mOpen} setOpen={setMOpen}>
+        <MergeTickets ticket={ticket?.id} closeModal={setMOpen} />
+      </PopModal>
       <Box
         sx={{
           display: 'flex',
@@ -139,6 +152,9 @@ function TicketPageForm({ data, handleDelete }) {
           }}
         >
           <MenuItem onClick={handleDelClick}>Delete</MenuItem>
+          {!ticketClosed && (
+            <MenuItem onClick={handleMergeClick}>Merge</MenuItem>
+          )}
         </Menu>
       </Box>
       <Container sx={{ paddingBottom: '5rem', display: 'flex' }}>
@@ -160,6 +176,7 @@ function TicketPageForm({ data, handleDelete }) {
                 label="Requester"
                 cb={setRequester}
                 sxStyles={{ mb: '1rem', width: '100%', mt: 1 }}
+                disabled={ticketClosed}
               />
 
               <GroupSelection
@@ -167,6 +184,7 @@ function TicketPageForm({ data, handleDelete }) {
                 assigneeDefaultVal={ticket?.assignee}
                 cb={handleGroupAssignee}
                 sxStyles={{ mb: '1rem', width: '100%' }}
+                disabled={ticketClosed}
               />
 
               <UserSelectionList
@@ -176,10 +194,21 @@ function TicketPageForm({ data, handleDelete }) {
                 valueBy="name"
                 sxStyles={{ mb: '1rem', width: '100%' }}
                 cb={handlePriorityChange}
+                disabled={ticketClosed}
               />
             </FormControl>
           )}
 
+          <FormControl sx={{ mb: '1rem', width: '100%' }}>
+            <TextField
+              id="updated-date"
+              label="Updated At:"
+              value={
+                ticket?.updatedAt && convert2FullDateTime(ticket?.updatedAt)
+              }
+              disabled={ticketClosed}
+            />
+          </FormControl>
           <FormControl sx={{ mb: '1rem', width: '100%' }}>
             <TextField
               id="created-date"
@@ -187,6 +216,15 @@ function TicketPageForm({ data, handleDelete }) {
               value={
                 ticket?.updatedAt && convert2FullDateTime(ticket?.createdAt)
               }
+              disabled={ticketClosed}
+            />
+          </FormControl>
+          <FormControl sx={{ mb: '1rem', width: '100%' }}>
+            <TextField
+              id="channel"
+              label="channel"
+              value={ticket?.channel}
+              disabled
             />
           </FormControl>
         </Container>
@@ -228,6 +266,7 @@ function TicketPageForm({ data, handleDelete }) {
                       variant="standard"
                       size="2rem"
                       onChange={handleTitleChange}
+                      disabled={ticketClosed}
                     />
                   </FormControl>
                 </Box>
@@ -275,6 +314,7 @@ function TicketPageForm({ data, handleDelete }) {
                       <Switch
                         checked={privateChecked}
                         onChange={handlePrivateChecked}
+                        disabled={ticketClosed}
                       />
                     }
                     label="Private"
@@ -297,6 +337,7 @@ function TicketPageForm({ data, handleDelete }) {
                     rows={4}
                     onChange={handleCommentChange}
                     value={newComment}
+                    disabled={ticketClosed}
                   />
                 </Box>
                 <Box sx={{ maxHeight: '80vh', overflowY: 'auto' }}>

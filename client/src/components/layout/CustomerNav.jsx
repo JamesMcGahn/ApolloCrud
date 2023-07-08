@@ -228,6 +228,23 @@ function CustomerNav() {
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
+                  <MenuItem onClick={handleCloseUserMenu}>
+                    <LinkRouter
+                      underline="none"
+                      to={`/${
+                        data?.currentUser.role === 'user' ? 'customer' : 'agent'
+                      }`}
+                    >
+                      <Typography textAlign="center">
+                        {`${
+                          data?.currentUser.role === 'user'
+                            ? 'Customer'
+                            : 'Agent'
+                        } Home`}
+                      </Typography>
+                    </LinkRouter>
+                  </MenuItem>
+
                   <LinkRouter
                     underline="none"
                     to={`/${
@@ -248,6 +265,7 @@ function CustomerNav() {
                       <Typography textAlign="center">Dashboard</Typography>
                     </LinkRouter>
                   </MenuItem>
+
                   <MenuItem onClick={handleSignOut}>
                     <Typography textAlign="center">Logout</Typography>
                   </MenuItem>

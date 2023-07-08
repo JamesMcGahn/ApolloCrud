@@ -14,6 +14,7 @@ const getTickets = gql`
       unassigned: $unassigned
     ) {
       id
+      channel
       group {
         id
         name

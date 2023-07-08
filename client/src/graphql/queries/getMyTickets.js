@@ -16,6 +16,7 @@ const getMyTickets = gql`
       priority
       description
       createdAt
+      channel
       assignee {
         email
         id
