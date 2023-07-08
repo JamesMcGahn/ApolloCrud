@@ -91,7 +91,7 @@ function CusTicketPageForm({ data }) {
               id="requester"
               label="Requester:"
               value={ticket?.requester?.email}
-              disabled={ticketClosed}
+              disabled
             />
           </FormControl>
           <FormControl sx={{ m: 1, width: '300px', mt: 3 }}>
@@ -99,7 +99,7 @@ function CusTicketPageForm({ data }) {
               id="Assignee"
               label="Assignee:"
               value={ticket?.assignee?.email}
-              disabled={ticketClosed}
+              disabled
             />
           </FormControl>
 

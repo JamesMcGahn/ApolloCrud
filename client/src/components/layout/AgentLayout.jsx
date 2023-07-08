@@ -27,10 +27,8 @@ import getUserGroups from '../../graphql/queries/getUserGroups';
 function Layout({ children }) {
   const location = useLocation();
   const match = useMatch('/agent/companies/:id');
-  const groupMatch = useMatch('/agent/dashboard/groups/:id');
-  const noBreads = ['/agent/dashboard', '/agent/dashboard/unassigned'];
-  const noBreadCrumbs =
-    noBreads.includes(location.pathname) || match || groupMatch;
+  const dashReg = /dashboard/;
+  const noBreadCrumbs = match || dashReg.test(location.pathname);
 
   const { tabStatuses, setCurrentTab } = useContext(TixDashTabContext);
   const handleOnClick = (i) => {

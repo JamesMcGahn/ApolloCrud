@@ -29,6 +29,7 @@ const groupBread = ({ match }) => {
 function BreadCrumbs() {
   const routes = [
     { path: '/agent', breadcrumb: 'Agent Home' },
+    { path: '/customer', breadcrumb: 'Customer Home' },
     { path: '/agent/dashboard/ticket/', breadcrumb: null },
     { path: '/customer/dashboard/ticket/', breadcrumb: null },
     { path: '/agent/users/:userId', breadcrumb: userBread },
