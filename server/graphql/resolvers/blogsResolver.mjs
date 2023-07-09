@@ -8,7 +8,7 @@ const getBlogs = async (parent, args, context) => {
   query.$and = [{ type: 'blog' }];
 
   if (category) {
-    query.$and.push({ category: { $elemMatch: { $eq: category } } });
+    query.$and.push({ category: category });
   }
 
   if (!user || user.role === 'user') {
@@ -47,5 +47,8 @@ const getBlogs = async (parent, args, context) => {
   return posts;
 };
 
-// trunk-ignore(eslint/import/prefer-default-export)
-export { getBlogs };
+const blogsCategories = async (parent, args, context) => {
+  return await Post.distinct('category', { type: 'blog' });
+};
+
+export { getBlogs, blogsCategories };

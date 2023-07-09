@@ -62,7 +62,7 @@ function CustomerNav() {
       <Container
         maxWidth="xl"
         sx={{
-          '& a::before': {
+          '& button::before': {
             content: '""',
             position: 'absolute',
             display: 'block',
@@ -75,7 +75,7 @@ function CustomerNav() {
             transformOrigin: 'top left',
             transition: 'transform 0.3s ease',
           },
-          '& a:hover::before': {
+          '& button:hover::before': {
             transform: 'scaleX(1)',
           },
         }}
@@ -87,10 +87,20 @@ function CustomerNav() {
               flexGrow: 0,
               minHeight: { xs: '0', md: '7vh', lg: '7vh' },
               minWidth: { xs: '0', md: '15vw', lg: '13vw' },
-              '& svg': { display: { xs: 'none', md: 'flex' } },
             }}
           >
-            <ApolloLogo style={{ maxHeight: '10vh' }} />
+            <LinkRouter to="/" underline="none" sx={{ display: 'flex' }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  minHeight: { xs: '0', md: '7vh', lg: '7vh' },
+                  minWidth: { xs: '0', md: '15vw', lg: '13vw' },
+                  '& svg': { display: { xs: 'none', md: 'flex' } },
+                }}
+              >
+                <ApolloLogo style={{ maxHeight: '10vh' }} />
+              </Box>
+            </LinkRouter>
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -138,15 +148,22 @@ function CustomerNav() {
             </Menu>
           </Box>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box
+            sx={{
+              ml: 1,
+              flexGrow: 1,
+              display: { xs: 'none', md: 'flex' },
+            }}
+          >
             {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
+              <LinkRouter to={`/${page}`} underline="none" key={page}>
+                <Button
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                  {page}
+                </Button>
+              </LinkRouter>
             ))}
           </Box>
           {!cULoading && !data?.currentUser && (
@@ -196,9 +213,24 @@ function CustomerNav() {
                   <CreateTicketForm closeModal={setModalOpen} />
                 </PopModal>
               </Box>
-              <Box sx={{ flexGrow: 0 }}>
-                <Tooltip title="Open settings">
-                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <Box
+                sx={{
+                  flexGrow: 0,
+                  '& #avatar-button::before': {
+                    display: 'none !important',
+                    backgoundColor: 'transparent',
+                  },
+                  '& #avatar-button:hover::before': {
+                    transform: 'none !important',
+                  },
+                }}
+              >
+                <Tooltip title="Open settings" sx={{}}>
+                  <IconButton
+                    id="avatar-button"
+                    onClick={handleOpenUserMenu}
+                    sx={{ p: 0 }}
+                  >
                     <Avatar
                       sx={{
                         bgcolor:

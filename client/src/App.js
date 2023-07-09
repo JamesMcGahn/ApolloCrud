@@ -26,6 +26,10 @@ import TicketSearch from './pages/TicketSearch';
 import GroupsTicket from './pages/GroupsTicket';
 import AgentBlogs from './pages/AgentBlogs';
 import AgentBlog from './pages/AgentBlog';
+import Blog from './pages/Blog';
+import BlogId from './pages/BlogId';
+import BlogCategories from './pages/BlogCategories';
+import BlogCategory from './pages/BlogCategory';
 import AgentBlogImages from './pages/AgentBlogImages';
 import AgentBlogCreate from './pages/AgentBlogCreate';
 import RootLayout from './components/layout/RootLayout';
@@ -71,7 +75,11 @@ const appRouter = createBrowserRouter(
           element={<TicketReview />}
         />
       </Route>
-
+      <Route path="/blog" element={<Blog />} />
+      <Route path="/blog/categories" element={<BlogCategories />} />
+      <Route path="/blog/categories/:category" element={<BlogCategory />} />
+      <Route path="/blog/categories/:category/:slug" element={<BlogId />} />
+      <Route path="/blog/:slug" element={<BlogId />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/forgotpassword" element={<ForgotPassword />} />

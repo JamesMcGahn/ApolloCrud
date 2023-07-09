@@ -47,7 +47,7 @@ class QMSchemaGenerator {
 
   getSchemaString() {
     const variableString = this.getVariableString();
-    return `${this.name}${variableString}:${this.response.type}`;
+    return `${this.name}${variableString}:${this.response.type} `;
   }
 }
 

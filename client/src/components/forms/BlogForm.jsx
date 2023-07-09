@@ -36,7 +36,7 @@ function BlogForm({ cb, create = true, blogData, handleDelete }) {
     variables: { roles: ['agent', 'lead', 'admin'] },
   });
   const handleOnChange = (e) => {
-    if (e.target.name === 'category' || e.target.name === 'tags') {
+    if (e.target.name === 'tags') {
       setBlog((prev) => ({
         ...prev,
         [e.target.name]: e.target.value.split(', '),
@@ -95,7 +95,7 @@ function BlogForm({ cb, create = true, blogData, handleDelete }) {
     setBlog({
       author: '',
       blurb: '',
-      category: [],
+      category: '',
       content: '',
       isPrivate: true,
       tags: [],
@@ -164,8 +164,7 @@ function BlogForm({ cb, create = true, blogData, handleDelete }) {
             label="category"
             variant="outlined"
             onChange={handleOnChange}
-            value={blog?.category.join(', ')}
-            helperText="Enter categories comma separated. ex: featured, new"
+            value={blog?.category}
           />
         </FormControl>
         <FormControl fullWidth sx={{ m: 1 }}>

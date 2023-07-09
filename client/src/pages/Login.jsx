@@ -34,6 +34,10 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (e.key !== 'Enter') {
+      return;
+    }
+
     if (loginUser.email && loginUser.password) {
       loggedIn(loginUser);
     } else {
@@ -97,6 +101,7 @@ function Login() {
               name="password"
               value={loginUser.password}
               onChange={onChangeHandler}
+              onKeyUp={handleSubmit}
             />
           </div>
           <Button variant="contained" onClick={handleSubmit}>

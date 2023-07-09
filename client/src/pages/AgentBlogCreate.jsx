@@ -26,7 +26,7 @@ function AgentBlog() {
   const defaultBlog = {
     author: '',
     blurb: '',
-    category: [],
+    category: '',
     content: '',
     isPrivate: true,
     tags: [],

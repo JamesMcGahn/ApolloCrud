@@ -31,7 +31,7 @@ class SchemaGenerator {
       })
       .join(' ');
 
-    return `${this.modelType} ${this.modelName} {${schemaString}}`;
+    return `${this.modelType} ${this.modelName} {${schemaString}} `;
   }
 }
 

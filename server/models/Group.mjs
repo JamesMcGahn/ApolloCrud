@@ -12,8 +12,7 @@ const GroupSchema = new mongoose.Schema(
         ref: 'User',
         validate: {
           validator: function (id) {
-            console.log(id);
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
               const users = mongoose.model('User');
               users.findById(id).then((user) => resolve(user.role !== 'user'));
             });

@@ -25,7 +25,7 @@ const cache = new InMemoryCache({
           },
         },
         blogs: {
-          keyArgs: false,
+          keyArgs: ['category'],
           merge(existing, incoming) {
             return incoming;
           },

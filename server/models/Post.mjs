@@ -41,13 +41,11 @@ const PostSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    category: [
-      {
-        type: String,
-        lowercase: true,
-        default: 'uncategorized',
-      },
-    ],
+    category: {
+      type: String,
+      lowercase: true,
+      default: 'uncategorized',
+    },
     tags: [
       {
         type: String,

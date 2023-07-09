@@ -18,7 +18,7 @@ const updatePostSchema = new TEISchemaGenerator('updatePost', 'input', {
     description: 'The content of the post.',
   },
   category: {
-    type: '[String]',
+    type: 'String',
     description: 'Categories of the post.',
   },
   tags: {

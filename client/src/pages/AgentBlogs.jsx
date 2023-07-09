@@ -56,16 +56,31 @@ function AgentBlogs() {
             <Typography variant="h4" component="h1">
               Blogs
             </Typography>
-            <ButtonGroup
-              variant="contained"
-              aria-label="outlined primary button group"
-            >
-              <Button onClick={() => handleButton(null)}>All</Button>
-              <Button onClick={() => handleButton('draft')}>Drafts</Button>
-              <Button onClick={() => handleButton('published')}>
-                Published
-              </Button>
-            </ButtonGroup>
+            <Box>
+              <LinkRouter
+                to="/agent/blogs/create"
+                underline="none"
+                sx={{ mr: 1 }}
+              >
+                <ButtonGroup
+                  variant="contained"
+                  aria-label="outlined primary button group"
+                >
+                  <Button color="warning">Create</Button>
+                </ButtonGroup>
+              </LinkRouter>
+
+              <ButtonGroup
+                variant="contained"
+                aria-label="outlined primary button group"
+              >
+                <Button onClick={() => handleButton(null)}>All</Button>
+                <Button onClick={() => handleButton('draft')}>Drafts</Button>
+                <Button onClick={() => handleButton('published')}>
+                  Published
+                </Button>
+              </ButtonGroup>
+            </Box>
           </Box>
           {loading ? (
             <Spinner />

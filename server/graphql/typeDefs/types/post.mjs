@@ -30,7 +30,7 @@ const postSchema = new TEISchemaGenerator('post', 'type', {
     description: 'The content of the post.',
   },
   category: {
-    type: '[String]',
+    type: 'String',
     description: 'Categories of the post.',
   },
   tags: {
