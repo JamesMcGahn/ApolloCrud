@@ -51,7 +51,11 @@ import {
   updateBlog,
   deleteBlog,
 } from './resolvers/blogResolver.mjs';
-import { getBlogs, blogsCategories } from './resolvers/blogsResolver.mjs';
+import {
+  getBlogs,
+  blogsCategories,
+  blogSuggested,
+} from './resolvers/blogsResolver.mjs';
 
 const resolvers = {
   Query: {
@@ -71,6 +75,7 @@ const resolvers = {
     blog: getBlog,
     blogs: getBlogs,
     blogsCategories: blogsCategories,
+    blogSuggested: blogSuggested,
   },
   Mutation: {
     createTicket: createTicket,

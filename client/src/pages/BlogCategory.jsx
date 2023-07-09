@@ -22,6 +22,8 @@ function BlogCategory() {
   const handleOnClick = (e, num) => {
     setPage(num);
     fetchMore({ variables: { status: 'published', page: num } });
+    // trunk-ignore(eslint/no-undef)
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (

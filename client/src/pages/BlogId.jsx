@@ -11,6 +11,7 @@ import getABlog from '../graphql/queries/getABlog';
 import CustomerLayout from '../components/layout/CustomerLayout';
 import Spinner from '../components/ui/LoadingSpinner';
 import LinkRouter from '../components/utils/LinkRouter';
+import BlogSuggested from '../components/sections/BlogSuggested';
 
 const LazyLoadWrap = ({ alt, src }) => {
   const regex = /(right|left)/;
@@ -51,7 +52,15 @@ function BlogId() {
 
   return (
     <CustomerLayout>
-      <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, mb: 2 }}>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          mt: 2,
+          mb: '3.5rem',
+          minHeight: '80vh',
+        }}
+      >
         <Box
           sx={{
             display: 'flex',
@@ -174,13 +183,15 @@ function BlogId() {
                     {data?.blog.author.email && (
                       <Box>
                         <strong>Email: </strong>
-                        {data?.blog.author.role}
+                        {data?.blog.author.email}
                       </Box>
                     )}
 
                     <Box>
                       <strong>Role: </strong>
-                      {data?.blog.author.role}
+                      {`${data?.blog.author.role[0].toUpperCase()}${data?.blog.author.role.slice(
+                        1,
+                      )}`}
                     </Box>
                   </Box>
                 </Box>
@@ -189,6 +200,7 @@ function BlogId() {
           )}
         </Box>
       </Box>
+      <BlogSuggested slug={slug} />
     </CustomerLayout>
   );
 }

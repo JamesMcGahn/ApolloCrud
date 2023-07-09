@@ -12,6 +12,7 @@ import CustomerA from '../assets/images/customerA.jpg';
 import CustomerB from '../assets/images/customerB.jpg';
 import CustomerC from '../assets/images/customerC.jpg';
 import CustomerD from '../assets/images/customerD.jpg';
+import BlogSuggested from '../components/sections/BlogSuggested';
 
 const testimonials = [
   {
@@ -186,7 +187,7 @@ function Home() {
           title="Lorem ipsum dolor sit amet,"
           testimonials={testimonials}
         />
-
+        <BlogSuggested slug="" />
         <Box
           sx={{
             display: 'flex',

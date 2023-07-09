@@ -51,4 +51,33 @@ const blogsCategories = async (parent, args, context) => {
   return await Post.distinct('category', { type: 'blog' });
 };
 
-export { getBlogs, blogsCategories };
+const blogSuggested = async (parent, args, context) => {
+  const { slug } = args;
+
+  const post = await Post.findOne({ slug: slug });
+
+  const featuredPosts = [];
+  let posts = [];
+  if (post) {
+    posts = await Post.find(
+      { $and: [{ slug: { $ne: slug } }, { category: post.category }] },
+      null,
+      { limit: 5, sort: { createdAt: -1 } },
+    );
+  }
+
+  featuredPosts.push(...posts);
+
+  if (posts.length < 5) {
+    const morePosts = await Post.find(
+      { $and: [{ slug: { $ne: slug } }, { category: 'featured' }] },
+      null,
+      { limit: 5 - posts.length },
+    );
+    featuredPosts.push(...morePosts);
+  }
+
+  return featuredPosts;
+};
+
+export { getBlogs, blogsCategories, blogSuggested };

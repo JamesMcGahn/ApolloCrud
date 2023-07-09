@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, ScrollRestoration } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
 function RootLayout() {
@@ -6,6 +6,7 @@ function RootLayout() {
     <>
       <Outlet />
       <ToastContainer />
+      <ScrollRestoration />
     </>
   );
 }
