@@ -43,7 +43,7 @@ Fake company website - and ticketing system
   - ~~CRUD~~
 - Public Homepage
   - Products, Sales, Services etc Page
-  - Public-facing blog
+  - ~~Public-facing blog~~
 - Developer Portal?
 - ~~Agent Private Comments~~
 - Agent Groups
@@ -65,9 +65,9 @@ Fake company website - and ticketing system
   - FE Knowledge base for users
   - FEKnowledge base for agents
 
-- BLOG Posts
+- ~~BLOG Posts~~
 
-  - Public site display blog posts
+  - ~~Public site display blog posts~~
   - ~~CRUD Blog Posts~~
     - ~~FE~~
     - ~~BE~~

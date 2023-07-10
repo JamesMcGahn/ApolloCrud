@@ -6,6 +6,7 @@ import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead';
 import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
 import MarkEmailUnreadIcon from '@mui/icons-material/MarkEmailUnread';
 import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend';
+import GroupsIcon from '@mui/icons-material/Groups';
 import DraftsIcon from '@mui/icons-material/Drafts';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -130,7 +131,7 @@ function Layout({ children }) {
                   <ListItem disablePadding>
                     <ListItemButton>
                       <ListItemIcon>
-                        <InboxIcon />
+                        <GroupsIcon />
                       </ListItemIcon>
                       <ListItemText primary={`${grp.name}`} />
                     </ListItemButton>

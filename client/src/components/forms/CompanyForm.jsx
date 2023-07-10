@@ -28,6 +28,10 @@ function CompanyForm({
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleDeleteClick = () => {
+    setAnchorEl(null);
     if (handleDelete) {
       handleDelete(companyInfo.id);
     }
@@ -211,7 +215,7 @@ function CompanyForm({
                 'aria-labelledby': 'basic-button',
               }}
             >
-              <MenuItem onClick={handleClose}>Delete</MenuItem>
+              <MenuItem onClick={handleDeleteClick}>Delete</MenuItem>
             </Menu>
           </Box>
           {cardContents}
