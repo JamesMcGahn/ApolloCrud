@@ -56,6 +56,17 @@ import {
   blogsCategories,
   blogSuggested,
 } from './resolvers/blogsResolver.mjs';
+import {
+  createArticle,
+  getArticle,
+  updateArticle,
+  deleteArticle,
+} from './resolvers/articleResolver.mjs';
+import {
+  getArticles,
+  articlesCategories,
+  articleSuggested,
+} from './resolvers/articlesResolver.mjs';
 
 const resolvers = {
   Query: {
@@ -76,6 +87,10 @@ const resolvers = {
     blogs: getBlogs,
     blogsCategories: blogsCategories,
     blogSuggested: blogSuggested,
+    article: getArticle,
+    articles: getArticles,
+    articlesCategories: articlesCategories,
+    articleSuggested: articleSuggested,
   },
   Mutation: {
     createTicket: createTicket,
@@ -100,6 +115,9 @@ const resolvers = {
     createBlog: createBlog,
     updateBlog: updateBlog,
     deleteBlog: deleteBlog,
+    createArticle: createArticle,
+    updateArticle: updateArticle,
+    deleteArticle: deleteArticle,
   },
   Date: dateScalar,
 };

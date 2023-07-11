@@ -1,11 +1,11 @@
 import Post from '../../models/Post.mjs';
 
-const getBlogs = async (parent, args, context) => {
+const getArticles = async (parent, args, context) => {
   const { user } = context;
   const { page, category, status } = args;
   let posts;
   const query = {};
-  query.$and = [{ type: 'blog' }];
+  query.$and = [{ type: 'article' }];
 
   if (category) {
     query.$and.push({ category: category });
@@ -47,11 +47,11 @@ const getBlogs = async (parent, args, context) => {
   return posts;
 };
 
-const blogsCategories = async (parent, args, context) => {
-  return await Post.distinct('category', { type: 'blog' });
+const articlesCategories = async (parent, args, context) => {
+  return await Post.distinct('category', { type: 'article' });
 };
 
-const blogSuggested = async (parent, args, context) => {
+const articleSuggested = async (parent, args, context) => {
   const { slug } = args;
 
   const post = await Post.findOne({ slug: slug });
@@ -64,7 +64,7 @@ const blogSuggested = async (parent, args, context) => {
         $and: [
           { slug: { $ne: slug } },
           { category: post.category },
-          { type: 'blog' },
+          { type: 'article' },
         ],
       },
       null,
@@ -80,7 +80,7 @@ const blogSuggested = async (parent, args, context) => {
         $and: [
           { slug: { $ne: slug } },
           { category: 'featured' },
-          { type: 'blog' },
+          { type: 'article' },
         ],
       },
       null,
@@ -92,4 +92,4 @@ const blogSuggested = async (parent, args, context) => {
   return featuredPosts;
 };
 
-export { getBlogs, blogsCategories, blogSuggested };
+export { getArticles, articlesCategories, articleSuggested };

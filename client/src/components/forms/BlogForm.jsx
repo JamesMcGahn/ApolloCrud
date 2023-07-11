@@ -21,7 +21,13 @@ import LinkRouter from '../utils/LinkRouter';
 import markdownWordCount from '../../utils/markdownWordCount';
 import Spinner from '../ui/LoadingSpinner';
 
-function BlogForm({ cb, create = true, blogData, handleDelete }) {
+function BlogForm({
+  cb,
+  create = true,
+  blogData,
+  handleDelete,
+  blogorArticle = 'blog',
+}) {
   const [blog, setBlog] = useState(blogData);
   const [value, setValue] = useState(blogData?.content);
   const [assignee, setAssignee] = useState(blogData?.author);
@@ -281,7 +287,9 @@ function BlogForm({ cb, create = true, blogData, handleDelete }) {
               }}
             >
               <LinkRouter
-                to={`/agent/blogs/${blog.slug}/images`}
+                to={`/agent/${
+                  blogorArticle !== 'blog' ? 'articles' : 'blogs'
+                }/${blog.slug}/images`}
                 underline="underline"
               >
                 Update Images

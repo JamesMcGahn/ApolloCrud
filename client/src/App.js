@@ -32,6 +32,10 @@ import BlogCategories from './pages/BlogCategories';
 import BlogCategory from './pages/BlogCategory';
 import AgentBlogImages from './pages/AgentBlogImages';
 import AgentBlogCreate from './pages/AgentBlogCreate';
+import AgentArticleCreate from './pages/AgentArticleCreate';
+import AgentArticle from './pages/AgentArticle';
+import AgentArticles from './pages/AgentArticles';
+import AgentArticleImages from './pages/AgentArticleImages';
 import RootLayout from './components/layout/RootLayout';
 import NotFound from './pages/NotFound';
 
@@ -64,6 +68,13 @@ const appRouter = createBrowserRouter(
         <Route path="/agent/blogs/create" element={<AgentBlogCreate />} />
         <Route path="/agent/blogs/:slug" element={<AgentBlog />} />
         <Route path="/agent/blogs/:slug/images" element={<AgentBlogImages />} />
+        <Route path="/agent/articles" element={<AgentArticles />} />
+        <Route path="/agent/articles/create" element={<AgentArticleCreate />} />
+        <Route path="/agent/articles/:slug" element={<AgentArticle />} />
+        <Route
+          path="/agent/articles/:slug/images"
+          element={<AgentArticleImages />}
+        />
       </Route>
       <Route element={<ProtectedRoute />}>
         <Route path="/customer" element={<CustomerHome />} />
