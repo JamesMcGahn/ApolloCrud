@@ -131,7 +131,7 @@ function AgentBlogImage({
 
               <TextField
                 variant="outlined"
-                sx={{ width: '80%' }}
+                sx={{ width: '80%', minWidth: '30vw' }}
                 type="text"
                 value={
                   form.images?.length === 0

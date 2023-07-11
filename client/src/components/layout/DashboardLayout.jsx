@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState, useContext } from 'react';
 import { styled, useTheme, alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -27,6 +27,7 @@ import signOutQ from '../../graphql/mutations/signOut';
 import client from '../../graphql/apollo';
 import LinkRouter from '../utils/LinkRouter';
 import { ReactComponent as ApolloLogo } from '../../assets/svgs/ApolloTicketsNameNLogo.svg';
+import { AgentDashContext } from '../../context/AgentDashContext';
 
 const drawerWidth = 240;
 
@@ -117,14 +118,14 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
-export default function DashboardLayout({ children, list, dwrDefOpen }) {
+export default function DashboardLayout({ children, list }) {
   const navigate = useNavigate();
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
   const theme = useTheme();
-  const [open, setOpen] = React.useState(dwrDefOpen);
-  const [modalOpen, setModalOpen] = React.useState(false);
+  const { dashOpen, setDashOpen } = useContext(AgentDashContext);
+  const [modalOpen, setModalOpen] = useState(false);
   const { data, loading: cULoading } = useQuery(loggedInUserQ);
-  const [searchWords, setSearchWords] = React.useState('');
+  const [searchWords, setSearchWords] = useState('');
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
@@ -142,11 +143,11 @@ export default function DashboardLayout({ children, list, dwrDefOpen }) {
   });
 
   const handleDrawerOpen = () => {
-    setOpen(true);
+    setDashOpen(true);
   };
 
   const handleDrawerClose = () => {
-    setOpen(false);
+    setDashOpen(false);
   };
 
   const handleSignOut = () => {
@@ -185,14 +186,14 @@ export default function DashboardLayout({ children, list, dwrDefOpen }) {
   return (
     <Box sx={{ display: 'flex', flexGrow: 1 }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed" open={dashOpen}>
         <Toolbar>
           <IconButton
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
-            sx={{ mr: 2, ...(open && { display: 'none' }) }}
+            sx={{ mr: 2, ...(dashOpen && { display: 'none' }) }}
           >
             <MenuIcon />
           </IconButton>
@@ -325,7 +326,7 @@ export default function DashboardLayout({ children, list, dwrDefOpen }) {
         }}
         variant="persistent"
         anchor="left"
-        open={open}
+        open={dashOpen}
       >
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
@@ -339,7 +340,7 @@ export default function DashboardLayout({ children, list, dwrDefOpen }) {
         <Divider />
         {list}
       </Drawer>
-      <Main open={open} sx={{ padding: '24px 0' }}>
+      <Main open={dashOpen} sx={{ padding: '24px 0' }}>
         <DrawerHeader sx={{ minHeight: '40px !important' }} />
         {children}
       </Main>

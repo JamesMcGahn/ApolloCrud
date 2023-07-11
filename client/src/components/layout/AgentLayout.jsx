@@ -45,7 +45,6 @@ function Layout({ children }) {
 
   return (
     <DashboardLayout
-      dwrDefOpen
       list={
         <>
           <List>

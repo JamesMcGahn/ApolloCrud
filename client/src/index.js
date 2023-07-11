@@ -8,6 +8,7 @@ import './index.css';
 import App from './App';
 import { TixDashTabsProvider } from './context/TixDashTabsContext';
 import { TixHistoryProvider } from './context/TixHistoryContext';
+import { AgentDashProvider } from './context/AgentDashContext';
 import muiTheme from './utils/muiTheme';
 import '@fontsource/average-sans';
 
@@ -16,13 +17,15 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <TixHistoryProvider>
-        <TixDashTabsProvider>
-          <ThemeProvider theme={muiTheme}>
-            <RouterProvider router={App} />
-          </ThemeProvider>
-        </TixDashTabsProvider>
-      </TixHistoryProvider>
+      <AgentDashProvider>
+        <TixHistoryProvider>
+          <TixDashTabsProvider>
+            <ThemeProvider theme={muiTheme}>
+              <RouterProvider router={App} />
+            </ThemeProvider>
+          </TixDashTabsProvider>
+        </TixHistoryProvider>
+      </AgentDashProvider>
     </ApolloProvider>
   </React.StrictMode>,
 );

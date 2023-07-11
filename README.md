@@ -10,8 +10,6 @@ Fake company website - and ticketing system
 
   - Responsive Styling
 
-- Dashboard Open Context?
-
 ## Feature Ideas
 
 - Public Homepage
@@ -105,3 +103,4 @@ Fake company website - and ticketing system
   - ~~CRUD Blog Posts~~
     - ~~FE~~
     - ~~BE~~
+- ~~Dashboard Open Context?~~
