@@ -148,6 +148,21 @@ function AgentHome() {
                 },
               ]}
             />
+            <CardList
+              title="Knowledge Base"
+              list={[
+                {
+                  url: '/agent/articles',
+                  title: 'Knowledge Articles',
+                  icon: <NewspaperIcon />,
+                },
+                {
+                  url: '/agent/articles/create',
+                  title: 'Create Knowledge Article',
+                  icon: <ArticleIcon />,
+                },
+              ]}
+            />
           </CardContent>
         </Card>
       </Container>

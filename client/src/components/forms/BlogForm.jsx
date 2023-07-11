@@ -32,7 +32,7 @@ function BlogForm({
   const [value, setValue] = useState(blogData?.content);
   const [assignee, setAssignee] = useState(blogData?.author);
   const [wordCount, setWordCount] = useState(
-    markdownWordCount(blogData.content),
+    markdownWordCount(blogData?.content || ''),
   );
 
   const [anchorEl, setAnchorEl] = useState(null);

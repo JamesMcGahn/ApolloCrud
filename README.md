@@ -10,8 +10,6 @@ Fake company website - and ticketing system
 
   - Responsive Styling
 
-- RF Agent Blog/Article Image Page
-- RF Agent Blogs/Articles Page
 - Dashboard Open Context?
 
 ## Feature Ideas
