@@ -7,8 +7,11 @@ Fake company website - and ticketing system
 ## Todos
 
 - App Styling
-
   - Responsive Styling
+- Ticket Create/Update history
+  - ~~BE (for agents only)~~
+  - FE (for agents only)
+- Footer
 
 ## Feature Ideas
 
@@ -54,8 +57,6 @@ Fake company website - and ticketing system
   - ~~update FE search to use BE search~~
     - add FE search for customers
   - ~~remove closed tickets from mytickets unless directly queried for~~
-
-- Ticket Create/Update history
 
 ### Completed
 

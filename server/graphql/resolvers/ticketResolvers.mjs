@@ -9,7 +9,7 @@ import protectRoute from '../../middleware/protectRoute.mjs';
 const getTicket = async (parent, args, context) => {
   const { id } = args;
   protectRoute(context, [], false);
-  const ticket = await Ticket.findById(id);
+  const ticket = await Ticket.findById(id).select('+history');
 
   if (context.user.role === 'user') {
     const noPrivateComms = ticket.comments.filter(
@@ -20,6 +20,7 @@ const getTicket = async (parent, args, context) => {
       ...ticket._doc,
       id: ticket._doc._id,
       comments: noPrivateComms,
+      history: null,
     };
   }
 
@@ -49,15 +50,20 @@ const createTicket = async (_, args, context) => {
       _id: `${counter.count}`,
       ...newTicket,
       comments: [comment._id],
+      history: [{ updaterName: context.user.name, updaterId: context.user.id }],
     });
   } else {
     ticket = await Ticket.create({
       _id: `${counter.count}`,
       ...newTicket,
+      history: [{ updaterName: context.user.name, updaterId: context.user.id }],
     });
   }
 
-  return await Ticket.findById(ticket.id);
+  if (context.user.role === 'user') {
+    return await Ticket.findById(ticket.id);
+  }
+  return await Ticket.findById(ticket.id).select('+history');
 };
 
 const updateATicket = async (_, args, context) => {
@@ -75,12 +81,17 @@ const updateATicket = async (_, args, context) => {
     const comment = await Comment.create(updateTicket.comment);
     ticket = await Ticket.findByIdAndUpdate(
       id,
-      { ...updateTicket, $push: { comments: comment._id } },
+      {
+        ...updateTicket,
+        $push: { comments: comment._id },
+        updaterName: context.user.name,
+        updaterId: context.user.id,
+      },
       {
         new: true,
         runValidators: true,
       },
-    );
+    ).select('+history');
 
     if (comment.private === false && ticket.channel === 'email') {
       try {
@@ -99,10 +110,18 @@ const updateATicket = async (_, args, context) => {
       }
     }
   } else {
-    ticket = await Ticket.findByIdAndUpdate(id, updateTicket, {
-      new: true,
-      runValidators: true,
-    });
+    ticket = await Ticket.findByIdAndUpdate(
+      id,
+      {
+        ...updateTicket,
+        updaterName: context.user.name,
+        updaterId: context.user.id,
+      },
+      {
+        new: true,
+        runValidators: true,
+      },
+    ).select('+history');
   }
 
   if (context.user.role === 'user') {
@@ -113,6 +132,7 @@ const updateATicket = async (_, args, context) => {
       ...ticket._doc,
       id: ticket._doc._id,
       comments: noPrivateComms,
+      history: null,
     };
   }
 

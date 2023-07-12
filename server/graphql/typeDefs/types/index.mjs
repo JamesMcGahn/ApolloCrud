@@ -14,9 +14,11 @@ import posts from './posts.mjs';
 import publicUserInfo from './publicUserInfo.mjs';
 import postImage from './postImage.mjs';
 import mergedTicket from './mergedTicket.mjs';
+import ticketHistoryComment from './ticketHistoryComment.mjs';
+import ticketHistory from './ticketHistory.mjs';
 
-const ticketTypes = ''.concat(ticket, mergedTicket);
-const commentTypes = ''.concat(comment);
+const ticketTypes = ''.concat(ticket, mergedTicket, ticketHistory);
+const commentTypes = ''.concat(comment, ticketHistoryComment);
 const userTypes = ''.concat(user, userInfo, userGroupInfo, publicUserInfo);
 const companyTypes = ''.concat(company, userCompany, companyInfo);
 const ticketReviewTypes = ''.concat(ticketReview);

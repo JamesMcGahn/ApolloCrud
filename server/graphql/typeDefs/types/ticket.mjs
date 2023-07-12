@@ -51,6 +51,10 @@ const ticketSchema = new TEISchemaGenerator('ticket', 'type', {
     type: 'channelType',
     description: 'The ticket was created via this channel.',
   },
+  history: {
+    type: '[ticketHistory]',
+    description: 'The history of update and creation of the ticket',
+  },
 });
 
 const ticket = ticketSchema.getSchemaString();

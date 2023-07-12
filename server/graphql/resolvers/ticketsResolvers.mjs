@@ -38,7 +38,10 @@ const ticketsSearch = async (parent, args, context) => {
   }
 
   if (searchObj.ticket) {
-    return Ticket.find({ _id: searchObj.ticket });
+    if (context.user.role === 'user') {
+      return Ticket.find({ _id: searchObj.ticket });
+    }
+    return Ticket.find({ _id: searchObj.ticket }).select('+history');
   }
 
   if (searchObj.title) {
@@ -103,11 +106,12 @@ const ticketsSearch = async (parent, args, context) => {
 
     query.$and.push({ status: { $in: statuses } });
   }
-  if (
-    (context.user.role !== 'user' && query.$and.length > 0) ||
-    (context.user.role === 'user' && query.$and.length > 1)
-  ) {
-    return await Ticket.find(query);
+  if (context.user.role === 'user' && query.$and.length > 1) {
+    return await filterPrivate(Ticket.find(query));
+  }
+
+  if (context.user.role !== 'user' && query.$and.length > 0) {
+    return await Ticket.find(query).select('+history');
   }
   return [];
 };
@@ -149,7 +153,7 @@ const getTickets = async (parent, args, context) => {
     return await filterPrivate(ticket);
   }
 
-  return await ticket;
+  return await ticket.select('+history');
 };
 
 const bulkUpdateTickets = async (_, args, context) => {
@@ -176,23 +180,36 @@ const bulkUpdateTickets = async (_, args, context) => {
     const comment = await Comment.create(updateTickets.comment);
     ticket = await Ticket.updateMany(
       { _id: { $in: ids } },
-      { ...updateTickets, $push: { comments: comment._id } },
+      {
+        ...updateTickets,
+        $push: { comments: comment._id },
+        updaterName: context.user.name,
+        updaterId: context.user.id,
+      },
       {
         new: true,
         runValidators: true,
       },
     );
   } else {
-    ticket = await Ticket.updateMany({ _id: { $in: ids } }, updateTickets, {
-      new: true,
-      runValidators: true,
-    });
+    ticket = await Ticket.updateMany(
+      { _id: { $in: ids } },
+      {
+        ...updateTickets,
+        updaterName: context.user.name,
+        updaterId: context.user.id,
+      },
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
   }
   if (ticket.acknowledged) {
     if (user.role === 'user') {
       return filterPrivate(Ticket.find({ _id: { $in: ids } }));
     }
-    return await Ticket.find({ _id: { $in: ids } });
+    return await Ticket.find({ _id: { $in: ids } }).select('+history');
   }
   throw new GraphQLError(
     "Something went wrong we couldn't update the Tickets.",
@@ -233,7 +250,7 @@ const myTickets = async (_, args, context) => {
   if (user.role === 'user') {
     return await filterPrivate(tickets);
   }
-  return await tickets;
+  return await tickets.select('+history');
 };
 
 const bulkDeleteTickets = async (parent, args, context) => {
@@ -328,7 +345,7 @@ const mergeTickets = async (parent, args, context) => {
       new: true,
       runValidators: true,
     },
-  );
+  ).select('+history');
 
   const ticketMergeInto = await Ticket.findByIdAndUpdate(
     ticket,
@@ -337,7 +354,7 @@ const mergeTickets = async (parent, args, context) => {
       new: true,
       runValidators: true,
     },
-  );
+  ).select('+history');
 
   return {
     mergeTicket: ticketOriginal,

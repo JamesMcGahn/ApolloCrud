@@ -73,7 +73,13 @@ const emailReader = () => {
 
                   await Ticket.findByIdAndUpdate(
                     ticketNumber,
-                    { $push: { comments: comment._id } },
+
+                    {
+                      updaterName: user.name,
+                      updaterId: user.id,
+                      status: 'Open',
+                      $push: { comments: comment._id },
+                    },
                     {
                       new: true,
                       runValidators: true,
@@ -92,6 +98,7 @@ const emailReader = () => {
                     requester: user.id,
                     comments: [comment._id],
                     channel: 'email',
+                    history: [{ updaterName: user.name, updaterId: user.id }],
                   });
                 }
               });
