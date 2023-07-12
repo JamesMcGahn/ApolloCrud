@@ -38,7 +38,27 @@ const updateTicket = gql`
       status
       title
       priority
+      channel
       updatedAt
+      history {
+        updaterName
+        updaterId
+        type
+        group
+        assignee
+        requester
+        title
+        description
+        priority
+        status
+        updatedAt
+        comment {
+          id
+          author
+          content
+          private
+        }
+      }
     }
   }
 `;

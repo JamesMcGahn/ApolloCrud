@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useContext } from 'react';
 import { useQuery } from '@apollo/client';
+import Box from '@mui/material/Box';
 import ClearIcon from '@mui/icons-material/Clear';
 import { TixHistoryContext } from '../../context/TixHistoryContext';
 import loggedInUserQ from '../../graphql/queries/loggedInUser';
@@ -39,38 +40,57 @@ function TicketHistoryBarItem({ id }) {
             : `/agent/dashboard/ticket/${id}`
         }
         sx={{
-          width: '70%',
+          width: '55%',
           display: 'inline-block',
-          marginLeft: '1.5rem',
+          height: '100%',
         }}
       >
-        <div>{id}</div>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            height: '100%',
+            justifyContent: 'center',
+            marginLeft: '.5rem',
+          }}
+        >
+          {id}
+        </Box>
       </LinkRouter>
 
       {showDelete ? (
-        // trunk-ignore(eslint/jsx-a11y/no-static-element-interactions)
-        // trunk-ignore(eslint/jsx-a11y/click-events-have-key-events)
-        <div
+        <Box
           onClick={handleDelete}
-          style={{
+          sx={{
             backgroundColor: '#1976d2',
             display: 'flex',
             alignItems: 'center',
+            justifyContent: 'center',
             width: '45%',
-            height: '80%',
+            height: '100%',
             color: 'white',
-            padding: '.5rem',
           }}
         >
           <span style={{ fontSize: '.4rem' }}>Remove</span>
-        </div>
+        </Box>
       ) : (
-        <div>
+        <Box
+          sx={{
+            display: 'flex',
+            width: '45%',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
           <ClearIcon
             onClick={handleClick}
-            sx={{ marginRight: 'auto', margin: '0 10px', color: 'white' }}
+            sx={{
+              fontSize: '1rem',
+              color: 'white',
+              marginTop: '.1rem',
+            }}
           />
-        </div>
+        </Box>
       )}
     </>
   );

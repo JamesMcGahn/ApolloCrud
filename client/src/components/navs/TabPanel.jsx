@@ -28,7 +28,7 @@ function a11yProps(index) {
   };
 }
 
-function TicketTabPanel({ tabHeaders, tabContent }) {
+function TicketTabPanel({ breadCrumbs, tabHeaders, tabContent, sxStyles }) {
   const [tabIndex, setTabIndex] = useState(0);
 
   const theme = useTheme();
@@ -42,15 +42,19 @@ function TicketTabPanel({ tabHeaders, tabContent }) {
   };
 
   return (
-    <Box sx={{ bgcolor: 'background.paper', minWidth: '60vw' }}>
+    <Box sx={{ bgcolor: 'background.paper', ...sxStyles }}>
       <AppBar position="static">
         <Tabs
           value={tabIndex}
           onChange={handleChange}
-          indicatorColor="secondary"
           textColor="inherit"
           variant="fullWidth"
           aria-label="full width tabs example"
+          sx={{
+            '& .MuiTabs-indicator': {
+              background: '#f9fcfd',
+            },
+          }}
         >
           {tabHeaders.map((tab, i) => (
             <Tab label={tab} {...a11yProps(i)} name={tab} key={tab} />
@@ -70,15 +74,17 @@ function TicketTabPanel({ tabHeaders, tabContent }) {
             index={i}
             dir={theme.direction}
           >
-            <Box
-              sx={{
-                '& div:first-of-type': {
-                  marginLeft: '0 !important',
-                },
-              }}
-            >
-              <BreadCrumbs />
-            </Box>
+            {breadCrumbs && (
+              <Box
+                sx={{
+                  '& div:first-of-type': {
+                    marginLeft: '0 !important',
+                  },
+                }}
+              >
+                <BreadCrumbs />
+              </Box>
+            )}
             {tabC}
           </TabPanel>
         ))}

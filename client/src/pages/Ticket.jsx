@@ -75,7 +75,11 @@ function Ticket() {
           {loading ? (
             <Spinner />
           ) : (
-            <TicketPageForm data={data} handleDelete={handleDelete} />
+            <TicketPageForm
+              data={data}
+              handleDelete={handleDelete}
+              key={data?.ticket.id}
+            />
           )}
         </AgentLayout>
       ) : (
@@ -85,7 +89,7 @@ function Ticket() {
           ) : (
             <>
               <TicketHistoryNav />
-              <CusTicketPageForm data={data} />
+              <CusTicketPageForm data={data} key={data?.ticket.id} />
             </>
           )}
         </CustomerLayout>

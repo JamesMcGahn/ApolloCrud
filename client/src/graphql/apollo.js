@@ -9,6 +9,11 @@ const cache = new InMemoryCache({
             return incoming;
           },
         },
+        ticket: {
+          merge(existing, incoming) {
+            return incoming;
+          },
+        },
         tickets: {
           merge(existing, incoming) {
             return incoming;

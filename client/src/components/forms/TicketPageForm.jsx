@@ -3,6 +3,7 @@ import { useQuery, useMutation } from '@apollo/client';
 import MDEditor from '@uiw/react-md-editor';
 import rehypeSanitize from 'rehype-sanitize';
 import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
@@ -28,6 +29,7 @@ import ScrollDrawer from '../ui/ScrollDrawer';
 import convert2FullDateTime from '../../utils/convert2FullDateTime';
 import MergeTickets from './MergeTickets';
 import PopModal from '../ui/PopModal';
+import TabPanel from '../navs/TabPanel';
 
 function TicketPageForm({ data, handleDelete }) {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -50,7 +52,7 @@ function TicketPageForm({ data, handleDelete }) {
   const {
     data: { currentUser },
   } = useQuery(loggedInUserQ);
-  const ticketClosed = ticket.status === 'Closed';
+  const ticketClosed = ticket?.status === 'Closed';
 
   const [updateTicket] = useMutation(updateATicket, {
     onCompleted: (datas) => {
@@ -225,6 +227,7 @@ function TicketPageForm({ data, handleDelete }) {
             <TextField
               id="channel"
               label="channel"
+              defaultValue={ticket?.channel}
               value={ticket?.channel}
               disabled
             />
@@ -296,51 +299,157 @@ function TicketPageForm({ data, handleDelete }) {
                   </Typography>
                 </Box>
               </Card>
-              <Card
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  padding: '1rem',
-                  flexWrap: 'wrap',
-                  mb: 1,
-                }}
-              >
-                <Box>
-                  <Typography variant="h6" sx={{ fontSize: '1.2rem' }}>
-                    Comments:
-                  </Typography>
-                </Box>
-                <Box sx={{ display: 'flex', flexDirection: 'column', mb: 1 }}>
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        checked={privateChecked}
-                        onChange={handlePrivateChecked}
-                        disabled={ticketClosed}
-                      />
-                    }
-                    label="Private"
-                  />
 
-                  <div data-color-mode="light">
-                    <MDEditor
-                      value={newComment}
-                      onChange={setNewComment}
-                      preview="edit"
-                      previewOptions={{
-                        rehypePlugins: [[rehypeSanitize]],
-                      }}
-                    />
-                  </div>
-                </Box>
-                <Box sx={{ maxHeight: '80vh', overflowY: 'auto' }}>
-                  {ticket?.comments.toReversed().map((comment) => (
-                    <Box sx={{ mb: '.8rem', p: '0 .5rem' }} key={comment.id}>
-                      <Comment comment={comment} />
+              <TabPanel
+                sxStyles={{
+                  '& .MuiPaper-root': { borderRadius: '.2rem' },
+                  '& .MuiTabs-indicator': {
+                    borderRadius: '.2rem',
+                  },
+                }}
+                breadCrumbs={false}
+                tabHeaders={['Comments', 'History']}
+                tabContent={[
+                  <Card
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      padding: '1rem',
+                      flexWrap: 'wrap',
+                      mb: 1,
+                    }}
+                  >
+                    <Box>
+                      <Typography variant="h6" sx={{ fontSize: '1.2rem' }}>
+                        Comments:
+                      </Typography>
                     </Box>
-                  ))}
-                </Box>
-              </Card>
+                    <Box
+                      sx={{ display: 'flex', flexDirection: 'column', mb: 1 }}
+                    >
+                      <FormControlLabel
+                        control={
+                          <Switch
+                            checked={privateChecked}
+                            onChange={handlePrivateChecked}
+                            disabled={ticketClosed}
+                          />
+                        }
+                        label="Private"
+                      />
+
+                      <div data-color-mode="light">
+                        <MDEditor
+                          value={newComment}
+                          onChange={setNewComment}
+                          preview="edit"
+                          previewOptions={{
+                            rehypePlugins: [[rehypeSanitize]],
+                          }}
+                        />
+                      </div>
+                    </Box>
+                    <Box sx={{ maxHeight: '80vh', overflowY: 'auto' }}>
+                      {ticket?.comments.toReversed().map((comment) => (
+                        <Box
+                          sx={{ mb: '.8rem', p: '0 .5rem' }}
+                          key={comment.id}
+                        >
+                          <Comment comment={comment} />
+                        </Box>
+                      ))}
+                    </Box>
+                  </Card>,
+                  <Card
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      padding: '1rem',
+                      flexWrap: 'wrap',
+                      mb: 1,
+                    }}
+                  >
+                    {ticket?.history &&
+                      [...ticket.history].reverse().map((his, i) => (
+                        <Box
+                          sx={{ mb: '.8rem', p: '0 .5rem' }}
+                          // trunk-ignore(eslint/react/no-array-index-key)
+                          key={`${i}-ticket-history`}
+                        >
+                          <Card>
+                            <CardContent>
+                              <Typography variant="h6">
+                                {`Ticket was ${his.type}d by ${his.updaterName} (${his.updaterId})  `}
+                              </Typography>
+                              <Typography>
+                                <strong>
+                                  {`${his.type[0].toUpperCase()}${his.type.slice(
+                                    1,
+                                  )}d At:`}
+                                </strong>
+                                {` ${convert2FullDateTime(his.updatedAt)}`}
+                              </Typography>
+                              <Box
+                                sx={{
+                                  padding: '1rem 0',
+                                  width: '100%',
+                                  borderTop: '1px solid black',
+                                }}
+                              >
+                                {[
+                                  'group',
+                                  'assignee',
+                                  'requester',
+                                  'title',
+                                  'description',
+                                  'status',
+                                  'priority',
+                                  'comment',
+                                ].map((fld) => {
+                                  if (!his[fld]) {
+                                    return;
+                                  }
+                                  if (
+                                    fld === 'comment' &&
+                                    !his.comment.content
+                                  ) {
+                                    return;
+                                  }
+
+                                  if (fld === 'comment') {
+                                    return (
+                                      <>
+                                        <Typography>
+                                          <strong>Comment:</strong>
+                                        </Typography>
+                                        <Box sx={{ paddingLeft: '1rem' }}>
+                                          <Typography>{` Comment ID: ${his.comment.id}`}</Typography>
+                                          <Typography>{` Comment Content: ${his.comment.content}`}</Typography>
+                                          <Typography>{` Private: ${his.comment.private}`}</Typography>
+                                        </Box>
+                                      </>
+                                    );
+                                  }
+
+                                  return (
+                                    <Typography>
+                                      <strong>
+                                        {`${fld[0].toUpperCase()}${fld.slice(
+                                          1,
+                                        )}:`}
+                                      </strong>
+                                      {` ${his[fld]}`}
+                                    </Typography>
+                                  );
+                                })}
+                              </Box>
+                            </CardContent>
+                          </Card>
+                        </Box>
+                      ))}
+                  </Card>,
+                ]}
+              />
             </Container>
           </ScrollDrawer>
         </Container>

@@ -35,6 +35,25 @@ const getTicket = gql`
         name
         role
       }
+      history {
+        updaterName
+        updaterId
+        type
+        group
+        assignee
+        requester
+        title
+        description
+        priority
+        status
+        updatedAt
+        comment {
+          id
+          author
+          content
+          private
+        }
+      }
       status
       priority
       title

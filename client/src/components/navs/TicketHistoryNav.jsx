@@ -28,12 +28,16 @@ export default function HistoryBar() {
                   flexDirection: 'row',
                   borderRight: '1px solid',
                   padding: 0,
-                  width: '5 rem',
+
                   borderRightColor: '#FFF',
                   '& a': {
                     color: 'white',
                     textDecoration: 'none',
                     textTransform: 'none',
+                  },
+                  '& button': {
+                    minWidth: '90px',
+                    maxWidth: '90px',
                   },
                 }}
                 label={<TicketHistoryBarItem id={loc} />}

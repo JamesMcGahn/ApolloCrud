@@ -66,10 +66,14 @@ function TicketTabPanel({
         <Tabs
           value={currentTab}
           onChange={handleChange}
-          indicatorColor="secondary"
           textColor="inherit"
           variant="fullWidth"
           aria-label="full width tabs example"
+          sx={{
+            '& .MuiTabs-indicator': {
+              background: '#f9fcfd',
+            },
+          }}
         >
           {tabStatuses.map((tab, i) => (
             <Tab label={tab} {...a11yProps(i)} name={tab} key={tab} />

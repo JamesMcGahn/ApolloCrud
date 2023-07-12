@@ -10,7 +10,10 @@ Fake company website - and ticketing system
   - Responsive Styling
 - Ticket Create/Update history
   - ~~BE (for agents only)~~
-  - FE (for agents only)
+  - ~~FE (for agents only)~~
+  - ability to change public comments to internal
+    - FE
+    - BE
 - Footer
 
 ## Feature Ideas
