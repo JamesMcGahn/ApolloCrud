@@ -1,13 +1,10 @@
 import React, { useEffect, useRef, useContext } from 'react';
-import { useQuery } from '@apollo/client';
 import Box from '@mui/material/Box';
 import ClearIcon from '@mui/icons-material/Clear';
 import { TixHistoryContext } from '../../context/TixHistoryContext';
-import loggedInUserQ from '../../graphql/queries/loggedInUser';
 import LinkRouter from '../utils/LinkRouter';
 
 function TicketHistoryBarItem({ id }) {
-  const { data: userData } = useQuery(loggedInUserQ);
   const { removeHistory } = useContext(TixHistoryContext);
   const [showDelete, setShowDelete] = React.useState(false);
   const instance = useRef({ timer: 0 });

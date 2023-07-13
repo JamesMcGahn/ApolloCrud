@@ -32,7 +32,7 @@ import PopModal from '../ui/PopModal';
 import TabPanel from '../navs/TabPanel';
 import BreadCrumbs from '../navs/BreadCrumbs';
 
-function TicketPageForm({ data, handleDelete }) {
+function TicketPageForm({ data, handleDelete, handleCommentInteral }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [mOpen, setMOpen] = useState(false);
 
@@ -229,7 +229,6 @@ function TicketPageForm({ data, handleDelete }) {
             <TextField
               id="channel"
               label="channel"
-              defaultValue={ticket?.channel}
               value={ticket?.channel}
               disabled
             />
@@ -357,7 +356,11 @@ function TicketPageForm({ data, handleDelete }) {
                           sx={{ mb: '.8rem', p: '0 .5rem' }}
                           key={comment.id}
                         >
-                          <Comment comment={comment} />
+                          <Comment
+                            comment={comment}
+                            convertInternal={handleCommentInteral}
+                            agent
+                          />
                         </Box>
                       ))}
                     </Box>
@@ -372,11 +375,10 @@ function TicketPageForm({ data, handleDelete }) {
                     }}
                   >
                     {ticket?.history &&
-                      [...ticket.history].reverse().map((his, i) => (
+                      [...ticket.history].reverse().map((his) => (
                         <Box
                           sx={{ mb: '.8rem', p: '0 .5rem' }}
-                          // trunk-ignore(eslint/react/no-array-index-key)
-                          key={`${i}-ticket-history`}
+                          key={`${his.id}-ticket-history`}
                         >
                           <Card>
                             <CardContent>
@@ -411,6 +413,7 @@ function TicketPageForm({ data, handleDelete }) {
                                   if (!his[fld]) {
                                     return;
                                   }
+
                                   if (
                                     fld === 'comment' &&
                                     !his.comment.content
@@ -425,8 +428,18 @@ function TicketPageForm({ data, handleDelete }) {
                                           <strong>Comment:</strong>
                                         </Typography>
                                         <Box sx={{ paddingLeft: '1rem' }}>
-                                          <Typography>{` Comment ID: ${his.comment.id}`}</Typography>
-                                          <Typography>{` Comment Content: ${his.comment.content}`}</Typography>
+                                          <Typography>{` Comment ID: ${his.comment.commentId}`}</Typography>
+
+                                          {`
+                                          ${
+                                            his.comment.content.startsWith(
+                                              'Comment was changed to internal note',
+                                            )
+                                              ? ''
+                                              : 'Comment Content:'
+                                          } ${his.comment.content}
+                                          `}
+
                                           <Typography>{` Private: ${his.comment.private}`}</Typography>
                                         </Box>
                                       </>

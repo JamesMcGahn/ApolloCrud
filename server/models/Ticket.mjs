@@ -66,7 +66,7 @@ const TicketSchema = new mongoose.Schema(
           status: String,
           priority: String,
           comment: {
-            id: String,
+            commentId: String,
             author: String,
             content: String,
             private: Boolean,
@@ -110,7 +110,7 @@ TicketSchema.pre('save', async function (next) {
         ...this,
         type: 'create',
         comment: {
-          id: comment.id,
+          commentId: comment.id,
           author: comment.author.id,
           content: comment.content,
           private: comment.private,
@@ -137,7 +137,11 @@ TicketSchema.pre(/(findOneAndUpdate|updateMany)/, function (next) {
     ...this._update.$push,
     history: {
       ...this._update,
-      comment: { ...this._update?.comment, id: this._update?.$push?.comments },
+      comment: {
+        ...this._update?.comment,
+        commentId:
+          this._update?.$push?.comments || this._update?.comment.commentId,
+      },
       type: 'update',
       updatedAt: this._update.$set.updatedAt,
     },

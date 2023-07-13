@@ -7,13 +7,9 @@ Fake company website - and ticketing system
 ## Todos
 
 - App Styling
+
   - Responsive Styling
-- Ticket Create/Update history
-  - ~~BE (for agents only)~~
-  - ~~FE (for agents only)~~
-  - ability to change public comments to internal
-    - FE
-    - BE
+
 - Footer
 
 ## Feature Ideas
@@ -108,3 +104,9 @@ Fake company website - and ticketing system
     - ~~FE~~
     - ~~BE~~
 - ~~Dashboard Open Context?~~
+- ~~Ticket Create/Update history~~
+  - ~~BE (for agents only)~~
+  - ~~FE (for agents only)~~
+  - ~~ability to change public comments to internal~~
+    - ~~FE~~
+    - ~~BE~~

@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { toast } from 'react-toastify';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { useQuery, useMutation } from '@apollo/client';
+import { useQuery, useMutation, gql } from '@apollo/client';
 import AgentLayout from '../components/layout/AgentLayout';
 import getTicket from '../graphql/queries/getTicket';
 import TicketPageForm from '../components/forms/TicketPageForm';
@@ -21,7 +21,7 @@ function Ticket() {
 
   const { addHistory, removeHistory } = useContext(TixHistoryContext);
   const { data: custData } = useQuery(loggedInUserQ);
-  const { loading, data } = useQuery(getTicket, {
+  const { loading, data, refetch } = useQuery(getTicket, {
     variables: { ticketId: id },
     onCompleted: () => {
       addHistory({ ticket: id, path: location.pathname });
@@ -64,6 +64,26 @@ function Ticket() {
     },
   });
 
+  const [updateComment] = useMutation(
+    gql`
+      mutation Mutation($ticketCommentIntId: ID!, $ticketId: ID!) {
+        ticketCommentInt(id: $ticketCommentIntId, ticketId: $ticketId)
+      }
+    `,
+    {
+      onCompleted: () => {
+        toast.success('Comment Updated to Private');
+        refetch({ ticketId: id });
+      },
+    },
+  );
+
+  const handleCommentInteral = (commID) => {
+    updateComment({
+      variables: { ticketCommentIntId: commID, ticketId: id },
+    });
+  };
+
   const handleDelete = (tixId) => {
     deleteTicket({ variables: { deleteTicketId: tixId } });
   };
@@ -79,12 +99,13 @@ function Ticket() {
             <TicketPageForm
               data={data}
               handleDelete={handleDelete}
-              key={data?.ticket.id}
+              key={`${data?.ticket.id}-${data?.ticket?.history?.length}`}
+              handleCommentInteral={handleCommentInteral}
             />
           )}
         </AgentLayout>
       ) : (
-        <CustomerLayout key={`${id}-ticket`}>
+        <CustomerLayout>
           {loading ? (
             <Spinner />
           ) : (

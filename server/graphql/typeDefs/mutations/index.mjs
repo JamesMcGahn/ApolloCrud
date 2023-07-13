@@ -23,6 +23,7 @@ import deleteBlog from './deleteBlog.mjs';
 import createArticle from './createArticle.mjs';
 import updateArticle from './updateArticle.mjs';
 import deleteArticle from './deleteArticle.mjs';
+import ticketCommentInt from './ticketCommentInt.mjs';
 
 const ticketMutations = ''.concat(
   createTicket,
@@ -45,6 +46,7 @@ const authMutations = ''.concat(
 );
 const blogMutations = ''.concat(createBlog, updateBlog, deleteBlog);
 const articleMutations = ''.concat(createArticle, updateArticle, deleteArticle);
+const commentMutations = ''.concat(ticketCommentInt);
 
 const mutations = 'type Mutation {'.concat(
   ticketMutations,
@@ -55,6 +57,7 @@ const mutations = 'type Mutation {'.concat(
   authMutations,
   blogMutations,
   articleMutations,
+  commentMutations,
   '}',
 );
 

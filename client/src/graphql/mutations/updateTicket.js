@@ -41,6 +41,7 @@ const updateTicket = gql`
       channel
       updatedAt
       history {
+        id
         updaterName
         updaterId
         type
@@ -53,7 +54,7 @@ const updateTicket = gql`
         status
         updatedAt
         comment {
-          id
+          commentId
           author
           content
           private

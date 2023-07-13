@@ -3,12 +3,17 @@ import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import Avatar from '@mui/material/Avatar';
-import Typography from '@mui/material/Typography';
 import { green, blue } from '@mui/material/colors';
 import Chip from '@mui/material/Chip';
 import convert2FullDateTime from '../../utils/convert2FullDateTime';
 
-function Comment({ comment }) {
+function Comment({ comment, agent = false, convertInternal }) {
+  const handleClickInternal = () => {
+    if (convertInternal) {
+      convertInternal(comment.id);
+    }
+  };
+
   return (
     <Card sx={{ backgroundColor: comment.private ? 'yellow' : '' }}>
       <CardHeader
@@ -23,18 +28,25 @@ function Comment({ comment }) {
           </Avatar>
         }
         action={
-          <Chip
-            label={comment.author.role}
-            color={comment.author.role === 'user' ? 'success' : 'primary'}
-          />
+          <>
+            {!comment.private && agent && (
+              <Chip
+                label="Convert to Private Comment"
+                onClick={handleClickInternal}
+                sx={{ marginRight: '5px' }}
+              />
+            )}
+            <Chip
+              label={comment.author.role}
+              color={comment.author.role === 'user' ? 'success' : 'primary'}
+            />
+          </>
         }
         title={comment.author.email}
         subheader={convert2FullDateTime(comment.createdAt)}
       />
       <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          <Markdown>{comment.content}</Markdown>
-        </Typography>
+        <Markdown>{comment.content}</Markdown>
       </CardContent>
     </Card>
   );

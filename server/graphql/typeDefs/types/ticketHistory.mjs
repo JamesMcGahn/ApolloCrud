@@ -1,6 +1,10 @@
 import TEISchemaGenerator from '../TEISchemaGenerator.mjs';
 
 const ticketHistorySchema = new TEISchemaGenerator('ticketHistory', 'type', {
+  id: {
+    type: 'ID!',
+    description: 'ID of the object',
+  },
   updaterName: {
     type: 'String!',
     description: 'The name of the updater.',

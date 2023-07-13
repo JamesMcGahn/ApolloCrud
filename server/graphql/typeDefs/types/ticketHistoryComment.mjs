@@ -4,7 +4,7 @@ const ticketHistoryCommentSchema = new TEISchemaGenerator(
   'ticketHistoryComment',
   'type',
   {
-    id: {
+    commentId: {
       type: 'ID',
       description: 'The ID of the Comment.',
     },

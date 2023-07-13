@@ -36,6 +36,7 @@ const getTicket = gql`
         role
       }
       history {
+        id
         updaterName
         updaterId
         type
@@ -48,7 +49,7 @@ const getTicket = gql`
         status
         updatedAt
         comment {
-          id
+          commentId
           author
           content
           private

@@ -68,6 +68,8 @@ import {
   articleSuggested,
 } from './resolvers/articlesResolver.mjs';
 
+import { ticketCommentInt } from './resolvers/commentResolvers.mjs';
+
 const resolvers = {
   Query: {
     tickets: getTickets,
@@ -118,6 +120,7 @@ const resolvers = {
     createArticle: createArticle,
     updateArticle: updateArticle,
     deleteArticle: deleteArticle,
+    ticketCommentInt: ticketCommentInt,
   },
   Date: dateScalar,
 };
