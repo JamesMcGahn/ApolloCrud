@@ -42,8 +42,8 @@ export default function HistoryBar() {
                 }}
                 label={<TicketHistoryBarItem id={loc} />}
                 index={i}
-                id={loc}
-                key={loc}
+                id={loc.ticket}
+                key={loc.ticket}
               />
             );
           })}

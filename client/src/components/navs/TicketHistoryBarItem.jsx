@@ -22,7 +22,7 @@ function TicketHistoryBarItem({ id }) {
   const handleDelete = (event) => {
     event.preventDefault();
     clearTimeout(instance.current.timer);
-    removeHistory(id);
+    removeHistory([id.ticket]);
   };
   useEffect(() => {
     return () => {
@@ -34,11 +34,7 @@ function TicketHistoryBarItem({ id }) {
     <>
       <LinkRouter
         underline="none"
-        to={
-          userData.currentUser.role === 'user'
-            ? `/customer/dashboard/ticket/${id}`
-            : `/agent/dashboard/ticket/${id}`
-        }
+        to={id.path}
         sx={{
           width: '55%',
           display: 'inline-block',
@@ -54,7 +50,7 @@ function TicketHistoryBarItem({ id }) {
             marginLeft: '.5rem',
           }}
         >
-          {id}
+          {id.ticket}
         </Box>
       </LinkRouter>
 

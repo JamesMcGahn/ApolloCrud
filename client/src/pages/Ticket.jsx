@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { toast } from 'react-toastify';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import AgentLayout from '../components/layout/AgentLayout';
 import getTicket from '../graphql/queries/getTicket';
@@ -17,13 +17,14 @@ import getMyTickets from '../graphql/queries/getMyTickets';
 function Ticket() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { addHistory, removeHistory } = useContext(TixHistoryContext);
   const { data: custData } = useQuery(loggedInUserQ);
   const { loading, data } = useQuery(getTicket, {
     variables: { ticketId: id },
     onCompleted: () => {
-      addHistory(id);
+      addHistory({ ticket: id, path: location.pathname });
     },
     onError: (err) => {
       if (err.message === 'We cannot find that Ticket Id') {

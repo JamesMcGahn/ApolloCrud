@@ -6,14 +6,20 @@ export function TixHistoryProvider({ children }) {
   const [ticketHistory, setTicketHistory] = useState([]);
 
   const addHistory = (tix) => {
-    const set = new Set([...ticketHistory]);
-    set.add(tix);
-    setTicketHistory(Array.from(set));
+    const uniqueTickets = (arr, trackTixId = new Set()) => {
+      return arr.filter(({ ticket }) => {
+        return trackTixId.has(ticket) ? false : trackTixId.add(ticket);
+      });
+    };
+
+    const newHistory = uniqueTickets([...ticketHistory, tix]);
+
+    setTicketHistory(newHistory);
   };
 
   const removeHistory = (tix) => {
     const tixx = [...ticketHistory];
-    const tickets = tixx.filter((ptixes) => !tix.includes(ptixes));
+    const tickets = tixx.filter((ptixes) => !tix.includes(ptixes.ticket));
     setTicketHistory(tickets);
   };
 

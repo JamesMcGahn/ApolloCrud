@@ -30,6 +30,7 @@ import convert2FullDateTime from '../../utils/convert2FullDateTime';
 import MergeTickets from './MergeTickets';
 import PopModal from '../ui/PopModal';
 import TabPanel from '../navs/TabPanel';
+import BreadCrumbs from '../navs/BreadCrumbs';
 
 function TicketPageForm({ data, handleDelete }) {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -126,6 +127,7 @@ function TicketPageForm({ data, handleDelete }) {
 
   return (
     <>
+      <BreadCrumbs />
       <PopModal noButton open={mOpen} setOpen={setMOpen}>
         <MergeTickets ticket={ticket?.id} closeModal={setMOpen} />
       </PopModal>
