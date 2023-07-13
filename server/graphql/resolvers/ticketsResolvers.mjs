@@ -179,7 +179,7 @@ const bulkUpdateTickets = async (_, args, context) => {
   if (updateTickets.comment) {
     const comment = await Comment.create(updateTickets.comment);
     ticket = await Ticket.updateMany(
-      { _id: { $in: ids } },
+      { _id: { $in: ids }, status: { $ne: 'Closed' } },
       {
         ...updateTickets,
         $push: { comments: comment._id },
@@ -193,7 +193,7 @@ const bulkUpdateTickets = async (_, args, context) => {
     );
   } else {
     ticket = await Ticket.updateMany(
-      { _id: { $in: ids } },
+      { _id: { $in: ids }, status: { $ne: 'Closed' } },
       {
         ...updateTickets,
         updaterName: context.user.name,

@@ -79,8 +79,8 @@ const updateATicket = async (_, args, context) => {
   let ticket;
   if (updateTicket.comment) {
     const comment = await Comment.create(updateTicket.comment);
-    ticket = await Ticket.findByIdAndUpdate(
-      id,
+    ticket = await Ticket.findOneAndUpdate(
+      { _id: id, status: { $ne: 'Closed' } },
       {
         ...updateTicket,
         $push: { comments: comment._id },
@@ -110,8 +110,8 @@ const updateATicket = async (_, args, context) => {
       }
     }
   } else {
-    ticket = await Ticket.findByIdAndUpdate(
-      id,
+    ticket = await Ticket.findOneAndUpdate(
+      { _id: id, status: { $ne: 'Closed' } },
       {
         ...updateTicket,
         updaterName: context.user.name,

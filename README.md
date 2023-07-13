@@ -36,11 +36,6 @@ Fake company website - and ticketing system
   - FE Knowledge base for agents
 - Agent Admin Dashboard
 - CRUD Users
-- Close Tickets
-  - Run Scheduler to close solved tickets after x days
-  - Lock closed tickets from being updated
-    - BE
-    - ~~FE~~
 - Ticket Feedback
 
   - ~~Ticket Review Model~~
@@ -110,3 +105,8 @@ Fake company website - and ticketing system
   - ~~ability to change public comments to internal~~
     - ~~FE~~
     - ~~BE~~
+- ~~Close Tickets~~
+  - ~~Run Scheduler to close solved tickets after x days~~
+  - ~~Lock closed tickets from being updated~~
+    - ~~BE~~
+    - ~~FE~~

@@ -140,7 +140,7 @@ TicketSchema.pre(/(findOneAndUpdate|updateMany)/, function (next) {
       comment: {
         ...this._update?.comment,
         commentId:
-          this._update?.$push?.comments || this._update?.comment.commentId,
+          this._update?.$push?.comments || this._update?.comment?.commentId,
       },
       type: 'update',
       updatedAt: this._update.$set.updatedAt,

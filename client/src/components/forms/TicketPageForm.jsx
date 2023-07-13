@@ -360,6 +360,7 @@ function TicketPageForm({ data, handleDelete, handleCommentInteral }) {
                             comment={comment}
                             convertInternal={handleCommentInteral}
                             agent
+                            tixStatus={ticket?.status}
                           />
                         </Box>
                       ))}

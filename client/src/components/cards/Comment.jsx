@@ -7,7 +7,12 @@ import { green, blue } from '@mui/material/colors';
 import Chip from '@mui/material/Chip';
 import convert2FullDateTime from '../../utils/convert2FullDateTime';
 
-function Comment({ comment, agent = false, convertInternal }) {
+function Comment({
+  comment,
+  agent = false,
+  convertInternal,
+  tixStatus = 'Closed',
+}) {
   const handleClickInternal = () => {
     if (convertInternal) {
       convertInternal(comment.id);
@@ -29,7 +34,7 @@ function Comment({ comment, agent = false, convertInternal }) {
         }
         action={
           <>
-            {!comment.private && agent && (
+            {!comment.private && tixStatus !== 'Closed' && agent && (
               <Chip
                 label="Convert to Private Comment"
                 onClick={handleClickInternal}
