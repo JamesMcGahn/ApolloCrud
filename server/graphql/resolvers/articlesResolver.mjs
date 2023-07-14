@@ -2,13 +2,17 @@ import Post from '../../models/Post.mjs';
 
 const getArticles = async (parent, args, context) => {
   const { user } = context;
-  const { page, category, status } = args;
+  const { page, category, status, tag } = args;
   let posts;
   const query = {};
   query.$and = [{ type: 'article' }];
 
   if (category) {
     query.$and.push({ category: category });
+  }
+
+  if (tag) {
+    query.$and.push({ tags: tag });
   }
 
   if (!user || user.role === 'user') {
@@ -49,6 +53,9 @@ const getArticles = async (parent, args, context) => {
 
 const articlesCategories = async (parent, args, context) => {
   return await Post.distinct('category', { type: 'article' });
+};
+const articlesTags = async (parent, args, context) => {
+  return await Post.distinct('tags', { type: 'article' });
 };
 
 const articleSuggested = async (parent, args, context) => {
@@ -92,4 +99,4 @@ const articleSuggested = async (parent, args, context) => {
   return featuredPosts;
 };
 
-export { getArticles, articlesCategories, articleSuggested };
+export { getArticles, articlesCategories, articlesTags, articleSuggested };

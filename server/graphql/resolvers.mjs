@@ -65,6 +65,7 @@ import {
 import {
   getArticles,
   articlesCategories,
+  articlesTags,
   articleSuggested,
 } from './resolvers/articlesResolver.mjs';
 
@@ -92,6 +93,7 @@ const resolvers = {
     article: getArticle,
     articles: getArticles,
     articlesCategories: articlesCategories,
+    articlesTags: articlesTags,
     articleSuggested: articleSuggested,
   },
   Mutation: {

@@ -79,7 +79,7 @@ function AgentTicketForm({ formTitle, handleSubmitCb, createForm }) {
       description: '',
       comment: '',
       privateComment: false,
-      priority: '',
+      priority: 'Normal',
     });
   };
 

@@ -18,6 +18,7 @@ import blogSuggested from './blogSuggested.mjs';
 import article from './article.mjs';
 import articles from './articles.mjs';
 import articlesCategories from './articlesCategories.mjs';
+import articlesTags from './articlesTags.mjs';
 import articleSuggested from './articleSuggested.mjs';
 
 const ticketQueries = ''.concat(tickets, ticket, ticketsSearch, myTickets);
@@ -31,6 +32,7 @@ const articleQueries = ''.concat(article);
 const articlesQueries = ''.concat(
   articles,
   articlesCategories,
+  articlesTags,
   articleSuggested,
 );
 

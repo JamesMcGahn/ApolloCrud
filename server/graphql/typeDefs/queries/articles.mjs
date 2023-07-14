@@ -7,6 +7,10 @@ const articlesSchema = new QMSchemaGenerator(
       type: 'String',
       description: 'The category of the articles.',
     },
+    tag: {
+      type: 'String',
+      description: 'The tag of the articles.',
+    },
     page: {
       type: 'Int',
       description: 'The page number of articles returned',

@@ -16,6 +16,7 @@ import BusinessIcon from '@mui/icons-material/Business';
 import ArticleIcon from '@mui/icons-material/Article';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
 import GroupsIcon from '@mui/icons-material/Groups';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
 
 import loggedInUserQ from '../graphql/queries/loggedInUser';
 import getUserGroups from '../graphql/queries/getUserGroups';
@@ -137,9 +138,14 @@ function AgentHome() {
               title="Blogs"
               list={[
                 {
-                  url: '/agent/blogs',
-                  title: 'Blogs',
+                  url: '/blog',
+                  title: 'Blog',
                   icon: <NewspaperIcon />,
+                },
+                {
+                  url: '/agent/blogs',
+                  title: 'Edit Blogs',
+                  icon: <ModeEditIcon />,
                 },
                 {
                   url: '/agent/blogs/create',
@@ -152,9 +158,14 @@ function AgentHome() {
               title="Knowledge Base"
               list={[
                 {
-                  url: '/agent/articles',
+                  url: '/agent/knowledge',
                   title: 'Knowledge Articles',
                   icon: <NewspaperIcon />,
+                },
+                {
+                  url: '/agent/articles',
+                  title: 'Edit Knowledge Articles',
+                  icon: <ModeEditIcon />,
                 },
                 {
                   url: '/agent/articles/create',

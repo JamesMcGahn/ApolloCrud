@@ -17,7 +17,7 @@ function AgentTicketForm({ formTitle, handleSubmitCb, createForm }) {
     description: '',
     comment: '',
     privateComment: false,
-    priority: '',
+    priority: 'Normal',
   });
 
   const handleOnChange = (e) => {
@@ -59,6 +59,7 @@ function AgentTicketForm({ formTitle, handleSubmitCb, createForm }) {
       title: '',
       description: '',
       comment: '',
+      priority: 'Normal',
       privateComment: false,
     });
   };
