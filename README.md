@@ -52,6 +52,11 @@ Fake company website - and ticketing system
     - add FE search for customers
   - ~~remove closed tickets from mytickets unless directly queried for~~
 
+- Ticket Metrics
+  - BE logic
+  - BE queries
+  - FE display
+
 ### Completed
 
 - ~~User Create (Agent Created User)~~

@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import Comment from './Comment.mjs';
+import TicketMetric from './TicketMetric.mjs';
 
 const TicketSchema = new mongoose.Schema(
   {
@@ -99,6 +100,28 @@ TicketSchema.pre('save', async function (next) {
   if (!this.$isNew) {
     return next();
   }
+  if (this.status !== 'Solved' || this.status !== 'Closed') {
+    const ticketMetric = {
+      ticket: this._id,
+      unassigned: {
+        lastChange: Date.now(),
+      },
+      status: {
+        currentStatus: this.status,
+        [`${this.status}`]: {
+          lastChange: Date.now(),
+        },
+      },
+      response: {
+        lastChange: Date.now(),
+      },
+    };
+
+    // TODO: handle if created and assigned
+
+    await TicketMetric.create(ticketMetric);
+  }
+
   const history = this.history[0];
   if (this.comments && this.comments.length > 0) {
     const comment = await Comment.findById(
@@ -129,6 +152,42 @@ TicketSchema.pre('save', async function (next) {
       updaterId: history.updaterId,
     },
   ];
+  next();
+});
+
+TicketSchema.pre('findOneAndUpdate', async function (next) {
+  console.log(this);
+  //const ticketID = this._conditions._id;
+
+  // if (ticketID) {
+  //  const ticketMetric = await TicketMetric.findOne({ ticket: ticketID });
+
+  // if ticket metric not null
+  //  if assignee not null && ticketMetric.assignee is null
+  //    update total time and set last change to null
+  //    set ID of assingee to ticketMetric
+  //  if not closed status
+  //    if status is equal to solved - set totalTicket to datenow - createdAt
+  //    else
+  //      if status !== to status.currentStatus
+  //        status[CurrentStatus].total =  status[CurrentStatus].total + (datenow - status[CurrentStatus].lastChange)
+  //        status[CurrentStatus].lastChange = null
+  //      else
+  //        status === status.currentStatus
+  //        status[CurrentStatus].total = status[CurrentStatus].total + (datenow - status[CurrentStatus].lastChange)
+  //        status[CurrentStatus].lastChange = Date now
+  //  if comment and comment author
+  //    look up comment author to find role
+  //    if not user
+  //      set responses ++
+  //      set total = total + (date now - response.lastChange)
+  //      set last change null
+  //    if user and !response.lastChange
+  //      set lastChange to Date.now
+  // TODO: first response time - **update model first
+  //
+  // }
+
   next();
 });
 
