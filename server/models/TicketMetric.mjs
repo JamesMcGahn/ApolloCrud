@@ -12,6 +12,19 @@ const TicketMetricSchema = new mongoose.Schema(
       ref: 'User',
       default: null,
     },
+    group: {
+      type: String,
+      ref: 'Group',
+      default: null,
+    },
+    assigneeChange: {
+      type: Number,
+      default: 0,
+    },
+    groupChange: {
+      type: Number,
+      default: 0,
+    },
     unassigned: {
       lastChange: {
         type: Date,
@@ -94,6 +107,10 @@ const TicketMetricSchema = new mongoose.Schema(
       },
     },
     firstResponse: {
+      type: Number,
+      default: 0,
+    },
+    ticketFirstSolve: {
       type: Number,
       default: 0,
     },

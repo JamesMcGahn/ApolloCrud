@@ -32,6 +32,7 @@ function GroupSelection({
 
   const handleGroupChange = (changeGroup) => {
     setGroup(changeGroup);
+    cb({ group: changeGroup?.id, assignee: assignee?.id || null });
   };
   const handleAssignee = (changeAssignee) => {
     setAssignee(changeAssignee);
@@ -55,6 +56,7 @@ function GroupSelection({
 
       {!loading && group?.users && (
         <UserSelectionList
+          key={group.id}
           selectionList={group.users}
           defaultValue={assignee ? assignee?.name : ''}
           valueBy="name"

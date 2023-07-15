@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, Fragment } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import MDEditor from '@uiw/react-md-editor';
 import rehypeSanitize from 'rehype-sanitize';
@@ -42,8 +42,8 @@ function TicketPageForm({ data, handleDelete, handleCommentInteral }) {
   };
   const [ticket, setTicket] = useState(data?.ticket);
   const [groupAssign, setGroupAssign] = useState({
-    group: null,
-    assignee: null,
+    group: undefined,
+    assignee: undefined,
   });
   const [tixPriority, setTixPriority] = useState();
   const [title, setTitle] = useState(data?.ticket.title);
@@ -424,7 +424,7 @@ function TicketPageForm({ data, handleDelete, handleCommentInteral }) {
 
                                   if (fld === 'comment') {
                                     return (
-                                      <>
+                                      <Fragment key="history-comment">
                                         <Typography>
                                           <strong>Comment:</strong>
                                         </Typography>
@@ -443,12 +443,14 @@ function TicketPageForm({ data, handleDelete, handleCommentInteral }) {
 
                                           <Typography>{` Private: ${his.comment.private}`}</Typography>
                                         </Box>
-                                      </>
+                                      </Fragment>
                                     );
                                   }
 
                                   return (
-                                    <Typography>
+                                    <Typography
+                                      key={`${his[fld]}-history-field`}
+                                    >
                                       <strong>
                                         {`${fld[0].toUpperCase()}${fld.slice(
                                           1,

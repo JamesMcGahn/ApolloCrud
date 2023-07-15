@@ -123,7 +123,10 @@ TicketSchema.pre('save', async function (next) {
     if (this.assignee) {
       ticketMetric.unassigned.lastChange = 0;
       ticketMetric.unassigned.total = 0;
+      ticketMetric.group = this.group;
+      ticketMetric.groupChange = 1;
       ticketMetric.assignee = this.assignee;
+      ticketMetric.assigneeChange = 1;
     }
 
     await TicketMetric.create(ticketMetric);
@@ -175,17 +178,49 @@ const ticketMetricUpdate = async (ticketId, upObj) => {
           ticketMetric.unassigned.lastChange = currentTime;
         }
 
+        if (upObj.assignee === null) {
+          ticketMetric.assignee = null;
+          ticketMetric.unassigned.total +=
+            currentTime - ticketMetric.unassigned.lastChange;
+          ticketMetric.unassigned.lastChange = currentTime;
+        }
+
         if (upObj.assignee && !ticketMetric.assignee) {
           ticketMetric.assignee = upObj.assignee;
           ticketMetric.unassigned.total +=
             currentTime - ticketMetric.unassigned.lastChange;
           ticketMetric.unassigned.lastChange = 0;
+          ticketMetric.assigneeChange = 1;
+        }
+
+        if (upObj.assignee && ticketMetric.assignee) {
+          if (upObj.assignee !== ticketMetric.assignee) {
+            ticketMetric.assignee = upObj.assignee;
+            ticketMetric.assigneeChange += 1;
+          }
+        }
+
+        if (upObj.group && !ticketMetric.group) {
+          ticketMetric.group = upObj.group;
+          ticketMetric.groupChange = 1;
+        }
+
+        if (upObj.group && ticketMetric.group) {
+          if (upObj.group !== ticketMetric.group) {
+            ticketMetric.group = upObj.group;
+            ticketMetric.groupChange += 1;
+          }
         }
 
         if (upObj.status !== 'Closed') {
           if (upObj.status === 'Solved') {
             ticketMetric.ticketTotal.total +=
               currentTime - ticketMetric.ticketTotal.createAt;
+
+            if (ticketMetric.ticketFirstSolve === 0) {
+              ticketMetric.ticketFirstSolve =
+                currentTime - ticketMetric.ticketTotal.createAt;
+            }
           }
 
           if (upObj.status !== ticketMetric.status.currentStatus) {
@@ -243,6 +278,7 @@ TicketSchema.pre('findOneAndUpdate', async function (next) {
   ticketMetricUpdate(ticketID, this._update);
   next();
 });
+
 TicketSchema.pre('updateMany', async function (next) {
   const results = this._conditions._id.$in.map(
     async (id) => await ticketMetricUpdate(id, this._update),
