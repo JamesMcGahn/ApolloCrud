@@ -53,7 +53,7 @@ Fake company website - and ticketing system
   - ~~remove closed tickets from mytickets unless directly queried for~~
 
 - Ticket Metrics
-  - BE logic
+  - ~~BE logic~~
   - BE queries
   - FE display
 

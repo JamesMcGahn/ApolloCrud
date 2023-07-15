@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import Comment from './Comment.mjs';
+import User from './User.mjs';
 import TicketMetric from './TicketMetric.mjs';
 
 const TicketSchema = new mongoose.Schema(
@@ -115,9 +116,15 @@ TicketSchema.pre('save', async function (next) {
       response: {
         lastChange: Date.now(),
       },
+      ticketTotal: {
+        createAt: Date.now(),
+      },
     };
-
-    // TODO: handle if created and assigned
+    if (this.assignee) {
+      ticketMetric.unassigned.lastChange = 0;
+      ticketMetric.unassigned.total = 0;
+      ticketMetric.assignee = this.assignee;
+    }
 
     await TicketMetric.create(ticketMetric);
   }
@@ -155,38 +162,92 @@ TicketSchema.pre('save', async function (next) {
   next();
 });
 
+const ticketMetricUpdate = async (ticketId, upObj) => {
+  try {
+    if (ticketId) {
+      const ticketMetric = await TicketMetric.findOne({ ticket: ticketId });
+
+      if (ticketMetric) {
+        const currentTime = Date.now();
+        if (!upObj.assignee && !ticketMetric.assignee) {
+          ticketMetric.unassigned.total +=
+            currentTime - ticketMetric.unassigned.lastChange;
+          ticketMetric.unassigned.lastChange = currentTime;
+        }
+
+        if (upObj.assignee && !ticketMetric.assignee) {
+          ticketMetric.assignee = upObj.assignee;
+          ticketMetric.unassigned.total +=
+            currentTime - ticketMetric.unassigned.lastChange;
+          ticketMetric.unassigned.lastChange = 0;
+        }
+
+        if (upObj.status !== 'Closed') {
+          if (upObj.status === 'Solved') {
+            ticketMetric.ticketTotal.total +=
+              currentTime - ticketMetric.ticketTotal.createAt;
+          }
+
+          if (upObj.status !== ticketMetric.status.currentStatus) {
+            ticketMetric.status[ticketMetric.status.currentStatus].total +=
+              currentTime -
+              ticketMetric.status[ticketMetric.status.currentStatus].lastChange;
+            ticketMetric.status[
+              ticketMetric.status.currentStatus
+            ].lastChange = 0;
+            ticketMetric.status[upObj.status].lastChange = currentTime;
+            ticketMetric.status.currentStatus = upObj.status;
+          } else {
+            ticketMetric.status[upObj.status].total +=
+              currentTime - ticketMetric.status[upObj.status].lastChange;
+            ticketMetric.status[upObj.status].lastChange = currentTime;
+          }
+
+          if (
+            upObj.comment &&
+            upObj.comment?.author &&
+            !upObj.comment?.private
+          ) {
+            const user = await User.findById(upObj.comment?.author);
+
+            if (user.role !== 'user') {
+              if (
+                ticketMetric.response.total === 0 &&
+                ticketMetric.response.lastChange !== 0
+              ) {
+                ticketMetric.firstResponse =
+                  currentTime - ticketMetric.ticketTotal.createAt;
+              }
+
+              ticketMetric.response.responses += 1;
+              ticketMetric.response.total +=
+                currentTime - ticketMetric.response.lastChange;
+              ticketMetric.response.lastChange = 0;
+            }
+            if (user.role === 'user') {
+              ticketMetric.response.lastChange = currentTime;
+            }
+          }
+        }
+        return await ticketMetric.save();
+      }
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 TicketSchema.pre('findOneAndUpdate', async function (next) {
-  console.log(this);
-  //const ticketID = this._conditions._id;
-
-  // if (ticketID) {
-  //  const ticketMetric = await TicketMetric.findOne({ ticket: ticketID });
-
-  // if ticket metric not null
-  //  if assignee not null && ticketMetric.assignee is null
-  //    update total time and set last change to null
-  //    set ID of assingee to ticketMetric
-  //  if not closed status
-  //    if status is equal to solved - set totalTicket to datenow - createdAt
-  //    else
-  //      if status !== to status.currentStatus
-  //        status[CurrentStatus].total =  status[CurrentStatus].total + (datenow - status[CurrentStatus].lastChange)
-  //        status[CurrentStatus].lastChange = null
-  //      else
-  //        status === status.currentStatus
-  //        status[CurrentStatus].total = status[CurrentStatus].total + (datenow - status[CurrentStatus].lastChange)
-  //        status[CurrentStatus].lastChange = Date now
-  //  if comment and comment author
-  //    look up comment author to find role
-  //    if not user
-  //      set responses ++
-  //      set total = total + (date now - response.lastChange)
-  //      set last change null
-  //    if user and !response.lastChange
-  //      set lastChange to Date.now
-  // TODO: first response time - **update model first
-  //
-  // }
+  // console.log(this);
+  const ticketID = this._conditions._id;
+  ticketMetricUpdate(ticketID, this._update);
+  next();
+});
+TicketSchema.pre('updateMany', async function (next) {
+  const results = this._conditions._id.$in.map(
+    async (id) => await ticketMetricUpdate(id, this._update),
+  );
+  await Promise.all(results);
 
   next();
 });

@@ -27,6 +27,7 @@
     "no-unused-vars": ["error", { "argsIgnorePattern": "req|res|next|val|parent|args|context" }],
     "indent": "off",
     "eslint-disable-next-line": "off",
+    "dot-notation": "warn",
     "arrow-parens": "off",
     "arrow-body-style": "off",
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],

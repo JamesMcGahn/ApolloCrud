@@ -10,10 +10,12 @@ const TicketMetricSchema = new mongoose.Schema(
     assignee: {
       type: String,
       ref: 'User',
+      default: null,
     },
     unassigned: {
       lastChange: {
         type: Date,
+        default: 0,
       },
       total: {
         type: Number,
@@ -29,6 +31,7 @@ const TicketMetricSchema = new mongoose.Schema(
       New: {
         lastChange: {
           type: Date,
+          default: 0,
         },
         total: {
           type: Number,
@@ -38,6 +41,7 @@ const TicketMetricSchema = new mongoose.Schema(
       Open: {
         lastChange: {
           type: Date,
+          default: 0,
         },
         total: {
           type: Number,
@@ -47,6 +51,7 @@ const TicketMetricSchema = new mongoose.Schema(
       Pending: {
         lastChange: {
           type: Date,
+          default: 0,
         },
         total: {
           type: Number,
@@ -56,6 +61,17 @@ const TicketMetricSchema = new mongoose.Schema(
       Blocked: {
         lastChange: {
           type: Date,
+          default: 0,
+        },
+        total: {
+          type: Number,
+          default: 0,
+        },
+      },
+      Solved: {
+        lastChange: {
+          type: Date,
+          default: 0,
         },
         total: {
           type: Number,
@@ -66,6 +82,7 @@ const TicketMetricSchema = new mongoose.Schema(
     response: {
       lastChange: {
         type: Date,
+        default: 0,
       },
       responses: {
         type: Number,
@@ -76,8 +93,19 @@ const TicketMetricSchema = new mongoose.Schema(
         default: 0,
       },
     },
-    totalTicket: {
+    firstResponse: {
       type: Number,
+      default: 0,
+    },
+    ticketTotal: {
+      total: {
+        type: Number,
+        default: 0,
+      },
+      createAt: {
+        type: Date,
+        default: 0,
+      },
     },
   },
   { timestamps: true },
