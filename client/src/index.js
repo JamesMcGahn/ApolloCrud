@@ -11,6 +11,7 @@ import { TixHistoryProvider } from './context/TixHistoryContext';
 import { AgentDashProvider } from './context/AgentDashContext';
 import muiTheme from './utils/muiTheme';
 import '@fontsource/average-sans';
+import 'react-toastify/dist/ReactToastify.css';
 
 // trunk-ignore(eslint/no-undef)
 const root = ReactDOM.createRoot(document.getElementById('root'));

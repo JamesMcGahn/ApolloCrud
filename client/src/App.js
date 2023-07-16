@@ -3,52 +3,50 @@ import {
   createRoutesFromElements,
   Route,
 } from 'react-router-dom';
-import Home from './pages/Home';
-import CustomerHome from './pages/CustomerHome';
-import AgentTicket from './pages/agent/dashboard/AgentTicket';
-import CustomerTicket from './pages/customer/CustomerTicket';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import ForgotPassword from './pages/ForgotPassword';
-import ResetPassword from './pages/ResetPassword';
-import AgentHome from './pages/agent/AgentHome';
-import AgentDashboard from './pages/agent/dashboard/AgentDashboard';
-import Profile from './pages/Profile';
-import ProtectedRoute from './components/utils/ProtectedRoute';
-import 'react-toastify/dist/ReactToastify.css';
-import CustomerDashboard from './pages/CustomerDashboard';
-import Companies from './pages/agent/companies/Companies';
-import Company from './pages/agent/companies/Company';
-import Users from './pages/agent/users/Users';
-import User from './pages/agent/users/User';
-import Unassigned from './pages/agent/dashboard/Unassigned';
-import TicketReview from './pages/TicketReview';
-import TicketSearch from './pages/agent/dashboard/TicketSearch';
-import GroupsTicket from './pages/agent/dashboard/GroupsTicket';
-import AgentBlogs from './pages/agent/blogs/AgentBlogs';
-import AgentBlog from './pages/agent/blogs/AgentBlog';
-import Blog from './pages/Blog';
-import BlogId from './pages/BlogId';
-import BlogCategories from './pages/BlogCategories';
-import BlogCategory from './pages/BlogCategory';
-import BlogTags from './pages/BlogTags';
-import BlogTag from './pages/BlogTag';
-import AgentBlogImages from './pages/agent/blogs/AgentBlogImages';
-import AgentBlogCreate from './pages/agent/blogs/AgentBlogCreate';
-import AgentArticleCreate from './pages/agent/knowledge/AgentArticleCreate';
-import AgentArticle from './pages/agent/knowledge/AgentArticle';
-import AgentArticles from './pages/agent/knowledge/AgentArticles';
-import AgentArticleImages from './pages/agent/knowledge/AgentArticleImages';
-import KnowledgeArticles from './pages/knowledge/KnowledgeArticles';
-import KnowledgeCategories from './pages/knowledge/categories/KnowledgeCategories';
-import KnowledgeTags from './pages/knowledge/tags/KnowledgeTags';
-import KnowledgeCategory from './pages/knowledge/categories/KnowledgeCategory';
-import KnowledgeTag from './pages/knowledge/tags/KnowledgeTag';
-import ArticleId from './pages/knowledge/ArticleId';
+import Home from './pages/public/Home';
+import CustomerHome from './pages/private/customer/CustomerHome';
+import AgentTicket from './pages/private/agent/dashboard/AgentTicket';
+import CustomerTicket from './pages/private/customer/CustomerTicket';
+import Login from './pages/public/Login';
+import Register from './pages/public/Register';
+import ForgotPassword from './pages/public/ForgotPassword';
+import ResetPassword from './pages/public/ResetPassword';
+import AgentHome from './pages/private/agent/AgentHome';
+import AgentDashboard from './pages/private/agent/dashboard/AgentDashboard';
+import Profile from './pages/private/Profile';
+import CustomerDashboard from './pages/private/customer/CustomerDashboard';
+import Companies from './pages/private/agent/companies/Companies';
+import Company from './pages/private/agent/companies/Company';
+import Users from './pages/private/agent/users/Users';
+import User from './pages/private/agent/users/User';
+import Unassigned from './pages/private/agent/dashboard/Unassigned';
+import TicketReview from './pages/private/customer/TicketReview';
+import TicketSearch from './pages/private/agent/dashboard/TicketSearch';
+import GroupsTicket from './pages/private/agent/dashboard/GroupsTicket';
+import AgentBlogs from './pages/private/agent/blogs/AgentBlogs';
+import AgentBlog from './pages/private/agent/blogs/AgentBlog';
+import Blog from './pages/public/blog/Blog';
+import BlogId from './pages/public/blog/BlogId';
+import BlogCategories from './pages/public/blog/categories/BlogCategories';
+import BlogCategory from './pages/public/blog/categories/BlogCategory';
+import BlogTags from './pages/public/blog/tags/BlogTags';
+import BlogTag from './pages/public/blog/tags/BlogTag';
+import AgentBlogImages from './pages/private/agent/blogs/AgentBlogImages';
+import AgentBlogCreate from './pages/private/agent/blogs/AgentBlogCreate';
+import AgentArticleCreate from './pages/private/agent/knowledge/AgentArticleCreate';
+import AgentArticle from './pages/private/agent/knowledge/AgentArticle';
+import AgentArticles from './pages/private/agent/knowledge/AgentArticles';
+import AgentArticleImages from './pages/private/agent/knowledge/AgentArticleImages';
+import KnowledgeArticles from './pages/private/knowledge/KnowledgeArticles';
+import KnowledgeCategories from './pages/private/knowledge/categories/KnowledgeCategories';
+import KnowledgeTags from './pages/private/knowledge/tags/KnowledgeTags';
+import KnowledgeCategory from './pages/private/knowledge/categories/KnowledgeCategory';
+import KnowledgeTag from './pages/private/knowledge/tags/KnowledgeTag';
+import ArticleId from './pages/private/knowledge/ArticleId';
 import RootLayout from './components/layout/RootLayout';
 import CleanOutlet from './components/layout/CleanOutlet';
 import KnowledgeLayout from './components/layout/KnowledgeLayout';
-import NotFound from './pages/NotFound';
+import NotFound from './pages/public/NotFound';
 import AgentLayout from './components/layout/AgentLayout';
 
 const appRouter = createBrowserRouter(
@@ -105,7 +103,7 @@ const appRouter = createBrowserRouter(
           <Route path=":slug" element={<ArticleId />} />
         </Route>
       </Route>
-      <Route path="customer" element={<ProtectedRoute />}>
+      <Route path="customer" element={<CleanOutlet />}>
         <Route path="" element={<CustomerHome />} />
         <Route path="profile" element={<Profile />} />
         <Route path="dashboard" element={<CleanOutlet />}>
