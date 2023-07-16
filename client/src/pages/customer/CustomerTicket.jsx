@@ -2,17 +2,15 @@ import { useContext } from 'react';
 import { toast } from 'react-toastify';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useQuery, useMutation, gql } from '@apollo/client';
-import AgentLayout from '../components/layout/AgentLayout';
-import getTicket from '../graphql/queries/getTicket';
-import TicketPageForm from '../components/forms/TicketPageForm';
-import CusTicketPageForm from '../components/forms/CusTicketPageForm';
-import Spinner from '../components/ui/LoadingSpinner';
-import { TixHistoryContext } from '../context/TixHistoryContext';
-import loggedInUserQ from '../graphql/queries/loggedInUser';
-import CustomerLayout from '../components/layout/CustomerLayout';
-import TicketHistoryNav from '../components/navs/TicketHistoryNav';
-import deleteATicket from '../graphql/mutations/deleteATicket';
-import getMyTickets from '../graphql/queries/getMyTickets';
+import getTicket from '../../graphql/queries/getTicket';
+import CusTicketPageForm from '../../components/forms/CusTicketPageForm';
+import Spinner from '../../components/ui/LoadingSpinner';
+import { TixHistoryContext } from '../../context/TixHistoryContext';
+import loggedInUserQ from '../../graphql/queries/loggedInUser';
+import CustomerLayout from '../../components/layout/CustomerLayout';
+import TicketHistoryNav from '../../components/navs/TicketHistoryNav';
+import deleteATicket from '../../graphql/mutations/deleteATicket';
+import getMyTickets from '../../graphql/queries/getMyTickets';
 
 function Ticket() {
   const { id } = useParams();
@@ -89,33 +87,17 @@ function Ticket() {
   };
 
   return (
-    // trunk-ignore(eslint/react/jsx-no-useless-fragment)
     <>
-      {custData?.currentUser.role !== 'user' ? (
-        <AgentLayout>
-          {loading ? (
-            <Spinner />
-          ) : (
-            <TicketPageForm
-              data={data}
-              handleDelete={handleDelete}
-              key={`${data?.ticket.id}-${data?.ticket?.history?.length}`}
-              handleCommentInteral={handleCommentInteral}
-            />
-          )}
-        </AgentLayout>
-      ) : (
-        <CustomerLayout>
-          {loading ? (
-            <Spinner />
-          ) : (
-            <>
-              <TicketHistoryNav />
-              <CusTicketPageForm data={data} key={data?.ticket.id} />
-            </>
-          )}
-        </CustomerLayout>
-      )}
+      <CustomerLayout>
+        {loading ? (
+          <Spinner />
+        ) : (
+          <>
+            <TicketHistoryNav />
+            <CusTicketPageForm data={data} key={data?.ticket.id} />
+          </>
+        )}
+      </CustomerLayout>
     </>
   );
 }

@@ -1,9 +1,8 @@
 import { useSearchParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import Container from '@mui/material/Container';
-import getTicketSearch from '../graphql/queries/getTicketSearch';
-import TicketTable from '../components/tables/TicketTable/TicketTable';
-import AgentLayout from '../components/layout/AgentLayout';
+import getTicketSearch from '../../../graphql/queries/getTicketSearch';
+import TicketTable from '../../../components/tables/TicketTable/TicketTable';
 
 function TicketSearch() {
   const [searchParams] = useSearchParams();
@@ -41,19 +40,17 @@ function TicketSearch() {
   });
 
   return (
-    <AgentLayout>
-      <Container>
-        {loading ? (
-          'loading'
-        ) : (
-          <TicketTable
-            data={data?.ticketsSearch}
-            title="Search"
-            noTicketsMsg="No Tickets Available. Try Searching again."
-          />
-        )}
-      </Container>
-    </AgentLayout>
+    <Container>
+      {loading ? (
+        'loading'
+      ) : (
+        <TicketTable
+          data={data?.ticketsSearch}
+          title="Search"
+          noTicketsMsg="No Tickets Available. Try Searching again."
+        />
+      )}
+    </Container>
   );
 }
 export default TicketSearch;

@@ -1,12 +1,11 @@
 import { useParams } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { useState, useContext } from 'react';
-import AgentLayout from '../components/layout/AgentLayout';
-import TicketTabPanel from '../components/navs/TicketTabPanel';
-import Spinner from '../components/ui/LoadingSpinner';
-import getTickets from '../graphql/queries/getTickets';
-import bulkDeleteTickets from '../graphql/mutations/bulkDeleteTickets';
-import { TixHistoryContext } from '../context/TixHistoryContext';
+import TicketTabPanel from '../../../components/navs/TicketTabPanel';
+import Spinner from '../../../components/ui/LoadingSpinner';
+import getTickets from '../../../graphql/queries/getTickets';
+import bulkDeleteTickets from '../../../graphql/mutations/bulkDeleteTickets';
+import { TixHistoryContext } from '../../../context/TixHistoryContext';
 
 function GroupsTicket() {
   const { groupId } = useParams();
@@ -49,7 +48,7 @@ function GroupsTicket() {
   };
 
   return (
-    <AgentLayout>
+    <>
       {loading || delLoading ? (
         <Spinner />
       ) : (
@@ -60,7 +59,7 @@ function GroupsTicket() {
           agentTicketLink={`/agent/dashboard/groups/${groupId}/ticket/`}
         />
       )}
-    </AgentLayout>
+    </>
   );
 }
 export default GroupsTicket;

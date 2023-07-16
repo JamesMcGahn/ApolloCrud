@@ -1,42 +1,36 @@
 import { useQuery, useMutation } from '@apollo/client';
 import { useState, useContext } from 'react';
-import AgentLayout from '../components/layout/AgentLayout';
-import getMyTickets from '../graphql/queries/getMyTickets';
-import loggedInUserQ from '../graphql/queries/loggedInUser';
-import Spinner from '../components/ui/LoadingSpinner';
-import TicketTabPanel from '../components/navs/TicketTabPanel';
-import bulkDeleteTickets from '../graphql/mutations/bulkDeleteTickets';
-import { TixHistoryContext } from '../context/TixHistoryContext';
+import getTickets from '../../../graphql/queries/getTickets';
+import Spinner from '../../../components/ui/LoadingSpinner';
+import TicketTabPanel from '../../../components/navs/TicketTabPanel';
+import bulkDeleteTickets from '../../../graphql/mutations/bulkDeleteTickets';
+import { TixHistoryContext } from '../../../context/TixHistoryContext';
 
-function AgentDashboard() {
+function Unassigned() {
   const { removeHistory } = useContext(TixHistoryContext);
   const [delLoading, setDelLoading] = useState(false);
-  const {
-    data: { currentUser },
-  } = useQuery(loggedInUserQ);
-
-  const { loading, data } = useQuery(getMyTickets, {
+  const { loading, data } = useQuery(getTickets, {
     variables: {
-      userId: currentUser.id,
+      unassigned: true,
     },
   });
 
   const [deleteTickets] = useMutation(bulkDeleteTickets, {
     update(cache, { data: dIds }) {
-      const { myTickets } = cache.readQuery({
-        query: getMyTickets,
+      const { tickets } = cache.readQuery({
+        query: getTickets,
         variables: {
-          userId: currentUser.id,
+          unassigned: true,
         },
       });
 
       cache.writeQuery({
-        query: getMyTickets,
+        query: getTickets,
         variables: {
-          userId: currentUser.id,
+          unassigned: true,
         },
         data: {
-          myTickets: myTickets.filter(
+          tickets: tickets.filter(
             (tix) => !dIds.deleteTickets.includes(tix.id),
           ),
         },
@@ -53,17 +47,18 @@ function AgentDashboard() {
   };
 
   return (
-    <AgentLayout>
+    <>
       {loading || delLoading ? (
         <Spinner />
       ) : (
         <TicketTabPanel
-          ticketData={data?.myTickets}
+          ticketData={data?.tickets}
           loading={loading}
           handleDelete={handleDelete}
+          agentTicketLink="/agent/dashboard/unassigned/ticket/"
         />
       )}
-    </AgentLayout>
+    </>
   );
 }
-export default AgentDashboard;
+export default Unassigned;

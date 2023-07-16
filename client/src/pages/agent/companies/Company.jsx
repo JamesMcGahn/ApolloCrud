@@ -1,18 +1,17 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { toast } from 'react-toastify';
-import AgentLayout from '../components/layout/AgentLayout';
-import getACompany from '../graphql/queries/getACompany';
-import updateACompany from '../graphql/mutations/updateACompany';
-import deleteACompany from '../graphql/mutations/deleteACompany';
-import Spinner from '../components/ui/LoadingSpinner';
-import TabPanel from '../components/navs/TabPanel';
-import InfoDisplayTable from '../components/tables/InfoDisplayTable';
-import TicketTable from '../components/tables/TicketTable/TicketTable';
-import CompanyForm from '../components/forms/CompanyForm';
-import getTickets from '../graphql/queries/getTickets';
-import getAllUsers from '../graphql/queries/getAllUser';
-import getAllCompanies from '../graphql/queries/getAllCompanies';
+import getACompany from '../../../graphql/queries/getACompany';
+import updateACompany from '../../../graphql/mutations/updateACompany';
+import deleteACompany from '../../../graphql/mutations/deleteACompany';
+import Spinner from '../../../components/ui/LoadingSpinner';
+import TabPanel from '../../../components/navs/TabPanel';
+import InfoDisplayTable from '../../../components/tables/InfoDisplayTable';
+import TicketTable from '../../../components/tables/TicketTable/TicketTable';
+import CompanyForm from '../../../components/forms/CompanyForm';
+import getTickets from '../../../graphql/queries/getTickets';
+import getAllUsers from '../../../graphql/queries/getAllUser';
+import getAllCompanies from '../../../graphql/queries/getAllCompanies';
 
 function Company() {
   const { id } = useParams();
@@ -144,7 +143,7 @@ function Company() {
   ];
 
   return (
-    <AgentLayout>
+    <>
       {updateLoading || loading ? (
         <Spinner />
       ) : (
@@ -170,7 +169,7 @@ function Company() {
           ]}
         />
       )}
-    </AgentLayout>
+    </>
   );
 }
 export default Company;

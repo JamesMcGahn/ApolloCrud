@@ -1,11 +1,11 @@
 import { useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import { useQuery } from '@apollo/client';
-import getAnArticle from '../graphql/queries/getAnArticle';
-import Spinner from '../components/ui/LoadingSpinner';
-import loggedInUserQ from '../graphql/queries/loggedInUser';
-import BlogSuggested from '../components/sections/BlogSuggested';
-import PostId from '../components/cards/PostId';
+import getAnArticle from '../../graphql/queries/getAnArticle';
+import Spinner from '../../components/ui/LoadingSpinner';
+import loggedInUserQ from '../../graphql/queries/loggedInUser';
+import BlogSuggested from '../../components/sections/BlogSuggested';
+import PostId from '../../components/cards/PostId';
 
 function ArticleId() {
   const { slug } = useParams();

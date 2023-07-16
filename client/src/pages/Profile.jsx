@@ -1,6 +1,5 @@
 import { toast } from 'react-toastify';
 import { useQuery, useMutation } from '@apollo/client';
-import CustomerLayout from '../components/layout/CustomerLayout';
 import loggedInUserQ from '../graphql/queries/loggedInUser';
 import updateAUser from '../graphql/mutations/updateAUser';
 import ProfileForm from '../components/forms/ProfileForm';
@@ -36,7 +35,7 @@ function Profile() {
   };
 
   return (
-    <CustomerLayout>
+    <>
       {updateLoading || loading ? (
         <Spinner />
       ) : (
@@ -45,7 +44,7 @@ function Profile() {
           user={updateData?.updateUser || data.currentUser}
         />
       )}
-    </CustomerLayout>
+    </>
   );
 }
 export default Profile;

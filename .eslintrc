@@ -31,6 +31,7 @@
     "arrow-parens": "off",
     "arrow-body-style": "off",
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+    "react/jsx-no-useless-fragment": "off",
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
     "react/prop-types": "off",

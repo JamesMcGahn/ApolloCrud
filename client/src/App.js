@@ -5,55 +5,57 @@ import {
 } from 'react-router-dom';
 import Home from './pages/Home';
 import CustomerHome from './pages/CustomerHome';
-import Ticket from './pages/Ticket';
+import AgentTicket from './pages/agent/dashboard/AgentTicket';
+import CustomerTicket from './pages/customer/CustomerTicket';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
-import AgentHome from './pages/AgentHome';
-import AgentDashboard from './pages/AgentDashboard';
+import AgentHome from './pages/agent/AgentHome';
+import AgentDashboard from './pages/agent/dashboard/AgentDashboard';
 import Profile from './pages/Profile';
 import ProtectedRoute from './components/utils/ProtectedRoute';
 import 'react-toastify/dist/ReactToastify.css';
 import CustomerDashboard from './pages/CustomerDashboard';
-import Companies from './pages/Companies';
-import Company from './pages/Company';
-import Users from './pages/Users';
-import User from './pages/User';
-import Unassigned from './pages/Unassigned';
+import Companies from './pages/agent/companies/Companies';
+import Company from './pages/agent/companies/Company';
+import Users from './pages/agent/users/Users';
+import User from './pages/agent/users/User';
+import Unassigned from './pages/agent/dashboard/Unassigned';
 import TicketReview from './pages/TicketReview';
-import TicketSearch from './pages/TicketSearch';
-import GroupsTicket from './pages/GroupsTicket';
-import AgentBlogs from './pages/AgentBlogs';
-import AgentBlog from './pages/AgentBlog';
+import TicketSearch from './pages/agent/dashboard/TicketSearch';
+import GroupsTicket from './pages/agent/dashboard/GroupsTicket';
+import AgentBlogs from './pages/agent/blogs/AgentBlogs';
+import AgentBlog from './pages/agent/blogs/AgentBlog';
 import Blog from './pages/Blog';
 import BlogId from './pages/BlogId';
 import BlogCategories from './pages/BlogCategories';
 import BlogCategory from './pages/BlogCategory';
 import BlogTags from './pages/BlogTags';
 import BlogTag from './pages/BlogTag';
-import AgentBlogImages from './pages/AgentBlogImages';
-import AgentBlogCreate from './pages/AgentBlogCreate';
-import AgentArticleCreate from './pages/AgentArticleCreate';
-import AgentArticle from './pages/AgentArticle';
-import AgentArticles from './pages/AgentArticles';
-import AgentArticleImages from './pages/AgentArticleImages';
-import KnowledgeArticles from './pages/KnowledgeArticles';
-import KnowledgeCategories from './pages/KnowledgeCategories';
-import KnowledgeTags from './pages/KnowledgeTags';
-import KnowledgeCategory from './pages/KnowledgeCategory';
-import KnowledgeTag from './pages/KnowledgeTag';
-import ArticleId from './pages/ArticleId';
+import AgentBlogImages from './pages/agent/blogs/AgentBlogImages';
+import AgentBlogCreate from './pages/agent/blogs/AgentBlogCreate';
+import AgentArticleCreate from './pages/agent/knowledge/AgentArticleCreate';
+import AgentArticle from './pages/agent/knowledge/AgentArticle';
+import AgentArticles from './pages/agent/knowledge/AgentArticles';
+import AgentArticleImages from './pages/agent/knowledge/AgentArticleImages';
+import KnowledgeArticles from './pages/knowledge/KnowledgeArticles';
+import KnowledgeCategories from './pages/knowledge/categories/KnowledgeCategories';
+import KnowledgeTags from './pages/knowledge/tags/KnowledgeTags';
+import KnowledgeCategory from './pages/knowledge/categories/KnowledgeCategory';
+import KnowledgeTag from './pages/knowledge/tags/KnowledgeTag';
+import ArticleId from './pages/knowledge/ArticleId';
 import RootLayout from './components/layout/RootLayout';
 import CleanOutlet from './components/layout/CleanOutlet';
 import KnowledgeLayout from './components/layout/KnowledgeLayout';
 import NotFound from './pages/NotFound';
+import AgentLayout from './components/layout/AgentLayout';
 
 const appRouter = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootLayout />}>
       <Route path="/" element={<Home />} />
-      <Route path="agent" element={<ProtectedRoute allowedUser="agent" />}>
+      <Route path="agent" element={<AgentLayout />}>
         <Route path="" element={<AgentHome />} />
         <Route path="profile" element={<Profile />} />
 
@@ -61,11 +63,11 @@ const appRouter = createBrowserRouter(
           <Route path="" element={<AgentDashboard />} />
           <Route path="unassigned" element={<Unassigned />} />
           <Route path="ticket" element={<TicketSearch />} />
-          <Route path="ticket/:id" element={<Ticket />} />
+          <Route path="ticket/:id" element={<AgentTicket />} />
           {/* #TODO redundant routes - add groups page  */}
           <Route path="groups/:groupId" element={<GroupsTicket />} />
-          <Route path=":group/ticket/:id" element={<Ticket />} />
-          <Route path=":group/:groupId/ticket/:id" element={<Ticket />} />
+          <Route path=":group/ticket/:id" element={<AgentTicket />} />
+          <Route path=":group/:groupId/ticket/:id" element={<AgentTicket />} />
         </Route>
         <Route path="companies" element={<CleanOutlet />}>
           <Route path="" element={<Companies />} />
@@ -108,7 +110,7 @@ const appRouter = createBrowserRouter(
         <Route path="profile" element={<Profile />} />
         <Route path="dashboard" element={<CleanOutlet />}>
           <Route path="" element={<CustomerDashboard />} />
-          <Route path="ticket/:id" element={<Ticket />} />
+          <Route path="ticket/:id" element={<CustomerTicket />} />
           <Route path="ticket/:id/feedback" element={<TicketReview />} />
         </Route>
       </Route>

@@ -5,13 +5,12 @@ import Container from '@mui/material/Container';
 import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import getAllCompanies from '../graphql/queries/getAllCompanies';
-import InfoDisplayTable from '../components/tables/InfoDisplayTable';
-import Spinner from '../components/ui/LoadingSpinner';
-import AgentLayout from '../components/layout/AgentLayout';
-import PopModal from '../components/ui/PopModal';
-import CompanyForm from '../components/forms/CompanyForm';
-import createACompany from '../graphql/mutations/createACompany';
+import getAllCompanies from '../../../graphql/queries/getAllCompanies';
+import InfoDisplayTable from '../../../components/tables/InfoDisplayTable';
+import Spinner from '../../../components/ui/LoadingSpinner';
+import PopModal from '../../../components/ui/PopModal';
+import CompanyForm from '../../../components/forms/CompanyForm';
+import createACompany from '../../../graphql/mutations/createACompany';
 
 const Companies = () => {
   const { data, loading } = useQuery(getAllCompanies);
@@ -90,7 +89,7 @@ const Companies = () => {
   ];
 
   return (
-    <AgentLayout>
+    <>
       <Container sx={{ pt: '2rem', display: 'flex', justifyContent: 'center' }}>
         <Card
           sx={{
@@ -144,7 +143,7 @@ const Companies = () => {
           )}
         </Card>
       </Container>
-    </AgentLayout>
+    </>
   );
 };
 

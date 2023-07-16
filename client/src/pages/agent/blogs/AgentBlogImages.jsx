@@ -2,19 +2,19 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import Box from '@mui/material/Box';
-import getAnArticle from '../graphql/queries/getAnArticle';
-import AgentBlogImage from '../components/forms/AgentBlogImage';
+import getABlog from '../../../graphql/queries/getABlog';
+import AgentBlogImage from '../../../components/forms/AgentBlogImage';
 
-function ArticleImages() {
+function BlogImages() {
   const { slug } = useParams();
   const [featured, setFeatured] = useState({
     url: null,
     filename: null,
   });
-  const { data, loading, refetch } = useQuery(getAnArticle, {
+  const { data, loading, refetch } = useQuery(getABlog, {
     variables: { slug: slug },
     onCompleted: (da) => {
-      setFeatured(da.article.featuredImage);
+      setFeatured(da.blog.featuredImage);
     },
   });
 
@@ -30,7 +30,7 @@ function ArticleImages() {
     >
       <AgentBlogImage
         slug={slug}
-        data={data?.article}
+        data={data?.blog}
         loading={loading}
         featured={featured}
         setFeatured={setFeatured}
@@ -39,4 +39,4 @@ function ArticleImages() {
     </Box>
   );
 }
-export default ArticleImages;
+export default BlogImages;

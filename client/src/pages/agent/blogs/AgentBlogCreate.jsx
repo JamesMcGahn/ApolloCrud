@@ -2,9 +2,8 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import Box from '@mui/material/Box';
-import AgentLayout from '../components/layout/AgentLayout';
-import createABlog from '../graphql/mutations/createABlog';
-import BlogForm from '../components/forms/BlogForm';
+import createABlog from '../../../graphql/mutations/createABlog';
+import BlogForm from '../../../components/forms/BlogForm';
 
 function AgentBlog() {
   const nagivate = useNavigate();
@@ -35,11 +34,9 @@ function AgentBlog() {
   };
 
   return (
-    <AgentLayout>
-      <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center' }}>
-        <BlogForm create blogData={defaultBlog} cb={handleSubmit} />
-      </Box>
-    </AgentLayout>
+    <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center' }}>
+      <BlogForm create blogData={defaultBlog} cb={handleSubmit} />
+    </Box>
   );
 }
 export default AgentBlog;

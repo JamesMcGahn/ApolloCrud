@@ -24,8 +24,9 @@ import BreadCrumbs from '../navs/BreadCrumbs';
 import LinkRouter from '../utils/LinkRouter';
 import loggedInUserQ from '../../graphql/queries/loggedInUser';
 import getUserGroups from '../../graphql/queries/getUserGroups';
+import ProtectedRoute from '../utils/ProtectedRoute';
 
-function Layout({ children }) {
+function Layout() {
   const location = useLocation();
   const match = useMatch('/agent/companies/:id');
   const dashReg = /dashboard/;
@@ -36,12 +37,16 @@ function Layout({ children }) {
     setCurrentTab(i);
   };
 
-  const {
-    data: { currentUser },
-  } = useQuery(loggedInUserQ);
+  const { data: udata } = useQuery(loggedInUserQ);
   const { data, loading } = useQuery(getUserGroups, {
-    variables: { userGroupsId: currentUser.id },
+    variables: { userGroupsId: udata?.currentUser?.id },
   });
+
+  const knowledgeReg = /knowledge/;
+  const noAgentDash = knowledgeReg.test(location.pathname);
+  if (noAgentDash) {
+    return <ProtectedRoute allowedUser="agent" />;
+  }
 
   return (
     <DashboardLayout
@@ -143,7 +148,7 @@ function Layout({ children }) {
     >
       <TicketHistoryNav />
       {!noBreadCrumbs && <BreadCrumbs />}
-      {children}
+      <ProtectedRoute allowedUser="agent" />
     </DashboardLayout>
   );
 }

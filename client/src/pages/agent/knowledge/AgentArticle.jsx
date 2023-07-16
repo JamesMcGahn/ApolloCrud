@@ -2,11 +2,11 @@ import { toast } from 'react-toastify';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import Box from '@mui/material/Box';
-import getAnArticle from '../graphql/queries/getAnArticle';
-import deleteAnArticle from '../graphql/mutations/deleteAnArticle';
-import updateAnArticle from '../graphql/mutations/updateAnArticle';
-import BlogForm from '../components/forms/BlogForm';
-import Spinner from '../components/ui/LoadingSpinner';
+import getAnArticle from '../../../graphql/queries/getAnArticle';
+import deleteAnArticle from '../../../graphql/mutations/deleteAnArticle';
+import updateAnArticle from '../../../graphql/mutations/updateAnArticle';
+import BlogForm from '../../../components/forms/BlogForm';
+import Spinner from '../../../components/ui/LoadingSpinner';
 
 function AgentBlog() {
   const { slug } = useParams();

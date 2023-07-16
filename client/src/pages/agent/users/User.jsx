@@ -1,13 +1,12 @@
 import { toast } from 'react-toastify';
 import { useQuery, useMutation } from '@apollo/client';
 import { useParams, useNavigate } from 'react-router-dom';
-import AgentLayout from '../components/layout/AgentLayout';
-import getUser from '../graphql/queries/getUser';
-import updateAUser from '../graphql/mutations/updateAUser';
-import loggedInUserQ from '../graphql/queries/loggedInUser';
-import UserProfileForm from '../components/forms/UserProfileForm';
-import Spinner from '../components/ui/LoadingSpinner';
-import getACompany from '../graphql/queries/getACompany';
+import getUser from '../../../graphql/queries/getUser';
+import updateAUser from '../../../graphql/mutations/updateAUser';
+import loggedInUserQ from '../../../graphql/queries/loggedInUser';
+import UserProfileForm from '../../../components/forms/UserProfileForm';
+import Spinner from '../../../components/ui/LoadingSpinner';
+import getACompany from '../../../graphql/queries/getACompany';
 
 function User() {
   const { userId } = useParams();
@@ -77,7 +76,7 @@ function User() {
   };
 
   return (
-    <AgentLayout>
+    <>
       {updateLoading || loading ? (
         <Spinner />
       ) : (
@@ -87,7 +86,7 @@ function User() {
           agentRole={currUser?.currentUser.role}
         />
       )}
-    </AgentLayout>
+    </>
   );
 }
 export default User;

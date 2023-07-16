@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import Box from '@mui/material/Box';
 import { useQuery } from '@apollo/client';
-import getAllArticles from '../graphql/queries/getAllArticles';
-import Spinner from '../components/ui/LoadingSpinner';
-import ArticleRoll from '../components/sections/ArticleRoll';
-import loggedInUserQ from '../graphql/queries/loggedInUser';
+import getAllArticles from '../../graphql/queries/getAllArticles';
+import Spinner from '../../components/ui/LoadingSpinner';
+import ArticleRoll from '../../components/sections/ArticleRoll';
+import loggedInUserQ from '../../graphql/queries/loggedInUser';
 
 function KnowledgeArticles() {
   const [page, setPage] = useState(1);

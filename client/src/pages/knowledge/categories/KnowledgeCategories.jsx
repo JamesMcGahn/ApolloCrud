@@ -1,31 +1,28 @@
 import Box from '@mui/material/Box';
 import { useQuery, gql } from '@apollo/client';
-import LocalOfferIcon from '@mui/icons-material/LocalOffer';
-import PostCategories from '../components/sections/PostCategories';
-import loggedInUserQ from '../graphql/queries/loggedInUser';
+import PostCategories from '../../../components/sections/PostCategories';
+import loggedInUserQ from '../../../graphql/queries/loggedInUser';
 
-function KnowledgeTags() {
+function KnowledgeCategories() {
   const {
     data: { currentUser },
   } = useQuery(loggedInUserQ);
   const { data, loading } = useQuery(gql`
     query Query {
-      articlesTags
+      articlesCategories
     }
   `);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', mt: 2, mb: 2 }}>
       <PostCategories
-        data={data?.articlesTags}
+        data={data?.articlesCategories}
         linkBase={
           currentUser !== 'user'
-            ? '/agent/knowledge/tags'
-            : '/customer/knowledge/tags'
+            ? '/agent/knowledge/categories'
+            : '/customer/knowledge/categories'
         }
         loading={loading}
-        title="Tags"
-        icon={<LocalOfferIcon />}
       >
         Maecenas nec dui arcu. Donec posuere at sapien id scelerisque. Ut
         lacinia purus et porttitor convallis. Nullam vitae arcu ac velit congue
@@ -38,4 +35,4 @@ function KnowledgeTags() {
     </Box>
   );
 }
-export default KnowledgeTags;
+export default KnowledgeCategories;

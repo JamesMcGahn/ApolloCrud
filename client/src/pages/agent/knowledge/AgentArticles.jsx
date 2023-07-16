@@ -1,8 +1,8 @@
 import Box from '@mui/material/Box';
 import { useState } from 'react';
 import { useQuery } from '@apollo/client';
-import getAllArticles from '../graphql/queries/getAllArticles';
-import AgentBlogRoll from '../components/sections/AgentBlogRoll';
+import getAllArticles from '../../../graphql/queries/getAllArticles';
+import AgentBlogRoll from '../../../components/sections/AgentBlogRoll';
 
 function AgentArticles() {
   const [qvars, setqVars] = useState(undefined);
