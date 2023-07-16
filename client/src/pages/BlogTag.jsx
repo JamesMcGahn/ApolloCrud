@@ -3,27 +3,24 @@ import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { useQuery } from '@apollo/client';
 import getAllBlogs from '../graphql/queries/getAllBlogs';
-import CustomerLayout from '../components/layout/CustomerLayout';
 import Spinner from '../components/ui/LoadingSpinner';
-
 import BlogRoll from '../components/sections/BlogRoll';
+import CustomerLayout from '../components/layout/CustomerLayout';
 
 function BlogCategory() {
-  const { category } = useParams();
+  const { tag } = useParams();
 
   const [page, setPage] = useState(1);
   const { loading, data, fetchMore } = useQuery(getAllBlogs, {
     fetchPolicy: 'network-only',
-    variables: { page: 1, category: category },
+    variables: { page: 1, tag: tag, status: 'published' },
   });
   // trunk-ignore(eslint/no-unsafe-optional-chaining)
   const pageCount = data?.blogs.totalDocs / data?.blogs.limit || 1;
 
   const handleOnClick = (e, num) => {
     setPage(num);
-    fetchMore({
-      variables: { status: 'published', category: category, page: num },
-    });
+    fetchMore({ variables: { status: 'published', page: num } });
     // trunk-ignore(eslint/no-undef)
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -38,7 +35,7 @@ function BlogCategory() {
             <Spinner />
           ) : (
             <BlogRoll
-              linkBase={`/blog/categories/${category}`}
+              linkBase={`/blog/tags/${tag}`}
               data={data?.blogs}
               page={page}
               pageCount={pageCount}

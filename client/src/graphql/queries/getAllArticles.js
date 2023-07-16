@@ -1,8 +1,13 @@
 import { gql } from '@apollo/client';
 
 const getAllArticles = gql`
-  query Articles($category: String, $page: Int, $status: postStatusType) {
-    articles(category: $category, page: $page, status: $status) {
+  query Articles(
+    $category: String
+    $tag: String
+    $page: Int
+    $status: postStatusType
+  ) {
+    articles(category: $category, tag: $tag, page: $page, status: $status) {
       hasNextPage
       hasPrevPage
       limit

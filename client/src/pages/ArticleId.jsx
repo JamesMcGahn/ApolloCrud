@@ -1,20 +1,23 @@
 import { useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import { useQuery } from '@apollo/client';
-import getABlog from '../graphql/queries/getABlog';
-import CustomerLayout from '../components/layout/CustomerLayout';
+import getAnArticle from '../graphql/queries/getAnArticle';
 import Spinner from '../components/ui/LoadingSpinner';
+import loggedInUserQ from '../graphql/queries/loggedInUser';
 import BlogSuggested from '../components/sections/BlogSuggested';
 import PostId from '../components/cards/PostId';
 
-function BlogId() {
+function ArticleId() {
   const { slug } = useParams();
-  const { data, loading } = useQuery(getABlog, {
+  const {
+    data: { currentUser },
+  } = useQuery(loggedInUserQ);
+  const { data, loading } = useQuery(getAnArticle, {
     variables: { slug: slug },
   });
 
   return (
-    <CustomerLayout>
+    <>
       <Box
         sx={{
           display: 'flex',
@@ -35,12 +38,19 @@ function BlogId() {
           {loading ? (
             <Spinner />
           ) : (
-            <PostId linkBase="/blog" data={data?.blog} />
+            <PostId
+              linkBase={
+                currentUser !== 'user'
+                  ? '/agent/knowledge'
+                  : '/customer/knowledge'
+              }
+              data={data?.article}
+            />
           )}
         </Box>
       </Box>
-      <BlogSuggested slug={slug} />
-    </CustomerLayout>
+      {/* <BlogSuggested slug={slug} /> */}
+    </>
   );
 }
-export default BlogId;
+export default ArticleId;

@@ -7,6 +7,10 @@ const blogsSchema = new QMSchemaGenerator(
       type: 'String',
       description: 'The category of the blogs.',
     },
+    tag: {
+      type: 'String',
+      description: 'The tag of the blogs.',
+    },
     page: {
       type: 'Int',
       description: 'The page number of blogs returned',

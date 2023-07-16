@@ -62,6 +62,10 @@ function BlogRoll({ data, handlePageClick, page, pageCount, linkBase }) {
                     }}
                   >
                     <LazyLoadImage
+                      placeholderSrc={post.featuredImage.url.replace(
+                        '/upload',
+                        '/upload/w_20',
+                      )}
                       src={post.featuredImage.url}
                       alt={post.featuredImage.filename}
                       width="100%"

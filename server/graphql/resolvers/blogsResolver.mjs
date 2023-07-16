@@ -2,13 +2,18 @@ import Post from '../../models/Post.mjs';
 
 const getBlogs = async (parent, args, context) => {
   const { user } = context;
-  const { page, category, status } = args;
+  const { page, category, status, tag } = args;
+
   let posts;
   const query = {};
   query.$and = [{ type: 'blog' }];
 
   if (category) {
     query.$and.push({ category: category });
+  }
+
+  if (tag) {
+    query.$and.push({ tags: tag });
   }
 
   if (!user || user.role === 'user') {
@@ -50,6 +55,9 @@ const getBlogs = async (parent, args, context) => {
 const blogsCategories = async (parent, args, context) => {
   return await Post.distinct('category', { type: 'blog' });
 };
+const blogsTags = async (parent, args, context) => {
+  return await Post.distinct('tags', { type: 'blog' });
+};
 
 const blogSuggested = async (parent, args, context) => {
   const { slug } = args;
@@ -57,9 +65,9 @@ const blogSuggested = async (parent, args, context) => {
   const post = await Post.findOne({ slug: slug });
 
   const featuredPosts = [];
-  let posts = [];
+
   if (post) {
-    posts = await Post.find(
+    const posts = await Post.find(
       {
         $and: [
           { slug: { $ne: slug } },
@@ -70,12 +78,27 @@ const blogSuggested = async (parent, args, context) => {
       null,
       { limit: 5, sort: { createdAt: -1 } },
     );
+
+    featuredPosts.push(...posts);
+
+    if (featuredPosts.length < 5) {
+      const tagPosts = await Post.find(
+        {
+          $and: [
+            { slug: { $ne: slug } },
+            { tags: { $in: post.tags } },
+            { type: 'blog' },
+          ],
+        },
+        null,
+        { limit: 5 - featuredPosts.length, sort: { createdAt: -1 } },
+      );
+      featuredPosts.push(...tagPosts);
+    }
   }
 
-  featuredPosts.push(...posts);
-
-  if (posts.length < 5) {
-    const morePosts = await Post.find(
+  if (featuredPosts.length < 5) {
+    const fetPosts = await Post.find(
       {
         $and: [
           { slug: { $ne: slug } },
@@ -84,12 +107,23 @@ const blogSuggested = async (parent, args, context) => {
         ],
       },
       null,
-      { limit: 5 - posts.length },
+      { limit: 5 - featuredPosts.length, sort: { createdAt: -1 } },
     );
-    featuredPosts.push(...morePosts);
+    featuredPosts.push(...fetPosts);
+  }
+
+  if (featuredPosts.length < 5) {
+    const allPosts = await Post.find(
+      {
+        $and: [{ slug: { $ne: slug } }, { type: 'article' }],
+      },
+      null,
+      { limit: 5 - featuredPosts.length, sort: { createdAt: -1 } },
+    );
+    featuredPosts.push(...allPosts);
   }
 
   return featuredPosts;
 };
 
-export { getBlogs, blogsCategories, blogSuggested };
+export { getBlogs, blogsCategories, blogsTags, blogSuggested };

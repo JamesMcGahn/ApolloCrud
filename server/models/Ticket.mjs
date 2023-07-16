@@ -280,6 +280,10 @@ TicketSchema.pre('findOneAndUpdate', async function (next) {
 });
 
 TicketSchema.pre('updateMany', async function (next) {
+  if (!this._conditions?._id?.$in) {
+    return next();
+  }
+
   const results = this._conditions._id.$in.map(
     async (id) => await ticketMetricUpdate(id, this._update),
   );

@@ -72,7 +72,7 @@ function AgentBlogRoll({
                 return (
                   <LinkRouter
                     to={`/agent/${
-                      blogorArticle !== 'blogs' ? 'articles' : 'blogs'
+                      blogorArticle !== 'blogs' ? 'knowledge/articles' : 'blogs'
                     }/${post.slug}`}
                     key={post.id}
                     underline="none"

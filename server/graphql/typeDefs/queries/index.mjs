@@ -14,6 +14,7 @@ import ticketReview from './ticketReview.mjs';
 import blog from './blog.mjs';
 import blogs from './blogs.mjs';
 import blogsCategories from './blogsCategories.mjs';
+import blogsTags from './blogsTags.mjs';
 import blogSuggested from './blogSuggested.mjs';
 import article from './article.mjs';
 import articles from './articles.mjs';
@@ -27,7 +28,12 @@ const groupQueries = ''.concat(group, groups);
 const companyQueries = ''.concat(companies, company);
 const ticketReviewQueries = ''.concat(ticketReview);
 const blogQueries = ''.concat(blog);
-const blogsQueries = ''.concat(blogs, blogsCategories, blogSuggested);
+const blogsQueries = ''.concat(
+  blogs,
+  blogsCategories,
+  blogSuggested,
+  blogsTags,
+);
 const articleQueries = ''.concat(article);
 const articlesQueries = ''.concat(
   articles,

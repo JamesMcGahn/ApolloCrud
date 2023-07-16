@@ -288,9 +288,9 @@ function BlogForm({
             >
               <LinkRouter
                 to={`/agent/${
-                  blogorArticle !== 'blog' ? 'articles' : 'blogs'
+                  blogorArticle !== 'blog' ? 'knowledge/articles' : 'blogs'
                 }/${blog.slug}/images`}
-                underline="underline"
+                underline="always"
               >
                 Update Images
               </LinkRouter>

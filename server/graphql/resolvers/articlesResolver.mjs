@@ -3,6 +3,7 @@ import Post from '../../models/Post.mjs';
 const getArticles = async (parent, args, context) => {
   const { user } = context;
   const { page, category, status, tag } = args;
+
   let posts;
   const query = {};
   query.$and = [{ type: 'article' }];
@@ -20,7 +21,7 @@ const getArticles = async (parent, args, context) => {
     query.$and.push({ status: 'published' });
     posts = await Post.paginate(query, {
       customLabels: { docs: 'posts' },
-      limit: 5,
+      limit: 6,
       page: page || 1,
     });
 
@@ -44,7 +45,7 @@ const getArticles = async (parent, args, context) => {
 
   posts = await Post.paginate(query, {
     customLabels: { docs: 'posts' },
-    limit: 5,
+    limit: 6,
     page: page || 1,
   });
 
@@ -64,9 +65,9 @@ const articleSuggested = async (parent, args, context) => {
   const post = await Post.findOne({ slug: slug });
 
   const featuredPosts = [];
-  let posts = [];
+
   if (post) {
-    posts = await Post.find(
+    const posts = await Post.find(
       {
         $and: [
           { slug: { $ne: slug } },
@@ -77,12 +78,26 @@ const articleSuggested = async (parent, args, context) => {
       null,
       { limit: 5, sort: { createdAt: -1 } },
     );
+    featuredPosts.push(...posts);
+
+    if (featuredPosts.length < 5) {
+      const tagPosts = await Post.find(
+        {
+          $and: [
+            { slug: { $ne: slug } },
+            { tags: { $in: post.tags } },
+            { type: 'article' },
+          ],
+        },
+        null,
+        { limit: 5 - featuredPosts.length, sort: { createdAt: -1 } },
+      );
+      featuredPosts.push(...tagPosts);
+    }
   }
 
-  featuredPosts.push(...posts);
-
-  if (posts.length < 5) {
-    const morePosts = await Post.find(
+  if (featuredPosts.length < 5) {
+    const fetPosts = await Post.find(
       {
         $and: [
           { slug: { $ne: slug } },
@@ -91,9 +106,20 @@ const articleSuggested = async (parent, args, context) => {
         ],
       },
       null,
-      { limit: 5 - posts.length },
+      { limit: 5 - featuredPosts.length, sort: { createdAt: -1 } },
     );
-    featuredPosts.push(...morePosts);
+    featuredPosts.push(...fetPosts);
+  }
+
+  if (featuredPosts.length < 5) {
+    const allPosts = await Post.find(
+      {
+        $and: [{ slug: { $ne: slug } }, { type: 'article' }],
+      },
+      null,
+      { limit: 5 - featuredPosts.length, sort: { createdAt: -1 } },
+    );
+    featuredPosts.push(...allPosts);
   }
 
   return featuredPosts;

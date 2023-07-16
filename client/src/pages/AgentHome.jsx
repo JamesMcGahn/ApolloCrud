@@ -163,12 +163,12 @@ function AgentHome() {
                   icon: <NewspaperIcon />,
                 },
                 {
-                  url: '/agent/articles',
+                  url: '/agent/knowledge/articles',
                   title: 'Edit Knowledge Articles',
                   icon: <ModeEditIcon />,
                 },
                 {
-                  url: '/agent/articles/create',
+                  url: '/agent/knowledge/create',
                   title: 'Create Knowledge Article',
                   icon: <ArticleIcon />,
                 },

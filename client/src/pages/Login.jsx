@@ -32,12 +32,7 @@ function Login() {
     setLoginUser((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (e.key !== 'Enter') {
-      return;
-    }
-
+  const handleSubmit = () => {
     if (loginUser.email && loginUser.password) {
       loggedIn(loginUser);
     } else {
@@ -55,6 +50,13 @@ function Login() {
         },
       );
     }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key !== 'Enter') {
+      return;
+    }
+    handleSubmit();
   };
 
   return (
@@ -101,7 +103,7 @@ function Login() {
               name="password"
               value={loginUser.password}
               onChange={onChangeHandler}
-              onKeyUp={handleSubmit}
+              onKeyUp={handleKeyPress}
             />
           </div>
           <Button variant="contained" onClick={handleSubmit}>

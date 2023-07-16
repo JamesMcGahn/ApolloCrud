@@ -30,7 +30,13 @@ const cache = new InMemoryCache({
           },
         },
         blogs: {
-          keyArgs: ['category'],
+          keyArgs: ['category', 'tag'],
+          merge(existing, incoming) {
+            return incoming;
+          },
+        },
+        articles: {
+          keyArgs: ['category', 'tag'],
           merge(existing, incoming) {
             return incoming;
           },

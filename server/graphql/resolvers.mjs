@@ -54,6 +54,7 @@ import {
 import {
   getBlogs,
   blogsCategories,
+  blogsTags,
   blogSuggested,
 } from './resolvers/blogsResolver.mjs';
 import {
@@ -89,6 +90,7 @@ const resolvers = {
     blog: getBlog,
     blogs: getBlogs,
     blogsCategories: blogsCategories,
+    blogsTags: blogsTags,
     blogSuggested: blogSuggested,
     article: getArticle,
     articles: getArticles,

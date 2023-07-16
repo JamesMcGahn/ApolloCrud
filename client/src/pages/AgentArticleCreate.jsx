@@ -2,7 +2,6 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import Box from '@mui/material/Box';
-import AgentLayout from '../components/layout/AgentLayout';
 import createAnArticle from '../graphql/mutations/createAnArticle';
 import BlogForm from '../components/forms/BlogForm';
 
@@ -35,16 +34,14 @@ function AgentArticleCreate() {
   };
 
   return (
-    <AgentLayout>
-      <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center' }}>
-        <BlogForm
-          create
-          blogData={defaultArticle}
-          cb={handleSubmit}
-          blogorArticle="article"
-        />
-      </Box>
-    </AgentLayout>
+    <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center' }}>
+      <BlogForm
+        create
+        blogData={defaultArticle}
+        cb={handleSubmit}
+        blogorArticle="article"
+      />
+    </Box>
   );
 }
 export default AgentArticleCreate;

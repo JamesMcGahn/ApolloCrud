@@ -16,9 +16,12 @@ const PostSchema = new mongoose.Schema(
     featuredImage: {
       url: {
         type: String,
+        default:
+          'https://res.cloudinary.com/djlnbrccx/image/upload/v1689081316/apolloTickets/gzirvxfivjdwds4yyoj6.png',
       },
       filename: {
         type: String,
+        default: 'apolloTickets/gzirvxfivjdwds4yyoj6',
       },
     },
     images: [

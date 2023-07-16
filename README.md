@@ -11,6 +11,7 @@ Fake company website - and ticketing system
   - Responsive Styling
 
 - Footer
+- Outlets Layouts
 
 ## Feature Ideas
 

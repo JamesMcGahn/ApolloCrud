@@ -39,6 +39,13 @@ function BreadCrumbs() {
     { path: '/agent/dashboard/groups', breadcrumb: null },
     { path: '/agent/dashboard/groups/:groupId/ticket/', breadcrumb: null },
     { path: '/agent/dashboard/:id/ticket/', breadcrumb: null },
+    { path: '/agent/knowledge', breadcrumb: 'Knowledge Base' },
+    { path: '/customer/knowledge', breadcrumb: 'Knowledge Base' },
+    { path: '/agent/knowledge/articles', breadcrumb: 'Edit Articles' },
+    {
+      path: '/agent/knowledge/create',
+      breadcrumb: 'Create Articles',
+    },
   ];
   const breadcrumbs = useBreadcrumbs(routes);
   const last = breadcrumbs.length - 1;

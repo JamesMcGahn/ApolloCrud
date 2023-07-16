@@ -1,12 +1,13 @@
 import Box from '@mui/material/Box';
 import { useQuery, gql } from '@apollo/client';
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import CustomerLayout from '../components/layout/CustomerLayout';
 import PostCategories from '../components/sections/PostCategories';
 
 function Categories() {
   const { data, loading } = useQuery(gql`
     query Query {
-      blogsCategories
+      blogsTags
     }
   `);
 
@@ -14,9 +15,11 @@ function Categories() {
     <CustomerLayout>
       <Box sx={{ display: 'flex', flexDirection: 'column', mt: 2, mb: 2 }}>
         <PostCategories
-          data={data?.blogsCategories}
-          linkBase="/blog/categories"
+          title="Tags"
+          data={data?.blogsTags}
+          linkBase="/blog/tags"
           loading={loading}
+          icon={<LocalOfferIcon />}
         >
           Maecenas nec dui arcu. Donec posuere at sapien id scelerisque. Ut
           lacinia purus et porttitor convallis. Nullam vitae arcu ac velit
