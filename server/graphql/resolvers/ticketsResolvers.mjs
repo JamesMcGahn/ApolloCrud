@@ -4,6 +4,9 @@ import Comment from '../../models/Comment.mjs';
 import Company from '../../models/Company.mjs';
 import User from '../../models/User.mjs';
 import protectRoute from '../../middleware/protectRoute.mjs';
+import sendEmail from '../../utils/sendEmail.mjs';
+import emailFeedbackRequest from '../../templates/emails/emailFeedbackRequest.mjs';
+import emailTicket from '../../templates/emails/emailTicket.mjs';
 
 const filterPrivate = async (query) => {
   const tickets = await query;
@@ -191,6 +194,25 @@ const bulkUpdateTickets = async (_, args, context) => {
         runValidators: true,
       },
     );
+
+    const emailTickets = checkTickets.map(async (tix) => {
+      if (comment.private === false && tix.channel === 'email') {
+        try {
+          const tixComments = tix.comments.filter((c) => c.private === false);
+
+          const html = emailTicket(tix, tixComments);
+
+          return await sendEmail({
+            email: tix.requester.email,
+            subject: `${tix.title} [Ticket:${tix.id}]`,
+            html,
+          });
+        } catch (e) {
+          console.log(e);
+        }
+      }
+    });
+    await Promise.all(emailTickets);
   } else {
     ticket = await Ticket.updateMany(
       { _id: { $in: ids }, status: { $ne: 'Closed' } },
@@ -209,7 +231,29 @@ const bulkUpdateTickets = async (_, args, context) => {
     if (user.role === 'user') {
       return filterPrivate(Ticket.find({ _id: { $in: ids } }));
     }
-    return await Ticket.find({ _id: { $in: ids } }).select('+history');
+
+    const tickets = await Ticket.find({ _id: { $in: ids } }).select('+history');
+
+    const results = tickets.map(async (tix) => {
+      if (tix.status === 'Solved' && tix.requester.role === 'user') {
+        const html = emailFeedbackRequest(
+          `Hi ${tix.requester.name}`,
+          [
+            'We hope that we solved your issue to your satisfaction. Please let us know how we did.',
+          ],
+          { ...tix, id: tix._id },
+        );
+
+        return await sendEmail({
+          email: tix.requester.email,
+          subject: `Feedback Request: ${tix.title}`,
+          html,
+        });
+      }
+    });
+    await Promise.all(results);
+
+    return tickets;
   }
   throw new GraphQLError(
     "Something went wrong we couldn't update the Tickets.",

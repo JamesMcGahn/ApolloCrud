@@ -4,6 +4,7 @@ import Comment from '../../models/Comment.mjs';
 import Counter from '../../models/Counter.mjs';
 import sendEmail from '../../utils/sendEmail.mjs';
 import emailTicket from '../../templates/emails/emailTicket.mjs';
+import emailFeedbackRequest from '../../templates/emails/emailFeedbackRequest.mjs';
 import protectRoute from '../../middleware/protectRoute.mjs';
 
 const getTicket = async (parent, args, context) => {
@@ -134,6 +135,29 @@ const updateATicket = async (_, args, context) => {
       comments: noPrivateComms,
       history: null,
     };
+  }
+
+  if (
+    ticket._doc.status === 'Solved' &&
+    ticket._doc.requester.role === 'user'
+  ) {
+    const html = emailFeedbackRequest(
+      `Hi ${ticket._doc.requester.name}`,
+      [
+        'We hope that we solved your issue to your satisfaction. Please let us know how we did.',
+      ],
+      { ...ticket._doc, id: ticket._doc._id },
+    );
+
+    try {
+      await sendEmail({
+        email: ticket._doc.requester.email,
+        subject: `Feedback Request: ${ticket._doc.title}`,
+        html,
+      });
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   return ticket;

@@ -39,6 +39,7 @@ const agentRoutes = (
       <Route path="unassigned" element={<Unassigned />} />
       <Route path="ticket" element={<TicketSearch />} />
       <Route path="ticket/:id" element={<AgentTicket />} />
+      <Route path="unassigned/ticket/:id" element={<AgentTicket />} />
       <Route path="groups" element={<CleanOutlet />}>
         <Route path="" element={<Groups />} />
         <Route path=":groupId" element={<GroupsTicket />} />

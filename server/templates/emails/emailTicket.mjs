@@ -13,7 +13,7 @@ const emailTicket = (ticket, comments) => {
 
   const tixCommentsHtml = txComms.map((comment) => {
     return `<tr style="background-color: ${
-      ticket.requester.email === comment.author.email ? '#eef3ff' : '#ffffff'
+      ticket.requester.email === comment.author.email ? '#f9fcfd' : '#ffffff'
     };">
                               <td
                                 style="
@@ -179,7 +179,7 @@ const emailTicket = (ticket, comments) => {
       margin: 0;
       padding: 0;
       -webkit-text-size-adjust: 100%;
-      background-color: #c2e0f4;
+      background-color: #1976d2;
       color: #000000;
     "
   >
@@ -196,7 +196,7 @@ const emailTicket = (ticket, comments) => {
         vertical-align: top;
         min-width: 320px;
         margin: 0 auto;
-        background-color: #c2e0f4;
+        background-color: #1976d2;
         width: 100%;
       "
       cellpadding="0"
@@ -211,7 +211,7 @@ const emailTicket = (ticket, comments) => {
               vertical-align: top;
             "
           >
-            <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td align="center" style="background-color: #c2e0f4;"><![endif]-->
+            <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td align="center" style="background-color: #1976d2;"><![endif]-->
 
             <div
               class="u-row-container"
@@ -240,7 +240,7 @@ const emailTicket = (ticket, comments) => {
                 >
                   <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding: 0px;background-color: transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:500px;"><tr style="background-color: transparent;"><![endif]-->
 
-                  <!--[if (mso)|(IE)]><td align="center" width="500" style="background-color: #eef3ff;width: 500px;padding: 50px 10px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;" valign="top"><![endif]-->
+                  <!--[if (mso)|(IE)]><td align="center" width="500" style="background-color: #f9fcfd;width: 500px;padding: 50px 10px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;" valign="top"><![endif]-->
                   <div
                     class="u-col u-col-100"
                     style="
@@ -252,7 +252,7 @@ const emailTicket = (ticket, comments) => {
                   >
                     <div
                       style="
-                        background-color: #eef3ff;
+                        background-color: #f9fcfd;
                         height: 100%;
                         width: 100% !important;
                         border-radius: 0px;
@@ -354,7 +354,7 @@ const emailTicket = (ticket, comments) => {
                 >
                   <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding: 0px;background-color: transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:500px;"><tr style="background-color: transparent;"><![endif]-->
 
-                  <!--[if (mso)|(IE)]><td align="center" width="500" style="background-color: #eef3ff;width: 500px;padding: 50px 10px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;" valign="top"><![endif]-->
+                  <!--[if (mso)|(IE)]><td align="center" width="500" style="background-color: #f9fcfd;width: 500px;padding: 50px 10px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;" valign="top"><![endif]-->
                   <div
                     class="u-col u-col-100"
                     style="
@@ -366,7 +366,7 @@ const emailTicket = (ticket, comments) => {
                   >
                     <div
                       style="
-                        background-color: #eef3ff;
+                        background-color: #f9fcfd;
                         height: 100%;
                         width: 100% !important;
                         border-radius: 0px;
@@ -554,7 +554,7 @@ const emailTicket = (ticket, comments) => {
                                       -webkit-text-size-adjust: none;
                                       text-align: center;
                                       color: #ffffff;
-                                      background-color: #000000;
+                                      background-color: #2c3e50;
                                       border-radius: 20px;
                                       -webkit-border-radius: 20px;
                                       -moz-border-radius: 20px;
@@ -624,7 +624,7 @@ const emailTicket = (ticket, comments) => {
                 >
                   <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding: 0px;background-color: transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:500px;"><tr style="background-color: transparent;"><![endif]-->
 
-                  <!--[if (mso)|(IE)]><td align="center" width="500" style="background-color: #ffffff;width: 500px;padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;" valign="top"><![endif]-->
+                  <!--[if (mso)|(IE)]><td align="center" width="500" style="background-color: #2c3e50;width: 500px;padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;" valign="top"><![endif]-->
                   <div
                     class="u-col u-col-100"
                     style="
@@ -636,7 +636,7 @@ const emailTicket = (ticket, comments) => {
                   >
                     <div
                       style="
-                        background-color: #ffffff;
+                        background-color: #2c3e50;
                         height: 100%;
                         width: 100% !important;
                         border-radius: 0px;
@@ -681,19 +681,19 @@ const emailTicket = (ticket, comments) => {
                                   <!--[if (mso)|(IE)]><table role="presentation" border="0" cellpadding="0" cellspacing="0" align="center"><tr><![endif]-->
 
                                   <!--[if (mso)|(IE)]><td style="padding:5px 15px"><![endif]-->
-<a href="${process.env.FE_DOMAIN}/ticket/${id}"> 
-                                  <span
-                                    style="
-                                      padding: 5px 15px;
-                                      display: inline-block;
-                                      color: #000000;
-                                      font-family: 'Montserrat', sans-serif;
-                                      font-size: 14px;
-                                    "
-                                  >
-                                   View Online
-                                  </span>
-</a>
+                                    <a style="color:#ffffff;" href="${process.env.FE_DOMAIN}/ticket/${id}">
+                                      <span
+                                        style="
+                                          padding: 5px 15px;
+                                          display: inline-block;
+                                          color: #ffffff;
+                                          font-family: 'Montserrat', sans-serif;
+                                          font-size: 14px;
+                                        "
+                                      >
+                                      View Online
+                                      </span>
+                                    </a>
                                   <!--[if (mso)|(IE)]></td><![endif]-->
 
                                   <!--[if (mso)|(IE)]></tr></table><![endif]-->

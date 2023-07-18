@@ -21,7 +21,7 @@ const newTicketReviewSchema = new TEISchemaGenerator(
       description: 'Reviewer ID for the ticket review.',
     },
     agent: {
-      type: 'ID!',
+      type: 'ID',
       description: 'Agent ID for the ticket review.',
     },
   },

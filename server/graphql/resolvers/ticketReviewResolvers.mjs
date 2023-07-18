@@ -12,7 +12,7 @@ const createTicketReview = async (_, args, context) => {
     context,
     ['agent', 'lead'],
     false,
-    "Agent's cannot to create Reviews",
+    "Agent's cannot create Reviews",
   );
 
   const foundTicket = await Ticket.findById(ticket);
