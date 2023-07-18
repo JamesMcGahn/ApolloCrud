@@ -62,6 +62,7 @@ function BlogRoll({ data, handlePageClick, page, pageCount, linkBase }) {
                     }}
                   >
                     <LazyLoadImage
+                      delayTime={500}
                       placeholderSrc={post.featuredImage.url.replace(
                         '/upload',
                         '/upload/w_20',

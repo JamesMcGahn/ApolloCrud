@@ -53,6 +53,7 @@ function GroupsTicket() {
         <Spinner />
       ) : (
         <TicketTabPanel
+          key={`group-${groupId}`}
           ticketData={data?.tickets}
           loading={loading}
           handleDelete={handleDelete}

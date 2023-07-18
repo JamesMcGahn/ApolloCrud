@@ -50,6 +50,7 @@ function ArticleRoll({ data, handlePageClick, page, pageCount, linkBase }) {
                       '/upload',
                       '/upload/w_20',
                     )}
+                    delayTime={500}
                     width="100%"
                     effect="blur"
                     src={post.featuredImage.url}

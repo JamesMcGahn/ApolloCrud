@@ -36,7 +36,7 @@ function BreadCrumbs() {
     { path: '/agent/companies/:id', breadcrumb: comanyBread },
     { path: '/agent/companies/:id/:userId', breadcrumb: userBread },
     { path: '/agent/dashboard/groups/:id', breadcrumb: groupBread },
-    { path: '/agent/dashboard/groups', breadcrumb: null },
+    { path: '/agent/dashboard/groups', breadcrumb: 'Groups' },
     { path: '/agent/dashboard/groups/:groupId/ticket/', breadcrumb: null },
     { path: '/agent/dashboard/:id/ticket/', breadcrumb: null },
     { path: '/agent/knowledge', breadcrumb: 'Knowledge Base' },

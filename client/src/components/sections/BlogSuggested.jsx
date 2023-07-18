@@ -62,6 +62,11 @@ function BlogSuggested({ slug, title = 'Suggested Blogs' }) {
               >
                 <Box sx={{ width: '100%', display: 'flex', mb: '3px' }}>
                   <LazyLoadImage
+                    delayTime={500}
+                    placeholderSrc={data?.blogSuggested[0].featuredImage.url.replace(
+                      '/upload',
+                      '/upload/w_20',
+                    )}
                     src={data?.blogSuggested[0].featuredImage.url}
                     alt={data?.blogSuggested[0].featuredImage.alt}
                     width="100%"
@@ -113,6 +118,11 @@ function BlogSuggested({ slug, title = 'Suggested Blogs' }) {
                         }}
                       >
                         <LazyLoadImage
+                          placeholderSrc={blog.featuredImage.url.replace(
+                            '/upload',
+                            '/upload/w_20',
+                          )}
+                          delayTime={500}
                           src={blog.featuredImage.url}
                           alt={blog.featuredImage.alt}
                           width="100%"

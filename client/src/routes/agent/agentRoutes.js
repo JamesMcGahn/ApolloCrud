@@ -27,6 +27,7 @@ import KnowledgeCategory from '../../pages/private/knowledge/categories/Knowledg
 import KnowledgeTag from '../../pages/private/knowledge/tags/KnowledgeTag';
 import ArticleId from '../../pages/private/knowledge/ArticleId';
 import AgentTicket from '../../pages/private/agent/dashboard/AgentTicket';
+import Groups from '../../pages/private/agent/dashboard/Groups';
 
 const agentRoutes = (
   <Route path="agent" element={<AgentLayout />}>
@@ -38,10 +39,11 @@ const agentRoutes = (
       <Route path="unassigned" element={<Unassigned />} />
       <Route path="ticket" element={<TicketSearch />} />
       <Route path="ticket/:id" element={<AgentTicket />} />
-      {/* #TODO redundant routes - add groups page  */}
-      <Route path="groups/:groupId" element={<GroupsTicket />} />
-      <Route path=":group/ticket/:id" element={<AgentTicket />} />
-      <Route path=":group/:groupId/ticket/:id" element={<AgentTicket />} />
+      <Route path="groups" element={<CleanOutlet />}>
+        <Route path="" element={<Groups />} />
+        <Route path=":groupId" element={<GroupsTicket />} />
+        <Route path=":groupId/ticket/:id" element={<AgentTicket />} />
+      </Route>
     </Route>
     <Route path="companies" element={<CleanOutlet />}>
       <Route path="" element={<Companies />} />
@@ -66,7 +68,7 @@ const agentRoutes = (
         <Route path=":slug" element={<AgentArticle />} />
         <Route path=":slug/images" element={<AgentArticleImages />} />
       </Route>
-      <Route path="categories" element={<KnowledgeCategories />}>
+      <Route path="categories" element={<CleanOutlet />}>
         <Route path="" element={<KnowledgeCategories />} />
         <Route path=":category" element={<KnowledgeCategory />} />
         <Route path=":category/:slug" element={<ArticleId />} />

@@ -33,6 +33,7 @@ const LazyLoadWrap = ({ alt, src }) => {
         }}
       >
         <LazyLoadImage
+          delayTime={500}
           src={src}
           alt={alt}
           width="100%"
