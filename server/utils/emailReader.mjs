@@ -40,7 +40,7 @@ const emailReader = () => {
                 const email = from.value[0]?.address;
                 const name = from.value[0]?.name;
                 const ticketPattern = /\[Ticket:\s*(\d+)\]/;
-                const ticketMatch = subject.match(ticketPattern);
+                const ticketMatch = subject?.match(ticketPattern);
                 let user;
 
                 user = await User.findOne({ email: email });
@@ -93,8 +93,8 @@ const emailReader = () => {
                   );
                   await Ticket.create({
                     _id: `${counter.count}`,
-                    title: subject,
-                    description: subject,
+                    title: subject || 'No Subject',
+                    description: subject || 'No Subject',
                     requester: user.id,
                     comments: [comment._id],
                     channel: 'email',
